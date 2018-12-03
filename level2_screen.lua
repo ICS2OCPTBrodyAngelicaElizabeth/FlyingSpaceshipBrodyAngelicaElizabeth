@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Angelica
+-- Created by: Angelica L
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "level1_screen"
+sceneName = "level2_screen"
 
 -----------------------------------------------------------------------------------------
 
@@ -27,11 +27,11 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
+
 -- The local variables for this scene
--- Hide the status bar
-display.setStatusBar(display.HiddenStatusBar)
--- Background image
 local bkg_image
+
+display.setStatusBar(display.HiddenStatusBar)
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
