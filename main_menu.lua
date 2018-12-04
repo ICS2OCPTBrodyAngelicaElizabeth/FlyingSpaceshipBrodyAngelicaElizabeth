@@ -55,6 +55,14 @@ local function Level1ScreenTransition( )
     composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 1000})
 end    
 
+-----------------------------------------------------------------------------------------
+
+-- Creating Transitioning Function back to main menu
+local function HowTransition( )
+    composer.gotoScene( "credits_screen", {effect = "slideUp", time = 1000})
+end
+
+
 -- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
 
 -----------------------------------------------------------------------------------------
@@ -132,7 +140,7 @@ function scene:create( event )
             overFile = "Images/HelpButtonPressed@2x.png",
 
             -- When the button is released, call the Credits transition function
-           -- onRelease = CreditsTransition
+            onRelease = HowTransition
         } ) 
 
     -----------------------------------------------------------------------------------------

@@ -32,6 +32,21 @@ local scene = composer.newScene( sceneName )
 display.setStatusBar(display.HiddenStatusBar)
 -- Background image
 local bkg_image
+-- Comet/obstacles
+local comet1
+local comet2
+local comet3
+-- Full hearts/lives
+local fullHeart1
+local fullHeart2
+local fullHeart3
+-- Half hearts/lives
+local halfHeart1
+local halfHeart2
+local halfHeart3
+-- Character
+local character
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -57,6 +72,33 @@ function scene:create( event )
 
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )    
+
+    -- Full hearts
+    -- Heart1
+    fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart1.x = display.contentWidth*95/100
+    fullHeart1.y = display.contentHeight*9/100
+    -- Heart2
+    fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart2.x = display.contentWidth*86/100
+    fullHeart2.y = display.contentHeight*9/100
+    -- Heart 3
+    fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart3.x = display.contentWidth*77/100
+    fullHeart3.y = display.contentHeight*9/100
+
+    -- Half hearts
+    halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart1.x = display.contentWidth*195/201
+    halfHeart1.y = display.contentHeight*9/100
+
+    halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart2.x = display.contentWidth*177/201
+    halfHeart2.y = display.contentHeight*9/100
+
+    halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart3.x = display.contentWidth*159/201
+    halfHeart3.y = display.contentHeight*9/100
 
 end --function scene:create( event )
 
