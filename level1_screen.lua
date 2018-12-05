@@ -129,11 +129,11 @@ local function UpdateLives()
 end
 
 local function ReplaceCharacter()
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*25/100, display.contentHeight*20/100)
-    character.x = display.contentWidth*50/100
-    character.y = display.contentHeight*50/100
-    character.width = display.contentWidth*25/100
-    character.height = display.contentHeight*20/100
+    
+    character = display.newImageRect("Images/Full Character.png", display.contentWidth*20/100, display.contentHeight*45/100)
+    character.x = display.contentWidth*45/100
+    character.y = display.contentHeight*75/100 
+    character:rotate(-90)
     character.myName = "Spaceship"
 end
 
@@ -141,32 +141,6 @@ local function onCollision( self, event)
 
     if ( event.phase == "began" ) then
 
-        if  (event.target.myName == "spikes1") or 
-            (event.target.myName == "spikes2") or
-            (event.target.myName == "spikes3") then
-
-            -- remove the character from the display
-            display.remove(character)
-            -- decrease number of lives
-            numLives = numLives - 1
-        end
-
-        if  (event.target.myName == "ball1") or
-            (event.target.myName == "ball3") or
-            (event.target.myName == "ball2") then
-
-            -- stop the character from moving
-            motionx = 0
-
-            -- make the character invisible
-            character.isVisible = false
-
-            -- show overlay with math question
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
-
-            -- Increment questions answered
-            questionsAnswered = questionsAnswered + 1 
-        end
     end
 end
 -----------------------------------------------------------------------------------------
@@ -192,34 +166,69 @@ function scene:create( event )
     bkg_image:toBack()
 
         -- Insert background image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( bkg_image )    
+    sceneGroup:insert( bkg_image )  
 
     -- Full hearts
     -- Heart1
     fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart1.x = display.contentWidth*95/100
     fullHeart1.y = display.contentHeight*9/100
+    fullHeart1.isVisible = true
+    sceneGroup:insert(fullHeart1)
     -- Heart2
     fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart2.x = display.contentWidth*86/100
     fullHeart2.y = display.contentHeight*9/100
+    fullHeart2.isVisible = true
+    sceneGroup:insert(fullHeart2)
     -- Heart 3
     fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart3.x = display.contentWidth*77/100
     fullHeart3.y = display.contentHeight*9/100
+    fullHeart3.isVisible = true
+    sceneGroup:insert(fullHeart3)
 
     -- Half hearts
+    -- Halfheart 1
     halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart1.x = display.contentWidth*195/201
     halfHeart1.y = display.contentHeight*9/100
-
+    halfHeart1.isVisible = true
+    sceneGroup:insert(halfHeart1)
+    -- Halfheart 2
     halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart2.x = display.contentWidth*177/201
     halfHeart2.y = display.contentHeight*9/100
-
+    halfHeart2.isVisible = true
+    sceneGroup:insert(halfHeart2)
+    -- Halfheart 3
     halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart3.x = display.contentWidth*159/201
     halfHeart3.y = display.contentHeight*9/100
+    halfHeart3.isVisible = true
+    sceneGroup:insert(halfHeart3)
+
+    -- Walls
+    -- Left wall
+    leftW = display.newLine( 0, 0, 0, display.contentHeight)
+    leftW.isVisible = true
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( leftW )
+
+    -- Right wall
+    rightW = display.newLine( 0, 0, 0, display.contentHeight)
+    rightW.x = display.contentCenterX * 2
+    rightW.isVisible = true
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( rightW )
+
+    -- Top wall
+    topW = display.newLine( 0, 0, display.contentWidth, 0)
+    topW.isVisible = true
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( topW )
+
+
 
 end --function scene:create( event )
 
@@ -244,7 +253,9 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-
+        livesives = 3
+        MakeHeartsVisible()
+        ReplaceCharacter()
     end
 
 end --function scene:show( event )
@@ -269,6 +280,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+
     end
 
 end --function scene:hide( event )
