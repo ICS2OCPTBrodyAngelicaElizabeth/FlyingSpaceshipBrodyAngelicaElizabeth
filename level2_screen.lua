@@ -30,7 +30,7 @@ local scene = composer.newScene( sceneName )
 
 -- The local variables for this scene
 local bkg_image
-
+-- Hides the status bar
 display.setStatusBar(display.HiddenStatusBar)
 
 -----------------------------------------------------------------------------------------

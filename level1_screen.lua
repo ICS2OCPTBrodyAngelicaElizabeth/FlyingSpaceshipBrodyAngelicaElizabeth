@@ -44,10 +44,131 @@ local fullHeart3
 local halfHeart1
 local halfHeart2
 local halfHeart3
+-- Lives
+local lives
+-- Walls
+local leftW
+local rightW
+local topW
+local floor
 -- Character
 local character
 
+--------------------------------------------------------------------------------------------
+-- LOCAL FUNCTIONS
+--------------------------------------------------------------------------------------------
 
+local function MakeHeartsVisible()
+
+    fullHeart1.isVisible = true
+    fullHeart2.isVisible = true
+    fullHeart3.isVisible = true
+    halfHeart1.isVisible = false
+    halfHeart2.isVisible = false
+    halfHeart3.isVisible = false
+end
+
+local function UpdateLives()
+
+    if (lives == 3) then
+        fullHeart1.isVisible = true
+        fullHeart2.isVisible = true
+        fullHeart3.isVisible = true
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = false
+
+    elseif ( lives == 2.5) then
+        fullHeart1.isVisible = true
+        fullHeart2.isVisible = true
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = true
+
+    elseif ( lives == 2 ) then
+        fullHeart1.isVisible = true
+        fullHeart2.isVisible = true
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = false
+
+    elseif ( lives == 1.5 ) then
+        fullHeart1.isVisible = true
+        fullHeart2.isVisible = false
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = true
+        halfHeart3.isVisible = false
+
+    elseif ( lives == 1 ) then
+        fullHeart1.isVisible = true
+        fullHeart2.isVisible = false
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = false
+
+    elseif ( lives == 0.5 ) then
+        fullHeart1.isVisible = false
+        fullHeart2.isVisible = false
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = true
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = false
+
+    else --( lives == 0 ) then
+        fullHeart1.isVisible = false
+        fullHeart2.isVisible = false
+        fullHeart3.isVisible = false
+        halfHeart1.isVisible = false
+        halfHeart2.isVisible = false
+        halfHeart3.isVisible = false
+    end
+end
+
+local function ReplaceCharacter()
+    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*25/100, display.contentHeight*20/100)
+    character.x = display.contentWidth*50/100
+    character.y = display.contentHeight*50/100
+    character.width = display.contentWidth*25/100
+    character.height = display.contentHeight*20/100
+    character.myName = "Spaceship"
+end
+
+local function onCollision( self, event)
+
+    if ( event.phase == "began" ) then
+
+        if  (event.target.myName == "spikes1") or 
+            (event.target.myName == "spikes2") or
+            (event.target.myName == "spikes3") then
+
+            -- remove the character from the display
+            display.remove(character)
+            -- decrease number of lives
+            numLives = numLives - 1
+        end
+
+        if  (event.target.myName == "ball1") or
+            (event.target.myName == "ball3") or
+            (event.target.myName == "ball2") then
+
+            -- stop the character from moving
+            motionx = 0
+
+            -- make the character invisible
+            character.isVisible = false
+
+            -- show overlay with math question
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+
+            -- Increment questions answered
+            questionsAnswered = questionsAnswered + 1 
+        end
+    end
+end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
