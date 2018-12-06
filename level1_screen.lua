@@ -24,28 +24,33 @@ sceneName = "level1_screen"
 -- Creating Scene Object
 local scene = composer.newScene( sceneName )
 
+-- Hide the status bar
+display.setStatusBar(display.HiddenStatusBar)
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 -- The local variables for this scene
--- Hide the status bar
-display.setStatusBar(display.HiddenStatusBar)
 -- Background image
 local bkg_image
+
 -- Comet/obstacles
 local comet1
 local comet2
 local comet3
+
 -- Full hearts/lives
 local fullHeart1
 local fullHeart2
 local fullHeart3
+
 -- Half hearts/lives
 local halfHeart1
 local halfHeart2
 local halfHeart3
+
 -- Lives
-local lives
+local lives = 3
 -- Walls
 local leftW
 local rightW
@@ -53,10 +58,28 @@ local topW
 local floor
 -- Character
 local character
+-- Boolean variables
+local alreadyTouchedCharacter = false
 
 --------------------------------------------------------------------------------------------
--- LOCAL FUNCTIONS
+-- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
+
+local function CharacterListener(touch)
+
+    if (touch.phase == "began") then
+        
+    end
+
+    if (touch.phase == "moved") then        
+        character.x = touch.x
+        character.y = touch.y
+    end
+
+    if (touch.phase == "ended") then
+       
+    end
+end
 
 local function MakeHeartsVisible()
 
@@ -135,13 +158,56 @@ local function ReplaceCharacter()
     character.y = display.contentHeight*75/100 
     character:rotate(-90)
     character.myName = "Spaceship"
+    character:addEventListener("touch", CharacterListener)
 end
 
 local function onCollision( self, event)
 
     if ( event.phase == "began" ) then
 
+        if (event.target.myName == "comet1") then
+            display.remove(character)
+            lives = lives - 0.5
+            UpdateLives()
+        end
+
+        if (event.target.myName == "comet2") then
+            character.isVisible = false
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+        end
+
     end
+end
+
+local function AddCollisionListeners()
+
+    comet1 = onCollision
+    comet1:addEventListener("collision")
+
+    comet2 = onCollision
+    comet2:addEventListener("collision")
+end
+
+local function RemoveCollisionListeners()
+
+    comet1:removeEventListener("collision")
+    comet2:removeEventListener("collision")
+end
+
+local function AddPhysicsBodies ()
+
+    physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(topW, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
+end
+
+local function RemovePhysicsBodies()
+
+    physics.removeBody(leftW)
+    physics.removeBody(rightW)
+    physics.removeBody(topW)
+    physics.removeBody(floor)
 end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -208,6 +274,7 @@ function scene:create( event )
     halfHeart3.isVisible = true
     sceneGroup:insert(halfHeart3)
 
+
     -- Walls
     -- Left wall
     leftW = display.newLine( 0, 0, 0, display.contentHeight)
@@ -253,9 +320,10 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        livesives = 3
+        lives = 3
         MakeHeartsVisible()
         ReplaceCharacter()
+        
     end
 
 end --function scene:show( event )
@@ -280,6 +348,10 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+        --RemoveCollisionListeners()
+        --RemovePhysicsBodies()
+        character:removeEventListener("touch", CharacterListener)
+       
 
     end
 
