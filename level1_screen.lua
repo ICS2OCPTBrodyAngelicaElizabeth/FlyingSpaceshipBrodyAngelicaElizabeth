@@ -24,26 +24,31 @@ sceneName = "level1_screen"
 -- Creating Scene Object
 local scene = composer.newScene( sceneName )
 
+-- Hide the status bar
+display.setStatusBar(display.HiddenStatusBar)
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 -- The local variables for this scene
--- Hide the status bar
-display.setStatusBar(display.HiddenStatusBar)
 -- Background image
 local bkg_image
+
 -- Comet/obstacles
 local comet1
 local comet2
 local comet3
+
 -- Full hearts/lives
 local fullHeart1
 local fullHeart2
 local fullHeart3
+
 -- Half hearts/lives
 local halfHeart1
 local halfHeart2
 local halfHeart3
+
 -- Lives
 local lives = 3
 -- Walls
@@ -63,17 +68,16 @@ local alreadyTouchedCharacter = false
 local function CharacterListener(touch)
 
     if (touch.phase == "began") then
-
-        alreadyTouchedCharacter = true
+        
     end
 
-    if ( (touch.phase == "moved") and(alreadyTouchedCharacter == true) ) then
+    if (touch.phase == "moved") then        
         character.x = touch.x
         character.y = touch.y
     end
 
     if (touch.phase == "ended") then
-       alreadyTouchedCharacter = false
+       
     end
 end
 
@@ -154,6 +158,7 @@ local function ReplaceCharacter()
     character.y = display.contentHeight*75/100 
     character:rotate(-90)
     character.myName = "Spaceship"
+    character:addEventListener("touch", CharacterListener)
 end
 
 local function onCollision( self, event)
@@ -269,6 +274,7 @@ function scene:create( event )
     halfHeart3.isVisible = true
     sceneGroup:insert(halfHeart3)
 
+
     -- Walls
     -- Left wall
     leftW = display.newLine( 0, 0, 0, display.contentHeight)
@@ -317,7 +323,7 @@ function scene:show( event )
         lives = 3
         MakeHeartsVisible()
         ReplaceCharacter()
-        CharacterListener()
+        
     end
 
 end --function scene:show( event )
@@ -342,9 +348,10 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        RemoveCollisionListeners()
-        RemovePhysicsBodies()
-        display.remove(character)
+        --RemoveCollisionListeners()
+        --RemovePhysicsBodies()
+        character:removeEventListener("touch", CharacterListener)
+       
 
     end
 
