@@ -153,7 +153,7 @@ end
 
 local function ReplaceCharacter()
     
-    character = display.newImageRect("Images/Full Character.png", display.contentWidth*20/100, display.contentHeight*45/100)
+    character = display.newImageRect("Images/Full Character@2x.png", display.contentWidth*20/100, display.contentHeight*45/100)
     character.x = display.contentWidth*45/100
     character.y = display.contentHeight*75/100 
     character:rotate(-90)
@@ -236,19 +236,19 @@ function scene:create( event )
 
     -- Full hearts
     -- Heart1
-    fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart1 = display.newImageRect("Images/FullHeart@2x.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart1.x = display.contentWidth*95/100
     fullHeart1.y = display.contentHeight*9/100
     fullHeart1.isVisible = true
     sceneGroup:insert(fullHeart1)
     -- Heart2
-    fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart2 = display.newImageRect("Images/FullHeart@2x.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart2.x = display.contentWidth*86/100
     fullHeart2.y = display.contentHeight*9/100
     fullHeart2.isVisible = true
     sceneGroup:insert(fullHeart2)
     -- Heart 3
-    fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    fullHeart3 = display.newImageRect("Images/FullHeart@2x.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart3.x = display.contentWidth*77/100
     fullHeart3.y = display.contentHeight*9/100
     fullHeart3.isVisible = true
@@ -256,19 +256,19 @@ function scene:create( event )
 
     -- Half hearts
     -- Halfheart 1
-    halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart1 = display.newImageRect("Images/HalfHeart@2x.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart1.x = display.contentWidth*195/201
     halfHeart1.y = display.contentHeight*9/100
     halfHeart1.isVisible = true
     sceneGroup:insert(halfHeart1)
     -- Halfheart 2
-    halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart2 = display.newImageRect("Images/HalfHeart@2x.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart2.x = display.contentWidth*177/201
     halfHeart2.y = display.contentHeight*9/100
     halfHeart2.isVisible = true
     sceneGroup:insert(halfHeart2)
     -- Halfheart 3
-    halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    halfHeart3 = display.newImageRect("Images/HalfHeart@2x.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart3.x = display.contentWidth*159/201
     halfHeart3.y = display.contentHeight*9/100
     halfHeart3.isVisible = true
