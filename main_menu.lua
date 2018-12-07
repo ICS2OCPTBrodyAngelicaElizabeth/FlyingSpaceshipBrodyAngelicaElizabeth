@@ -59,7 +59,7 @@ end
 
 -- Creating Transitioning Function back to main menu
 local function HowTransition( )
-    composer.gotoScene( "credits_screen", {effect = "slideUp", time = 1000})
+    composer.gotoScene( "instructions_screen", {effect = "slideUp", time = 1000})
 end
 
 
