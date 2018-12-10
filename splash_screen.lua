@@ -83,7 +83,7 @@ function scene:create( event )
 
 
     -- Insert the banana image
-    banana = display.newImageRect("Images/CompanyLogoAngelica@2xCopy.png",  display.contentWidth/5, display.contentHeight/5 + display.contentHeight/14)
+    banana = display.newImageRect("Images/CompanyLogoAngelicaCopy.png",  display.contentWidth/5, display.contentHeight/5 + display.contentHeight/14)
     -- Inserts the image of the App name
     Jojo = display.newImageRect("Images/CompanyLogoTextAngelicaCopy@2x.png",display.contentWidth*11/13,display.contentHeight/4+display.contentHeight/20)
 
