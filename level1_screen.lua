@@ -153,7 +153,7 @@ end
 
 local function ReplaceCharacter()
     
-    character = display.newImageRect("Images/Full Character.png", display.contentWidth*16/100, display.contentHeight*40/100)
+    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*16/100, display.contentHeight*40/100)
     character.x = display.contentWidth*45/100
     character.y = display.contentHeight*75/100 
     character:rotate(-90)
