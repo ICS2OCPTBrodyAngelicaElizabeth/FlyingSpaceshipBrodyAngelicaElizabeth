@@ -16,6 +16,10 @@ local widget = require( "widget" )
 
 -----------------------------------------------------------------------------------------
 
+--SOUNDS
+local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+local level1SoundChannel
+
 -- Naming Scene
 sceneName = "level1_screen"
 
@@ -316,7 +320,9 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-
+        --play level1 background sound
+        level1SoundChannel = audio.play(level1Sound)
+        
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.

@@ -23,6 +23,11 @@ sceneName = "credits_screen"
 -- Creating Scene Object
 scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
 
+--SOUNDS
+local creditsSound = audio.loadSound("Sounds/creditsSound.mp3") 
+local creditsSoundChannel
+--creditsSoundChannel = audio.play(creditsSound)
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -119,6 +124,8 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        --play credits background sound
+        creditsSoundChannel = audio.play(creditsSound)
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
