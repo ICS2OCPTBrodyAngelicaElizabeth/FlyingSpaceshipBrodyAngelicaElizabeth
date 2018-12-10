@@ -35,9 +35,8 @@ display.setStatusBar(display.HiddenStatusBar)
 local bkg_image
 
 -- Comet/obstacles
-local comet1
-local comet2
-local comet3
+local cometLoss
+local cometQuestion
 
 -- Full hearts/lives
 local fullHeart1
@@ -153,7 +152,7 @@ end
 
 local function ReplaceCharacter()
     
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*16/100, display.contentHeight*40/100)
+    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
     character.x = display.contentWidth*45/100
     character.y = display.contentHeight*75/100 
     character:rotate(-90)
@@ -165,13 +164,13 @@ local function onCollision( self, event)
 
     if ( event.phase == "began" ) then
 
-        if (event.target.myName == "comet1") then
+        if (event.target.myName == "cometLoss") then
             display.remove(character)
             lives = lives - 0.5
             UpdateLives()
         end
 
-        if (event.target.myName == "comet2") then
+        if (event.target.myName == "cometQuestion") then
             character.isVisible = false
             composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
         end
@@ -181,11 +180,11 @@ end
 
 local function AddCollisionListeners()
 
-    comet1 = onCollision
-    comet1:addEventListener("collision")
+    cometLoss = onCollision
+    cometLoss:addEventListener("collision")
 
-    comet2 = onCollision
-    comet2:addEventListener("collision")
+    cometQuestion = onCollision
+    cometQuestion:addEventListener("collision")
 end
 
 local function RemoveCollisionListeners()
@@ -200,6 +199,9 @@ local function AddPhysicsBodies ()
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(topW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(cometLoss, "static",  {density=0, friction=0, bounce=0} )
+    physics.addBody(cometQuestion, "static",  {density=0, friction=0, bounce=0} )
+
 end
 
 local function RemovePhysicsBodies()
@@ -208,6 +210,9 @@ local function RemovePhysicsBodies()
     physics.removeBody(rightW)
     physics.removeBody(topW)
     physics.removeBody(floor)
+    physics.removeBody(cometLoss)
+    physics.removeBody(cometQuestion)
+
 end
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -294,6 +299,24 @@ function scene:create( event )
     topW.isVisible = true
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( topW )
+
+    -- Comets
+    -- Loss comet
+    cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
+    cometLoss.x = display.contentWidth*77/100
+    cometLoss.y = display.contentHeight*30/100
+    cometLoss.isVisible = true
+    cometLoss:rotate(-30)
+    sceneGroup:insert(cometLoss)
+
+    -- Question comet
+    cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
+    cometQuestion.x = display.contentWidth*67/100
+    cometQuestion.y = display.contentHeight*60/100
+    cometQuestion.isVisible = true
+    cometQuestion:rotate(-30)
+    sceneGroup:insert(cometQuestion)
+
 
 
 

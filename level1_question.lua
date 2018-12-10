@@ -77,7 +77,6 @@ local function TouchListenerAnswer(touch)
     userAnswer = answerText.text
     
     if (touch.phase == "ended") then
-
         BackToLevel1( )
     
     end 
