@@ -17,6 +17,13 @@ local widget = require( "widget" )
 
 -----------------------------------------------------------------------------------------
 
+--SOUNDS
+--create the credits sound
+local instructionsSound = audio.loadSound("Sounds/instructionsSound.mp3") 
+local instructionsSoundChannel
+
+--instructionsSoundChannel = audio.play(instructionsSound)
+
 -- Naming Scene
 sceneName = "instructions_screen"
 
@@ -103,7 +110,6 @@ end --function scene:create( event )
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
-
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
@@ -119,6 +125,8 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+     --play instructions sound
+        instructionsSoundChannel = audio.play(instructionsSound)
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
