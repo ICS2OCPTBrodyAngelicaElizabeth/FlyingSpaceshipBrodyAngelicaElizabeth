@@ -17,8 +17,8 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
-local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
-local level1SoundChannel
+--local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+--local level1SoundChannel
 
 -- Naming Scene
 sceneName = "level1_screen"
@@ -65,12 +65,16 @@ local character
 local alreadyTouchedCharacter = false
 
 --------------------------------------------------------------------------------------------
--- LOCAL SCENE FUNCTIONS
+-- COLLISION FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+-- This function detects if the boundries intersect/ characters collide
 local function hasCollided(obj1, obj2)
+
+        -- Prints obj1's x and y coordinates
     print ("***obj1.x = " .. obj1.x)
     print ("***obj1.y = " .. obj1.y)
+        -- Prints obj2's x and y coordinates
     print ("***obj2.x = " .. obj2.x)
     print ("***obj2.y = " .. obj2.y)
             
@@ -88,12 +92,16 @@ local function hasCollided(obj1, obj2)
     end
 end
 
+-- Collision Function for circular objects ( currently not used in the code)
 local function hasCollidedCircle( obj1, obj2 )
  
-    if ( obj1 == nil ) then  -- Make sure the first object exists
+    -- Makes sure the first object exists
+    if ( obj1 == nil ) then
         return false
     end
-    if ( obj2 == nil ) then  -- Make sure the other object exists
+
+    -- Makes sure the second object exists
+    if ( obj2 == nil ) then
         return false
     end
  
@@ -111,13 +119,17 @@ end
 
 local function hasCollidedRect( obj1, obj2 )
  
-    if ( obj1 == nil ) then  -- Make sure the first object exists
+      -- Makes sure the first object exists
+    if ( obj1 == nil ) then
         return false
     end
-    if ( obj2 == nil ) then  -- Make sure the other object exists
+
+    -- Make sure the other object exists
+    if ( obj2 == nil ) then
         return false
     end
- 
+
+ -- sets bpoundries for the objects and detects if they collide
     local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
     local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
     local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
@@ -126,40 +138,29 @@ local function hasCollidedRect( obj1, obj2 )
     return ( left or right ) and ( up or down )
 end
 
-local function CharacterListener(touch)
+--------------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+--------------------------------------------------------------------------------------------
 
-    if (touch.phase == "began") then
-        
-    end
-
-    if (touch.phase == "moved") then        
-        -- set the character position to be the same as the mouse
-        character.x = touch.x
-        character.y = touch.y
-
-
-        if (hasCollidedRect(character, cometLoss) == true) then
-            print ("character collided with cometLoss")
-            lives = lives - 0.5
-        end
+function ResumeLecel1FS()
+    -- body
+    character.isVisible = true
+    character.x = display.contentWidth*75/100
+    character.y = display.contentHeight*75/100
+end
 
 
-        if (hasCollidedRect(character, cometQuestion) == true) then
-            print ("character collided with cometQuestion")
-            character.isVisible = false
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
-        end
-        
-    end
+--------------------------------------------------------------------------------------------
+-- LOCAL SCENE FUNCTIONS
+--------------------------------------------------------------------------------------------
 
-    if (touch.phase == "ended") then
+local function YouLoseTransition()
 
-     --   if(character.x == cometLoss) then
+    character.isVisible = false
 
---            lives = lives - 1
-         --   UpdateLives()
-       
-    end
+    -- Goes to YouLoseScreen
+     composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
+
 end
 
 local function MakeHeartsVisible()
@@ -229,16 +230,52 @@ local function UpdateLives()
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
+        timer.performWithDelay(100, YouLoseTransition)
+
+    end
+end
+
+-- Character touch listener
+local function CharacterListener(touch)
+
+
+    if (touch.phase == "began") then
+        --
+    end
+
+    if (touch.phase == "moved") then        
+        -- Sets the character position to be the same as the mouse
+        character.x = touch.x
+        character.y = touch.y
+
+
+        if (hasCollidedRect(character, cometLoss) == true) then
+            print ("character collided with cometLoss")
+            lives = lives - 0.5
+            character.x = display.contentWidth*75/100
+            character.y = display.contentHeight*75/100
+            UpdateLives()
+        end
+
+
+        if (hasCollidedRect(character, cometQuestion) == true) then
+            print ("character collided with cometQuestion")
+            character.isVisible = false
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+        end
+        
+    end
+
+    if (touch.phase == "ended") then
+
     end
 end
 
 local function ReplaceCharacter()
     
     character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
-    character.x = display.contentWidth*45/100
-    character.y = display.contentHeight*75/100 
-    character.width = 143
-    character.height = 291   
+    character.x = display.contentWidth*75/100
+    character.y = display.contentHeight*75/100  
     character:rotate(-90)
     character.myName = "Spaceship"
     -- add physics body
@@ -262,8 +299,6 @@ local function onCollision( self, event)
         if (event.target.myName == "cometLoss") then
             print ("***Hit cometLoss")
             display.remove(character)
-            lives = lives - 0.5
-            UpdateLives()
         end
 
         if (event.target.myName == "cometQuestion") then
@@ -410,7 +445,7 @@ function scene:create( event )
 
     -- Question comet
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
-    cometQuestion.x = display.contentWidth*67/100
+    cometQuestion.x = display.contentWidth*37/100
     cometQuestion.y = display.contentHeight*60/100
     cometQuestion.isVisible = true
     cometQuestion:rotate(-30)
@@ -447,8 +482,6 @@ function scene:show( event )
         
         --play level1 background sound
         level1SoundChannel = audio.play(level1Sound)
-
-        --AddPhysicsBodies()
         AddCollisionListeners()
         
         lives = 3
