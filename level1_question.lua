@@ -67,7 +67,7 @@ local textTouched = false
 --making transition to next scene
 local function BackToLevel1() 
     composer.hideOverlay("crossFade", 400 )
-    ResumeLecel1FS()
+    ResumeLevel1FS()
 end 
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1

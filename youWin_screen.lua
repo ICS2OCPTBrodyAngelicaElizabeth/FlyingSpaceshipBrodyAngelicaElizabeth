@@ -18,7 +18,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 -- Naming Scene
-sceneName = "youLose_screen"
+sceneName = "youWin_screen"
 
 -- Creating Scene Object
 scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
@@ -52,11 +52,8 @@ function scene:create( event )
     -- BACKGROUND AND DISPLAY OBJECTS
     -----------------------------------------------------------------------------------------
 
-        -- Sets a base colour for the background
-        display.setDefault("background", 0, 145/255, 255/255)
-
     -- Insert the background image and set it to the center of the screen
-    bkg_image = display.newImageRect("Images/YouLoseScreen.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/YouwinScreen.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth

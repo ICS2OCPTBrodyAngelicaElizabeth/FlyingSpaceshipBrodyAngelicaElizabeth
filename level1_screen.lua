@@ -61,6 +61,9 @@ local topW
 local floor
 -- Character
 local character
+-- Answered Questions
+local questionsA = 0
+
 -- Boolean variables
 local alreadyTouchedCharacter = false
 
@@ -139,29 +142,49 @@ local function hasCollidedRect( obj1, obj2 )
 end
 
 --------------------------------------------------------------------------------------------
--- GLOBAL FUNCTIONS
+-- TRANSITION FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function ResumeLecel1FS()
-    -- body
-    character.isVisible = true
-    character.x = display.contentWidth*75/100
-    character.y = display.contentHeight*75/100
-end
-
-
---------------------------------------------------------------------------------------------
--- LOCAL SCENE FUNCTIONS
---------------------------------------------------------------------------------------------
-
+-- Transition to "YouLose_screen"
 local function YouLoseTransition()
 
     character.isVisible = false
 
     -- Goes to YouLoseScreen
      composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
+end
+
+-- Transition to "YouWin_screen"
+local function YouWinTransition()
+
+    character.isVisible = false
+
+    -- Goes to YouLoseScreen
+     composer.gotoScene( "YouWin_screen", {effect = "zoomInOutFade", time = 900})
+end
+
+--------------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+--------------------------------------------------------------------------------------------
+
+function ResumeLevel1FS()
+    -- body
+    character.isVisible = true
+    character.x = display.contentWidth*75/100
+    character.y = display.contentHeight*75/100
+    questionsA = questionsA + 1
+
+    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
+    if (questionsA == 3) then
+        YouWinTransition()
+    end
 
 end
+
+
+--------------------------------------------------------------------------------------------
+-- LOCAL SCENE FUNCTIONS
+--------------------------------------------------------------------------------------------
 
 local function MakeHeartsVisible()
 
