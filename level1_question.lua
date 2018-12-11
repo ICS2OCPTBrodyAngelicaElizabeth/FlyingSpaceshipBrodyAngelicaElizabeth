@@ -86,6 +86,7 @@ local function TouchListenerWrongAnswer(touch)
     
     if (touch.phase == "ended") then
         
+        lives = lives - 1
         BackToLevel1( )
         
         
@@ -97,7 +98,7 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-
+        lives = lives - 1
         BackToLevel1( )
         
     end 
@@ -108,7 +109,7 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
-
+        lives = lives - 1
         BackToLevel1( )
         
     end 

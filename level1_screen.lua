@@ -31,6 +31,11 @@ local scene = composer.newScene( sceneName )
 -- Hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
 
+--------------------------------------------------------------------------------------------
+-- GLOBAL VARIABLES
+--------------------------------------------------------------------------------------------
+lives = 3
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -52,17 +57,11 @@ local halfHeart1
 local halfHeart2
 local halfHeart3
 
--- Lives
-local lives = 3
--- Walls
-local leftW
-local rightW
-local topW
-local floor
--- Character
-local character
 -- Answered Questions
 local questionsA = 0
+
+-- Character
+local character
 
 -- Boolean variables
 local alreadyTouchedCharacter = false
@@ -120,6 +119,7 @@ local function hasCollidedCircle( obj1, obj2 )
     return false
 end
 
+-- Function to sense colklisions with the spaceship and comets
 local function hasCollidedRect( obj1, obj2 )
  
       -- Makes sure the first object exists
@@ -142,7 +142,7 @@ local function hasCollidedRect( obj1, obj2 )
 end
 
 --------------------------------------------------------------------------------------------
--- TRANSITION FUNCTIONS
+-- TRANSITIONS
 --------------------------------------------------------------------------------------------
 
 -- Transition to "YouLose_screen"
@@ -150,7 +150,7 @@ local function YouLoseTransition()
 
     character.isVisible = false
 
-    -- Goes to YouLoseScreen
+    -- Goes to "YouLose_screen"
      composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
@@ -159,26 +159,8 @@ local function YouWinTransition()
 
     character.isVisible = false
 
-    -- Goes to YouLoseScreen
+    -- Goes to "YouWin_screen"
      composer.gotoScene( "YouWin_screen", {effect = "zoomInOutFade", time = 900})
-end
-
---------------------------------------------------------------------------------------------
--- GLOBAL FUNCTIONS
---------------------------------------------------------------------------------------------
-
-function ResumeLevel1FS()
-    -- body
-    character.isVisible = true
-    character.x = display.contentWidth*75/100
-    character.y = display.contentHeight*75/100
-    questionsA = questionsA + 1
-
-    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionsA == 3) then
-        YouWinTransition()
-    end
-
 end
 
 
@@ -186,8 +168,10 @@ end
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+-- This function makes all of the fullHearts visible
 local function MakeHeartsVisible()
 
+    -- Makes all of the fullHearts visible
     fullHeart1.isVisible = true
     fullHeart2.isVisible = true
     fullHeart3.isVisible = true
@@ -198,6 +182,7 @@ end
 
 local function UpdateLives()
 
+    -- How many hearts are visable when lives == 3
     if (lives == 3) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
@@ -206,6 +191,7 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
+    -- How many hearts are visable when lives == 2.5
     elseif ( lives == 2.5) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
@@ -214,6 +200,7 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = true
 
+    -- How many hearts are visable when lives == 2
     elseif ( lives == 2 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
@@ -222,6 +209,7 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
+    -- How many hearts are visable when lives == 1.5
     elseif ( lives == 1.5 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
@@ -230,6 +218,7 @@ local function UpdateLives()
         halfHeart2.isVisible = true
         halfHeart3.isVisible = false
 
+    -- How many hearts are visable when lives == 1
     elseif ( lives == 1 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
@@ -238,6 +227,7 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
+    -- How many hearts are visable when lives == 0.5
     elseif ( lives == 0.5 ) then
         fullHeart1.isVisible = false
         fullHeart2.isVisible = false
@@ -246,6 +236,7 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
+    -- How many hearts are visable when lives == 0
     else --( lives == 0 ) then
         fullHeart1.isVisible = false
         fullHeart2.isVisible = false
@@ -253,8 +244,8 @@ local function UpdateLives()
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
+        -- Performs the function after a delay of 1/10ths of a second/100 miliseconds
         timer.performWithDelay(100, YouLoseTransition)
-
     end
 end
 
@@ -267,23 +258,31 @@ local function CharacterListener(touch)
     end
 
     if (touch.phase == "moved") then        
-        -- Sets the character position to be the same as the mouse
+
+        -- Sets the character position to be the same as the courseur
         character.x = touch.x
         character.y = touch.y
 
-
+        -- Verifies if the character has collided with cometLoss
         if (hasCollidedRect(character, cometLoss) == true) then
+            -- Prints "character collided with cometLoss" on the console for testing purposes
             print ("character collided with cometLoss")
+            -- loses 0.5 or half of a life/heart
             lives = lives - 0.5
-            character.x = display.contentWidth*75/100
-            character.y = display.contentHeight*75/100
+            -- resets the character x and y position
+            character.x = display.contentWidth*50/100
+            character.y = display.contentHeight*50/100
+            -- Calls function to update the hearts/lives
             UpdateLives()
         end
 
-
+        -- Verifies if the character has collided with cometQuestion
         if (hasCollidedRect(character, cometQuestion) == true) then
+            -- Prints "character collided with cometQuestion" n the console for testing purposes
             print ("character collided with cometQuestion")
+            -- Makes the character invisible
             character.isVisible = false
+            -- Goes to the question screen/overlay
             composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
         end
         
@@ -296,15 +295,16 @@ end
 
 local function ReplaceCharacter()
     
+    -- associates the character with an image/png
     character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
-    character.x = display.contentWidth*75/100
-    character.y = display.contentHeight*75/100  
+    -- Assignes the character's x and y position
+    character.x = display.contentWidth*50/100
+    character.y = display.contentHeight*50/100  
+    -- Rotates the character by -90 degrees
     character:rotate(-90)
+    -- Names the character
     character.myName = "Spaceship"
-    -- add physics body
-    --physics.addBody( character, "static",  {density=0, friction=0, bounce=0} )
-
-
+    -- Addsa the EventListener
     character:addEventListener("touch", CharacterListener)
 end
 
@@ -332,44 +332,45 @@ local function onCollision( self, event)
     end
 end
 
+-- This function adds EventListeners
 local function AddCollisionListeners()
 
+    -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
 
+    -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
     cometQuestion:addEventListener("collision")
 end
 
+-- this function removes EventListeners
 local function RemoveCollisionListeners()
 
+    -- Removes EventListeners
     cometLoss:removeEventListener("collision")
     cometQuestion:removeEventListener("collision")
 end
 
-local function AddPhysicsBodies ()
+--------------------------------------------------------------------------------------------
+-- GLOBAL FUNCTIONS
+--------------------------------------------------------------------------------------------
 
-    physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(topW, "static", {density=1, friction=0.3, bounce=0.2} )
-    --physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(cometLoss, "static",   {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(cometQuestion, "static",   {density=1, friction=0.3, bounce=0.2} )
+function ResumeLevel1FS()
+    -- body
+    UpdateLives()
+    character.isVisible = true
+    character.x = display.contentWidth*50/100
+    character.y = display.contentHeight*50/100
+    questionsA = questionsA + 1
 
-
-
-end
-
-local function RemovePhysicsBodies()
-
-    physics.removeBody(leftW)
-    physics.removeBody(rightW)
-    physics.removeBody(topW)
-    physics.removeBody(floor)
-    physics.removeBody(cometLoss)
-    physics.removeBody(cometQuestion)
+    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
+    if (questionsA == 3) then
+        YouWinTransition()
+    end
 
 end
+
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -382,101 +383,123 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
 
-    -- Insert the background image
+    -- Inserts the background image
     bkg_image = display.newImageRect("Images/Level1Screen (2).png", display.contentWidth, display.contentHeight)
+    -- Assignes the background x and y coordinates
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
+    -- Assignes the background height and width
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
-
-        -- Insert background image into the scene group in order to ONLY be associated with this scene
+    -- Inserts background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )  
-
+    ---------
     -- Full hearts
-    -- Heart1
+    ---------
+
+    -- Heart1 
+    -- Assignes "fullHeart1" to an image/png
     fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    -- Assignes "fullHeart1" x and y coordinates
     fullHeart1.x = display.contentWidth*95/100
     fullHeart1.y = display.contentHeight*9/100
+    -- Makes "fullHeart1" visible
     fullHeart1.isVisible = true
+    -- Inserts the "fullHeart1" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(fullHeart1)
 
     -- Heart2
+    -- Assignes "fullHeart2" to an image/png
     fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    -- Assignes "fullHeart2" x and y coordinates
     fullHeart2.x = display.contentWidth*86/100
     fullHeart2.y = display.contentHeight*9/100
+    -- Makes "fullHeart2" visible
     fullHeart2.isVisible = true
+    -- Inserts the "fullHeart2" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(fullHeart2)
 
     -- Heart 3
+    -- Assignes "fullHeart3" to an image/png
     fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
+    -- Assignes "fullHeart3" x and y coordinates
     fullHeart3.x = display.contentWidth*77/100
     fullHeart3.y = display.contentHeight*9/100
+    -- Makes "fullHeart3" visible
     fullHeart3.isVisible = true
+    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(fullHeart3)
 
+    ---------
     -- Half hearts
+    ---------
+
     -- Halfheart 1
+    -- Assignes "halfHeart1" to an image/png
     halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    -- Assignes "halfHeart1" x and y coordinates
     halfHeart1.x = display.contentWidth*195/201
     halfHeart1.y = display.contentHeight*9/100
+    -- Makes "halfHeart1" visible
     halfHeart1.isVisible = true
+    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(halfHeart1)
 
     -- Halfheart 2
+    -- Assignes "halfHeart2" to an image/png
     halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    -- Assignes "halfHeart2" x and y coordinates
     halfHeart2.x = display.contentWidth*177/201
     halfHeart2.y = display.contentHeight*9/100
+    -- Makes "halfHeart2" visible
     halfHeart2.isVisible = true
+    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(halfHeart2)
 
     -- Halfheart 3
+    -- Assignes "halfHeart3" to an image/png
     halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
+    -- Assignes "halfHeart3" x and y coordinates
     halfHeart3.x = display.contentWidth*159/201
     halfHeart3.y = display.contentHeight*9/100
+    -- Makes "halfHeart3" visible
     halfHeart3.isVisible = true
+    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(halfHeart3)
 
-    -- Walls
-    -- Left wall
-    leftW = display.newLine( 0, 0, 0, display.contentHeight)
-    leftW.isVisible = true
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( leftW )
-
-    -- Right wall
-    rightW = display.newLine( 0, 0, 0, display.contentHeight)
-    rightW.x = display.contentCenterX * 2
-    rightW.isVisible = true
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( rightW )
-
-    -- Top wall
-    topW = display.newLine( 0, 0, display.contentWidth, 0)
-    topW.isVisible = true
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( topW )
-
+    ---------
     -- Comets
+    ---------
+
     -- Loss comet
+    -- Assignes "cometLoss" to an image/png
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
-    cometLoss.x = display.contentWidth*77/100
-    cometLoss.y = display.contentHeight*30/100
+    -- Assignes "cometLoss" x and y coordinates
+    cometLoss.x = display.contentWidth*85/100
+    cometLoss.y = display.contentHeight*80/100
+    -- Makes "cometLoss" visible
     cometLoss.isVisible = true
+    -- Names the object
     cometLoss.myName = "cometLoss"
+    -- Rotates image
     cometLoss:rotate(-30)
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometLoss)
 
     -- Question comet
+    -- Assignes "cometQuestion" to an image/png
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
-    cometQuestion.x = display.contentWidth*37/100
-    cometQuestion.y = display.contentHeight*60/100
+    -- Assignes "cometQuestion" x and y coordinates
+    cometQuestion.x = display.contentWidth*15/100
+    cometQuestion.y = display.contentHeight*20/100
+    -- Makes "cometQuestion" visible
     cometQuestion.isVisible = true
-    cometQuestion:rotate(-30)
+    -- Names the object
     cometQuestion.myName = "cometQuestion"
+    -- Rotates Image
+    cometQuestion:rotate(-30)
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometQuestion)
-
-
-
 
 end --function scene:create( event )
 
@@ -505,10 +528,12 @@ function scene:show( event )
         
         --play level1 background sound
         level1SoundChannel = audio.play(level1Sound)
+        -- Adds collision Listeners
         AddCollisionListeners()
-        
         lives = 3
+        -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
+        -- Calls function "ReplaceCharacter"
         ReplaceCharacter()
         
     end
@@ -535,11 +560,8 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
-        --RemoveCollisionListeners()
-        --RemovePhysicsBodies()
-        character:removeEventListener("touch", CharacterListener)
-       
 
+        character:removeEventListener("touch", CharacterListener)
     end
 
 end --function scene:hide( event )
@@ -564,7 +586,7 @@ end -- function scene:destroy( event )
 -- EVENT LISTENERS
 -----------------------------------------------------------------------------------------
 
--- Adding Event Listeners
+-- Adds Event Listeners
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
