@@ -68,6 +68,64 @@ local alreadyTouchedCharacter = false
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+local function hasCollided(obj1, obj2)
+    print ("***obj1.x = " .. obj1.x)
+    print ("***obj1.y = " .. obj1.y)
+    print ("***obj2.x = " .. obj2.x)
+    print ("***obj2.y = " .. obj2.y)
+            
+
+    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
+        return false 
+    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
+        return false 
+    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
+        return false 
+    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
+        return false 
+    else 
+        return true 
+    end
+end
+
+local function hasCollidedCircle( obj1, obj2 )
+ 
+    if ( obj1 == nil ) then  -- Make sure the first object exists
+        return false
+    end
+    if ( obj2 == nil ) then  -- Make sure the other object exists
+        return false
+    end
+ 
+    local dx = obj1.x - obj2.x
+    local dy = obj1.y - obj2.y
+ 
+    local distance = math.sqrt( dx*dx + dy*dy )
+    local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
+ 
+    if ( distance < objectSize ) then
+        return true
+    end
+    return false
+end
+
+local function hasCollidedRect( obj1, obj2 )
+ 
+    if ( obj1 == nil ) then  -- Make sure the first object exists
+        return false
+    end
+    if ( obj2 == nil ) then  -- Make sure the other object exists
+        return false
+    end
+ 
+    local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+    local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+    local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+    local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+ 
+    return ( left or right ) and ( up or down )
+end
+
 local function CharacterListener(touch)
 
     if (touch.phase == "began") then
@@ -75,8 +133,23 @@ local function CharacterListener(touch)
     end
 
     if (touch.phase == "moved") then        
+        -- set the character position to be the same as the mouse
         character.x = touch.x
         character.y = touch.y
+
+
+        if (hasCollidedRect(character, cometLoss) == true) then
+            print ("character collided with cometLoss")
+            lives = lives - 0.5
+        end
+
+
+        if (hasCollidedRect(character, cometQuestion) == true) then
+            print ("character collided with cometQuestion")
+            character.isVisible = false
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+        end
+        
     end
 
     if (touch.phase == "ended") then
@@ -164,8 +237,14 @@ local function ReplaceCharacter()
     character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
     character.x = display.contentWidth*45/100
     character.y = display.contentHeight*75/100 
+    character.width = 143
+    character.height = 291   
     character:rotate(-90)
     character.myName = "Spaceship"
+    -- add physics body
+    --physics.addBody( character, "static",  {density=0, friction=0, bounce=0} )
+
+
     character:addEventListener("touch", CharacterListener)
 end
 
@@ -181,6 +260,7 @@ local function onCollision( self, event)
     if ( event.phase == "began" ) then
 
         if (event.target.myName == "cometLoss") then
+            print ("***Hit cometLoss")
             display.remove(character)
             lives = lives - 0.5
             UpdateLives()
@@ -214,9 +294,11 @@ local function AddPhysicsBodies ()
     physics.addBody(leftW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(rightW, "static", {density=1, friction=0.3, bounce=0.2} )
     physics.addBody(topW, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
-    physics.addBody(cometLoss, "static",  {density=0, friction=0, bounce=0} )
-    physics.addBody(cometQuestion, "static",  {density=0, friction=0, bounce=0} )
+    --physics.addBody(floor, "static", {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(cometLoss, "static",   {density=1, friction=0.3, bounce=0.2} )
+    physics.addBody(cometQuestion, "static",   {density=1, friction=0.3, bounce=0.2} )
+
+
 
 end
 
@@ -249,9 +331,6 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
 
-    -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
-
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )  
 
@@ -262,12 +341,14 @@ function scene:create( event )
     fullHeart1.y = display.contentHeight*9/100
     fullHeart1.isVisible = true
     sceneGroup:insert(fullHeart1)
+
     -- Heart2
     fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart2.x = display.contentWidth*86/100
     fullHeart2.y = display.contentHeight*9/100
     fullHeart2.isVisible = true
     sceneGroup:insert(fullHeart2)
+
     -- Heart 3
     fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     fullHeart3.x = display.contentWidth*77/100
@@ -282,19 +363,20 @@ function scene:create( event )
     halfHeart1.y = display.contentHeight*9/100
     halfHeart1.isVisible = true
     sceneGroup:insert(halfHeart1)
+
     -- Halfheart 2
     halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart2.x = display.contentWidth*177/201
     halfHeart2.y = display.contentHeight*9/100
     halfHeart2.isVisible = true
     sceneGroup:insert(halfHeart2)
+
     -- Halfheart 3
     halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     halfHeart3.x = display.contentWidth*159/201
     halfHeart3.y = display.contentHeight*9/100
     halfHeart3.isVisible = true
     sceneGroup:insert(halfHeart3)
-
 
     -- Walls
     -- Left wall
@@ -322,6 +404,7 @@ function scene:create( event )
     cometLoss.x = display.contentWidth*77/100
     cometLoss.y = display.contentHeight*30/100
     cometLoss.isVisible = true
+    cometLoss.myName = "cometLoss"
     cometLoss:rotate(-30)
     sceneGroup:insert(cometLoss)
 
@@ -331,6 +414,7 @@ function scene:create( event )
     cometQuestion.y = display.contentHeight*60/100
     cometQuestion.isVisible = true
     cometQuestion:rotate(-30)
+    cometQuestion.myName = "cometQuestion"
     sceneGroup:insert(cometQuestion)
 
 
@@ -362,10 +446,11 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         --play level1 background sound
-       
-      --  AddPhysicsBodies()
-        AddCollisionListeners()
         level1SoundChannel = audio.play(level1Sound)
+
+        --AddPhysicsBodies()
+        AddCollisionListeners()
+        
         lives = 3
         MakeHeartsVisible()
         ReplaceCharacter()
