@@ -80,6 +80,11 @@ local function CharacterListener(touch)
     end
 
     if (touch.phase == "ended") then
+
+     --   if(character.x == cometLoss) then
+
+--            lives = lives - 1
+         --   UpdateLives()
        
     end
 end
@@ -165,6 +170,13 @@ local function ReplaceCharacter()
 end
 
 local function onCollision( self, event)
+    -- for testing purposes
+    print( event.target.myName )        --the first object in the collision
+    print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
+
 
     if ( event.phase == "began" ) then
 
@@ -184,17 +196,17 @@ end
 
 local function AddCollisionListeners()
 
-    cometLoss = onCollision
+    cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
 
-    cometQuestion = onCollision
+    cometQuestion.collision = onCollision
     cometQuestion:addEventListener("collision")
 end
 
 local function RemoveCollisionListeners()
 
-    comet1:removeEventListener("collision")
-    comet2:removeEventListener("collision")
+    cometLoss:removeEventListener("collision")
+    cometQuestion:removeEventListener("collision")
 end
 
 local function AddPhysicsBodies ()
@@ -338,17 +350,22 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
+        physics.start()
 
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        --play level1 background sound
-        level1SoundChannel = audio.play(level1Sound)
-        
+
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        
+        --play level1 background sound
+       
+      --  AddPhysicsBodies()
+        AddCollisionListeners()
+        level1SoundChannel = audio.play(level1Sound)
         lives = 3
         MakeHeartsVisible()
         ReplaceCharacter()

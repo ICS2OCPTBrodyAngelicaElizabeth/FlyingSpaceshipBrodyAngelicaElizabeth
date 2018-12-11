@@ -64,21 +64,27 @@ local textTouched = false
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
+--
+local function ResumeLevel1()
+    character.isVisable = true
+end
+
+-----------------------------------------------------------------------------------------
+
 --making transition to next scene
 local function BackToLevel1() 
     composer.hideOverlay("crossFade", 400 )
   
-    ResumeGame()
+    ResumeLevel1()
 end 
-
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
     userAnswer = answerText.text
     
     if (touch.phase == "ended") then
+
         BackToLevel1( )
-    
     end 
 end
 
