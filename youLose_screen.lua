@@ -52,9 +52,6 @@ function scene:create( event )
     -- BACKGROUND AND DISPLAY OBJECTS
     -----------------------------------------------------------------------------------------
 
-        -- Sets a base colour for the background
-        display.setDefault("background", 0, 145/255, 255/255)
-
     -- Insert the background image and set it to the center of the screen
     bkg_image = display.newImageRect("Images/YouLoseScreen.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
