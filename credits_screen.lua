@@ -137,6 +137,7 @@ end -- function scene:show( event )
 
 -- The function called when the scene is issued to leave the screen
 function scene:hide( event )
+    audio.stop (creditsSoundChannel)
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
