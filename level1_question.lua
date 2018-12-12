@@ -76,9 +76,11 @@ local textTouched = false
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
---making transition to next scene
+-- Transition to go back to the "level1_screen"
 local function BackToLevel1() 
+    -- Uses the "crossFade" effect for 400 miliseconds
     composer.hideOverlay("crossFade", 400 )
+    -- Calls function "ResumeLevel1FS"
     ResumeLevel1FS()
 end 
 -----------------------------------------------------------------------------------------
@@ -99,7 +101,7 @@ local function TouchListenerWrongAnswer(touch)
     
     if (touch.phase == "ended") then
         
-        lives = lives - 1
+        livesLevel1FS = livesLevel1FS - 1
         BackToLevel1( )
         
         
@@ -111,7 +113,7 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
+        livesLevel1FS = livesLevel1FS - 1
         BackToLevel1( )
         
     end 
@@ -122,7 +124,7 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
+        livesLevel1FS = livesLevel1FS - 1
         BackToLevel1( )
         
     end 

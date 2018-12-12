@@ -1,10 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
 -- splash_screen.lua
--- Created by: Your Name
--- Date: Month Day, Year
--- Description: This is the splash screen of the game. It displays the 
--- company logo that...
+-- Created by: Angelica Lutkiewicz
+-- Date: December 11, 2018
+-- Description: This is the splash screen of the game.
 -----------------------------------------------------------------------------------------
 
 -- Use Composer Library
@@ -12,6 +11,9 @@ local composer = require( "composer" )
 
 -- Name the Scene
 sceneName = "splash_screen"
+
+local SplashScreenSound = audio.loadSound("Sounds/DoorBellSound.mp3") 
+local SplashScreenSoundChannel
 
 -----------------------------------------------------------------------------------------
 
@@ -59,6 +61,11 @@ end
 -- The function that will go to the main menu 
 local function gotoMainMenu()
     composer.gotoScene( "main_menu" )
+end
+
+local function playAudio()
+    SplashScreenSoundChannel = audio.play(SplashScreenSound) 
+    timer.performWithDelay(800,gotoMainMenu)
 end
 
 -----------------------------------------------------------------------------------------
@@ -133,7 +140,7 @@ function scene:show( event )
         Runtime:addEventListener("enterFrame", FadeInName)
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 2300, gotoMainMenu)          
+        timer.performWithDelay ( 1500, playAudio)          
         
     end
 
@@ -153,6 +160,9 @@ function scene:hide( event )
     -- Called when the scene is on screen (but is about to go off screen).
     -- Insert code here to "pause" the scene.
     -- Example: stop timers, stop animation, stop audio, etc.
+
+    audio.stop (SplashScreenSoundChannel)
+
     if ( phase == "will" ) then  
 
     -----------------------------------------------------------------------------------------

@@ -40,8 +40,8 @@ display.setStatusBar(display.HiddenStatusBar)
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
 
--- Makes variable "lives"
-livesLevel1 = 3 
+-- Makes variable "livesLevel1FS"
+livesLevel1FS = 3 
 
 -- Global variable to hold the amount of correctly answered Questions
 questionCorrect = 0
@@ -200,8 +200,8 @@ end
 
 local function UpdateLives()
 
-    -- How many hearts are visable when lives == 3
-    if (lives == 3) then
+    -- How many hearts are visable when livesLevel1FS == 3
+    if (livesLevel1FS == 3) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
         fullHeart3.isVisible = true
@@ -209,8 +209,8 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
-    -- How many hearts are visable when lives == 2.5
-    elseif ( lives == 2.5) then
+    -- How many hearts are visable when livesLevel1FS == 2.5
+    elseif ( livesLevel1FS == 2.5) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
         fullHeart3.isVisible = false
@@ -218,8 +218,8 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = true
 
-    -- How many hearts are visable when lives == 2
-    elseif ( lives == 2 ) then
+    -- How many hearts are visable when livesLevel1FS == 2
+    elseif ( livesLevel1FS == 2 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
         fullHeart3.isVisible = false
@@ -227,8 +227,8 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
-    -- How many hearts are visable when lives == 1.5
-    elseif ( lives == 1.5 ) then
+    -- How many hearts are visable when livesLevel1FS == 1.5
+    elseif ( livesLevel1FS == 1.5 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
         fullHeart3.isVisible = false
@@ -236,8 +236,8 @@ local function UpdateLives()
         halfHeart2.isVisible = true
         halfHeart3.isVisible = false
 
-    -- How many hearts are visable when lives == 1
-    elseif ( lives == 1 ) then
+    -- How many hearts are visable when livesLevel1FS == 1
+    elseif ( livesLevel1FS == 1 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
         fullHeart3.isVisible = false
@@ -245,8 +245,8 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
-    -- How many hearts are visable when lives == 0.5
-    elseif ( lives == 0.5 ) then
+    -- How many hearts are visable when livesLevel1FS == 0.5
+    elseif ( livesLevel1FS == 0.5 ) then
         fullHeart1.isVisible = false
         fullHeart2.isVisible = false
         fullHeart3.isVisible = false
@@ -254,8 +254,8 @@ local function UpdateLives()
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
 
-    -- How many hearts are visable when lives == 0
-    else --( lives == 0 ) then
+    -- How many hearts are visable when livesLevel1FS == 0
+    else --( livesLevel1FS == 0 ) then
         fullHeart1.isVisible = false
         fullHeart2.isVisible = false
         fullHeart3.isVisible = false
@@ -286,11 +286,11 @@ local function CharacterListener(touch)
             -- Prints "character collided with cometLoss" on the console for testing purposes
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
-            lives = lives - 0.5
+            livesLevel1FS = livesLevel1FS - 0.5
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
-            -- Calls function to update the hearts/lives
+            -- Calls function to update the hearts/livesLevel1FS
             UpdateLives()
         end
 
@@ -565,8 +565,8 @@ function scene:show( event )
         level1SoundChannel = audio.play(level1Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        -- Sets variable "lives" to 3
-        lives = 3
+        -- Sets variable "livesLevel1FS" to 3
+        livesLevel1FS = 3
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
