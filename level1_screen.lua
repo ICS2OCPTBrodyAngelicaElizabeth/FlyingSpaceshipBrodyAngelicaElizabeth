@@ -17,8 +17,8 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
---local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
---local level1SoundChannel
+local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+local level1SoundChannel
 
 -- Naming Scene
 sceneName = "level1_screen"
@@ -34,12 +34,14 @@ display.setStatusBar(display.HiddenStatusBar)
 --------------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
+-- Makes global variable "lives"
 lives = 3
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 -- The local variables for this scene
+
 -- Background image
 local bkg_image
 
@@ -57,20 +59,20 @@ local halfHeart1
 local halfHeart2
 local halfHeart3
 
--- Answered Questions
+-- Variable to hold  the amount of answered Questions
 local questionsA = 0
 
 -- Character
 local character
 
--- Boolean variables
+-- Boolean variable
 local alreadyTouchedCharacter = false
 
 --------------------------------------------------------------------------------------------
 -- COLLISION FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- This function detects if the boundries intersect/ characters collide
+-- This function detects if the boundries intersect/characters collide
 local function hasCollided(obj1, obj2)
 
         -- Prints obj1's x and y coordinates
@@ -555,6 +557,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
+       audio.stop( level1SoundChannel )
 
     -----------------------------------------------------------------------------------------
 
