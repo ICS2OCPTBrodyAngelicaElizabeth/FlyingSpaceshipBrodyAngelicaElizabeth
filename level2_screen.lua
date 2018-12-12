@@ -35,6 +35,9 @@ display.setStatusBar(display.HiddenStatusBar)
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
 
+-- Makes global variable "lives"
+livesLevel2 = 2
+
 -- Global variable to hold the amount of correctly answered Questions
 questionCorrect = 0
 
@@ -43,8 +46,7 @@ questionCorrect = 0
 -----------------------------------------------------------------------------------------
 -- The local variables for this scene
 
--- Makes global variable "lives"
- local lives = 2
+
 
 -- Background image
 local bkg_image
