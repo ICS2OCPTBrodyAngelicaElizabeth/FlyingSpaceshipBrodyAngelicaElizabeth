@@ -1,11 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Allison
--- Date: May 16, 2017
--- Description: This is the level 1 screen of the game. the charater can be dragged to move
---If character goes off a certain araea they go back to the start. When a user interactes
---with piant a trivia question will come up. they will have a limided time to click on the answer
+-- Created by: Angelica Lutkiewicz
+-- Date: December 11, 2018
+-- Description: This is the level 1 question screen of the game. 
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -32,32 +30,46 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
--- The local variables for this scene
+-- CREATES THE LOCAL VARIABLES FOR THIS SCENE
+
+-- Question text
 local questionText
 
+-- Creates variables for the random numbers that add up to "answer"
 local firstNumber
 local secondNumber
 
+-- Creates the variables for the wrong and tight answeres to be stored
 local answer
 local wrongAnswer1
 local wrongAnswer2
 local wrongAnswer3
 
+-- Text for the wrong abd right answers
 local answerText 
 local wrongAnswerText1
 local wrongAnswerText2
 local wrongAnswerText3
 
+-- Creates a variable to hold the random x and y position for the answer
 local answerPosition = 1
+
+-- Background
 local bkg
+
+-- A rectangle cover to have the background fully bolcked where the question is
 local cover
 
+-- Right and wrong answer positions
 local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*4/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
+-- Variable to hold the user's answer
 local userAnswer
+
+-- Variable that contains if the text has been touched or not
 local textTouched = false
 
 -----------------------------------------------------------------------------------------
