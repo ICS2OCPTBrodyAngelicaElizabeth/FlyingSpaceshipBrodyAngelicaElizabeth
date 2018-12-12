@@ -37,6 +37,9 @@ display.setStatusBar(display.HiddenStatusBar)
 -- Makes global variable "lives"
 lives = 3
 
+-- Global variable to hold the amount of correctly answered Questions
+questionCorrect = 0
+
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -58,9 +61,6 @@ local fullHeart3
 local halfHeart1
 local halfHeart2
 local halfHeart3
-
--- Variable to hold  the amount of answered Questions
-local questionsA = 0
 
 -- Character
 local character
@@ -364,10 +364,9 @@ function ResumeLevel1FS()
     character.isVisible = true
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
-    questionsA = questionsA + 1
 
     -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionsA == 3) then
+    if (questionCorrect == 3) then
         YouWinTransition()
     end
 
