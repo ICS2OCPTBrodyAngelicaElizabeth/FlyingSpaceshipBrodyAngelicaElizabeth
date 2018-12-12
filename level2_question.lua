@@ -147,7 +147,7 @@ local function DisplayQuestion()
 
 
     --creating the question depending on the selcetion number
-    questionText.text = firstNumber .. " + " .. secondNumber .. " ="
+    questionText.text = firstNumber .. " - " .. secondNumber .. " ="
 
     --creating answer text from list it corispondes with the animals list
     answerText.text = answer
