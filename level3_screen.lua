@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Angelica Lutkiewicz
--- Sounds: Elizabeth Acheng
--- Date: December 11, 2018
+-- Created by: Angelica
+-- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 
@@ -16,16 +15,12 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 
 -----------------------------------------------------------------------------------------
--- SOUNDS
------------------------------------------------------------------------------------------
+
+--SOUNDS
 local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
 local level1SoundChannel
 
------------------------------------------------------------------------------------------
--- SCENE NAME
------------------------------------------------------------------------------------------
-
--- Names the scene "level1_screen"
+-- Naming Scene
 sceneName = "level1_screen"
 
 -----------------------------------------------------------------------------------------
@@ -39,9 +34,8 @@ display.setStatusBar(display.HiddenStatusBar)
 --------------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
-
--- Makes variable "lives"
-livesLevel1 = 3 
+-- Makes global variable "lives"
+lives = 1
 
 -- Global variable to hold the amount of correctly answered Questions
 questionCorrect = 0
@@ -49,8 +43,7 @@ questionCorrect = 0
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
-
--- CREATES THE LOCAL VARIABLES FOR THIS SCENE
+-- The local variables for this scene
 
 -- Background image
 local bkg_image
@@ -61,13 +54,9 @@ local cometQuestion
 
 -- Full hearts/lives
 local fullHeart1
-local fullHeart2
-local fullHeart3
 
 -- Half hearts/lives
 local halfHeart1
-local halfHeart2
-local halfHeart3
 
 -- Character
 local character
@@ -78,6 +67,30 @@ local alreadyTouchedCharacter = false
 --------------------------------------------------------------------------------------------
 -- COLLISION FUNCTIONS
 --------------------------------------------------------------------------------------------
+
+-- This function detects if the boundries intersect/characters collide
+local function hasCollided(obj1, obj2)
+
+        -- Prints obj1's x and y coordinates
+    print ("***obj1.x = " .. obj1.x)
+    print ("***obj1.y = " .. obj1.y)
+        -- Prints obj2's x and y coordinates
+    print ("***obj2.x = " .. obj2.x)
+    print ("***obj2.y = " .. obj2.y)
+            
+
+    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
+        return false 
+    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
+        return false 
+    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
+        return false 
+    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
+        return false 
+    else 
+        return true 
+    end
+end
 
 -- Collision Function for circular objects ( currently not used in the code)
 local function hasCollidedCircle( obj1, obj2 )
@@ -104,37 +117,9 @@ local function hasCollidedCircle( obj1, obj2 )
     return false
 end
 
-
--- This function detects if the boundries intersect/characters collide
-local function hasCollided(obj1, obj2)
-
-        -- Prints obj1's x and y coordinates
-    print ("***obj1.x = " .. obj1.x)
-    print ("***obj1.y = " .. obj1.y)
-        -- Prints obj2's x and y coordinates
-    print ("***obj2.x = " .. obj2.x)
-    print ("***obj2.y = " .. obj2.y)
-            
-
-    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
-        return false 
-    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
-        return false 
-    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
-        return false 
-    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
-        return false 
-    else 
-        return true 
-    end
-end
-
-
--- Function to sense collisions with the spaceship and comets
+-- Function to sense colklisions with the spaceship and comets
 local function hasCollidedRect( obj1, obj2 )
-    local X_PADDING = 75
-    local Y_PADDING = 55
-
+ 
       -- Makes sure the first object exists
     if ( obj1 == nil ) then
         return false
@@ -145,14 +130,11 @@ local function hasCollidedRect( obj1, obj2 )
         return false
     end
 
-
-
  -- sets bpoundries for the objects and detects if they collide
-
-    local left = (obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMin) and (obj1.contentBounds.xMax - X_PADDING >= obj2.contentBounds.xMin)
-    local right = obj1.contentBounds.xMin + X_PADDING >= obj2.contentBounds.xMin and obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMax
-    local up = obj1.contentBounds.yMin + Y_PADDING <= obj2.contentBounds.yMin and obj1.contentBounds.yMax - Y_PADDING >= obj2.contentBounds.yMin
-    local down = obj1.contentBounds.yMin + Y_PADDING >= obj2.contentBounds.yMin and obj1.contentBounds.yMin + Y_PADDING <= obj2.contentBounds.yMax
+    local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
+    local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
+    local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
+    local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
  
     return ( left or right ) and ( up or down )
 end
@@ -164,7 +146,6 @@ end
 -- Transition to "YouLose_screen"
 local function YouLoseTransition()
 
-    -- Makes the character transparent
     character.isVisible = false
 
     -- Goes to "YouLose_screen"
@@ -174,7 +155,6 @@ end
 -- Transition to "YouWin_screen"
 local function YouWinTransition()
 
-    -- Makes the character transparent
     character.isVisible = false
 
     -- Goes to "YouWin_screen"
@@ -191,77 +171,26 @@ local function MakeHeartsVisible()
 
     -- Makes all of the fullHearts visible
     fullHeart1.isVisible = true
-    fullHeart2.isVisible = true
-    fullHeart3.isVisible = true
     halfHeart1.isVisible = false
-    halfHeart2.isVisible = false
-    halfHeart3.isVisible = false
 end
 
 local function UpdateLives()
 
-    -- How many hearts are visable when lives == 3
-    if (lives == 3) then
-        fullHeart1.isVisible = true
-        fullHeart2.isVisible = true
-        fullHeart3.isVisible = true
-        halfHeart1.isVisible = false
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = false
-
-    -- How many hearts are visable when lives == 2.5
-    elseif ( lives == 2.5) then
-        fullHeart1.isVisible = true
-        fullHeart2.isVisible = true
-        fullHeart3.isVisible = false
-        halfHeart1.isVisible = false
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = true
-
-    -- How many hearts are visable when lives == 2
-    elseif ( lives == 2 ) then
-        fullHeart1.isVisible = true
-        fullHeart2.isVisible = true
-        fullHeart3.isVisible = false
-        halfHeart1.isVisible = false
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = false
-
-    -- How many hearts are visable when lives == 1.5
-    elseif ( lives == 1.5 ) then
-        fullHeart1.isVisible = true
-        fullHeart2.isVisible = false
-        fullHeart3.isVisible = false
-        halfHeart1.isVisible = false
-        halfHeart2.isVisible = true
-        halfHeart3.isVisible = false
-
     -- How many hearts are visable when lives == 1
-    elseif ( lives == 1 ) then
+    if ( lives == 1 ) then
         fullHeart1.isVisible = true
-        fullHeart2.isVisible = false
-        fullHeart3.isVisible = false
         halfHeart1.isVisible = false
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = false
 
     -- How many hearts are visable when lives == 0.5
     elseif ( lives == 0.5 ) then
         fullHeart1.isVisible = false
-        fullHeart2.isVisible = false
-        fullHeart3.isVisible = false
         halfHeart1.isVisible = true
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = false
 
     -- How many hearts are visable when lives == 0
     else --( lives == 0 ) then
         fullHeart1.isVisible = false
-        fullHeart2.isVisible = false
-        fullHeart3.isVisible = false
         halfHeart1.isVisible = false
-        halfHeart2.isVisible = false
-        halfHeart3.isVisible = false
+
         -- Performs the function after a delay of 1/10ths of a second/100 miliseconds
         timer.performWithDelay(100, YouLoseTransition)
     end
@@ -307,7 +236,7 @@ local function CharacterListener(touch)
     end
 
     if (touch.phase == "ended") then
-    --
+
     end
 end
 
@@ -315,11 +244,9 @@ local function ReplaceCharacter()
     
     -- associates the character with an image/png
     character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
-
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
-
     -- Rotates the character by -90 degrees
     character:rotate(-90)
     -- Names the character
@@ -328,7 +255,6 @@ local function ReplaceCharacter()
     character:addEventListener("touch", CharacterListener)
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function onCollision( self, event)
     -- for testing purposes
     print( event.target.myName )        --the first object in the collision
@@ -372,22 +298,19 @@ local function RemoveCollisionListeners()
     cometLoss:removeEventListener("collision")
     cometQuestion:removeEventListener("collision")
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --------------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
 function ResumeLevel1FS()
-    -- Calls function "UpdateLives"
+    -- body
     UpdateLives()
-    -- Makes the character visable
     character.isVisible = true
-    -- Sets the characters x and y coordinates
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 3 questions are answered, transitions to the "YouWin_screen"
+    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
     if (questionCorrect == 3) then
         YouWinTransition()
     end
@@ -406,10 +329,6 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
 
-    ---------------
-    -- BACKGROUND
-    ---------------
-
     -- Inserts the background image
     bkg_image = display.newImageRect("Images/Level1Screen (2).png", display.contentWidth, display.contentHeight)
     -- Assignes the background x and y coordinates
@@ -419,13 +338,12 @@ function scene:create( event )
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
     -- Inserts background image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( bkg_image )
+    sceneGroup:insert( bkg_image )  
+    ---------
+    -- Full hearts
+    ---------
 
-    ----------------
-    -- FULL HEARTS
-    ----------------
-
-    -- FULLHEART3 
+    -- Heart1 
     -- Assignes "fullHeart1" to an image/png
     fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     -- Assignes "fullHeart1" x and y coordinates
@@ -436,33 +354,11 @@ function scene:create( event )
     -- Inserts the "fullHeart1" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(fullHeart1)
 
-    -- FULLHEART2
-    -- Assignes "fullHeart2" to an image/png
-    fullHeart2 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
-    -- Assignes "fullHeart2" x and y coordinates
-    fullHeart2.x = display.contentWidth*86/100
-    fullHeart2.y = display.contentHeight*9/100
-    -- Makes "fullHeart2" visible
-    fullHeart2.isVisible = true
-    -- Inserts the "fullHeart2" image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert(fullHeart2)
+    ---------
+    -- Half hearts
+    ---------
 
-    -- FULLHEART3
-    -- Assignes "fullHeart3" to an image/png
-    fullHeart3 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
-    -- Assignes "fullHeart3" x and y coordinates
-    fullHeart3.x = display.contentWidth*77/100
-    fullHeart3.y = display.contentHeight*9/100
-    -- Makes "fullHeart3" visible
-    fullHeart3.isVisible = true
-    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert(fullHeart3)
-
-    ----------------
-    -- HALF HEARTS
-    ----------------
-
-    -- HALFHEART1
+    -- Halfheart 1
     -- Assignes "halfHeart1" to an image/png
     halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     -- Assignes "halfHeart1" x and y coordinates
@@ -473,45 +369,16 @@ function scene:create( event )
     -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(halfHeart1)
 
-    -- HALFHEART2
-    -- Assignes "halfHeart2" to an image/png
-    halfHeart2 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
-    -- Assignes "halfHeart2" x and y coordinates
-    halfHeart2.x = display.contentWidth*177/201
-    halfHeart2.y = display.contentHeight*9/100
-    -- Makes "halfHeart2" visible
-    halfHeart2.isVisible = true
-    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert(halfHeart2)
+    ---------
+    -- Comets
+    ---------
 
-    -- HALFHEART3
-    -- Assignes "halfHeart3" to an image/png
-    halfHeart3 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
-    -- Assignes "halfHeart3" x and y coordinates
-    halfHeart3.x = display.contentWidth*159/201
-    halfHeart3.y = display.contentHeight*9/100
-    -- Makes "halfHeart3" visible
-    halfHeart3.isVisible = true
-    -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert(halfHeart3)
-
-    -----------
-    -- COMETS
-    -----------
-
-    -- LOSS COMET
+    -- Loss comet
     -- Assignes "cometLoss" to an image/png
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometLoss" x and y coordinates
     cometLoss.x = display.contentWidth*85/100
     cometLoss.y = display.contentHeight*80/100
-    print ("***cometLoss.contentBounds.xMin = " .. cometLoss.contentBounds.xMin)
-    print ("***cometLoss.contentBounds.xMax = " .. cometLoss.contentBounds.xMax)
-    print ("***cometLoss.contentBounds.yMin = " .. cometLoss.contentBounds.yMin)
-    print ("***cometLoss.contentBounds.yMax = " .. cometLoss.contentBounds.yMax)
-    print ("***cometLoss.x = " .. cometLoss.x)
-    print ("***cometLoss.y = " .. cometLoss.y)
-    
     -- Makes "cometLoss" visible
     cometLoss.isVisible = true
     -- Names the object
@@ -521,7 +388,7 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometLoss)
 
-    -- QUESTION COMET
+    -- Question comet
     -- Assignes "cometQuestion" to an image/png
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometQuestion" x and y coordinates
@@ -561,12 +428,11 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         
-        --plays level1 background sound
+        --play level1 background sound
         level1SoundChannel = audio.play(level1Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        -- Sets variable "lives" to 3
-        lives = 3
+        lives = 1
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
