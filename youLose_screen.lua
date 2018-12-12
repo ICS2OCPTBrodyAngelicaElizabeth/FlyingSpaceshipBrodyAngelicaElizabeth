@@ -30,7 +30,7 @@ scene = composer.newScene( sceneName ) -- This function doesn't accept a string,
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 local bkg_image
-local backButton
+local RestartLevelButton
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -64,7 +64,23 @@ function scene:create( event )
 
     -- Send the background image to the back layer so all other objects can be on top
     bkg_image:toBack()
+    
+    -- Creating Restart Level Button
+    RestartLevelButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = display.contentHeight/2,
+            width = display.contentWidth*2/4,
+            height = display.contentHeight*4/7,
 
+            -- Insert the images here
+            defaultFile = "Images/RestartLevelButtonUnpressed.png",
+            overFile = "Images/RestartLevelButtonPressed.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = main_menu          
+        } )
     -----------------------------------------------------------------------------------------
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------
