@@ -1,19 +1,17 @@
 -----------------------------------------------------------------------------------------
 --
 -- splash_screen.lua
--- Created by: Angelica Lutkiewicz
--- Date: December 11, 2018
--- Description: This is the splash screen of the game.
+-- Created by: Elizabeth
+-- Date: November 12th, 2018
+-- Description: This is the splash screen of the game. It displays the 
+-- company logo that...
 -----------------------------------------------------------------------------------------
 
 -- Use Composer Library
 local composer = require( "composer" )
 
 -- Name the Scene
-sceneName = "splash_screen"
-
-local SplashScreenSound = audio.loadSound("Sounds/DoorBellSound.mp3") 
-local SplashScreenSoundChannel
+sceneName = "splash_screen2"
 
 -----------------------------------------------------------------------------------------
 
@@ -21,51 +19,57 @@ local SplashScreenSoundChannel
 local scene = composer.newScene( sceneName )
 
 ----------------------------------------------------------------------------------------
+-- Sounds
+-----------------------------------------------------------------------------------------
+local backgroundSound = audio.loadSound("Sounds/clearday.mp3")
+local backgroundSoundChannel
+
+----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
- display.setStatusBar(display.HiddenStatusBar)
-
+ 
 -- The local variables for this scene
+local scrollSpeedBanana = 3
+local gameTitleSpeed = 4
+local backgroundImage
+local gameTitle
 local banana
-local Jojo
-local scrollSpeed = 6
-local stop = 0
-local bkg 
+
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- The function that moves the beetleship across the screen
-local function StopBanana()
-    -- Styops the banana from moving
-    scrollSpeed = stop
-end
+--Function: MoveBanana
+--Input: this function accepts an event listener
+--Output: none
+--Description: This function adds the scroll speed to the x-value of the banana
+local function MoveBanana()
+    --add the scroll speed to the x-value of the banana
+    banana.x = banana.x + scrollSpeedBanana
+    banana.y = banana.y + scrollSpeedBanana
+    --banana.y = banana.y - scrollSpeedBanana
 
--- This function moves the banana displayed
-local function MoveBanana( event )
-
-    -- Add the scroll speed to the banana so it moves vertically
-    banana.y = banana.y - scrollSpeed
-    -- Calls function StopBanana
-    timer.performWithDelay ( 1400, StopBanana )
-end
-
--- This function fades the company logo from being trasparent to being opaque
-local function FadeInName()
-
-    -- Changes the alpha
-    Jojo.alpha = Jojo.alpha + 00.02
+    --change the transparency of the banana every time it so fast that it fades out
+    banana.alpha = banana.alpha - 0.000000001
 end
 
 -- The function that will go to the main menu 
 local function gotoMainMenu()
-    composer.gotoScene( "splash_screen2" )
+    composer.gotoScene( "main_menu" )
 end
 
-local function playAudio()
-    SplashScreenSoundChannel = audio.play(SplashScreenSound) 
-    timer.performWithDelay(800,gotoMainMenu)
+local function HideTitle()
+    gameTitle.isVisible = false
+    MoveBanana(event)
+end
+
+local function MoveTitle()
+    --add the scroll speed to the x-value of the ship
+    gameTitle.x = gameTitle.x + gameTitleSpeed
+
+    --change the transparency of the ship every time it so fast that it fades out
+    gameTitle.alpha = gameTitle.alpha - 0.00001
 end
 
 -----------------------------------------------------------------------------------------
@@ -73,47 +77,43 @@ end
 -----------------------------------------------------------------------------------------
 
 -- The function called when the screen doesn't exist
-function scene:create( event )
+function scene:create( event ) 
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
     -- set the background to be black
-    bkg_image = display.newImage("Images/CompanyBackground.AngelicaCopy.png")
-    bkg_image.x = display.contentCenterX
-    bkg_image.y = display.contentCenterY
-    bkg_image.width = display.contentWidth
-    bkg_image.height = display.contentHeight
+    backgroundImage = display.newImageRect("Images/background.png", 2048, 1536)
 
-    -- Send the background image to the back layer so all other objects can be on top
-    bkg_image:toBack()
-
-
-    -- Insert the banana image
-    banana = display.newImageRect("Images/CompanyLogoAngelica.png",  display.contentWidth/5, display.contentHeight/5 + display.contentHeight/14)
-    -- Inserts the image of the App name
-    Jojo = display.newImageRect("Images/CompanyLogoTextAngelicaCopy@2x.png",display.contentWidth*11/13,display.contentHeight/4+display.contentHeight/20)
+    -- Insert the beetleship image
+    banana = display.newImageRect("Images/CompanyLogoElizabeth@2x copy.png", 200, 200)
 
     -- set the initial x and y position of the banana
-    banana.x = display.contentWidth *2/4
-    banana.y = display.contentHeight *3/4
+    banana.x = 200
+    banana.y = 200
 
-    -- Sets the heighht and width of the company name
-    local JojoWidth = Jojo.width
-    local JojoHeight = Jojo.height
-    -- x and y values of the Company name
-    Jojo.x = display.contentWidth/2
-    Jojo.y = display.contentHeight*3/4
-    -- sets the transparency
-    Jojo.alpha = 0
+    --set the image to be transparent
+    banana.alpha = 1
+
+    --display the game title
+    gameTitle = display.newText("The Jojo's", 0, 300, native.systemFontBold, 70)
+    gameTitle:setTextColor(102/255, 234/255, 255/255)
+    gameTitle.isVisible = true
+    
+
+    -- set the initial x and y position of the beetleship
+    gameTitle.x = 0
+    gameTitle.y = 300
+    
+    --set the image to be transparent
+    gameTitle.alpha = 1
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( bkg_image )
+    sceneGroup:insert( backgroundImage )
     sceneGroup:insert( banana )
-    sceneGroup:insert( Jojo )
+    sceneGroup:insert( gameTitle )
 
-end -- function scene:create( event )
-
+end --function scene:create( event )
 --------------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to appear on screen
@@ -134,13 +134,17 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        -- start the splash screen music
+        backgroundSoundChannel = audio.play(backgroundSound)
 
         -- Call the moveBeetleship function as soon as we enter the frame.
         Runtime:addEventListener("enterFrame", MoveBanana)
-        Runtime:addEventListener("enterFrame", FadeInName)
+        Runtime:addEventListener("enterFrame", MoveTitle)
+
+        timer.performWithDelay(2000, HideTitle)
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 1500, playAudio)          
+        timer.performWithDelay ( 3000, gotoMainMenu)          
         
     end
 
@@ -160,9 +164,6 @@ function scene:hide( event )
     -- Called when the scene is on screen (but is about to go off screen).
     -- Insert code here to "pause" the scene.
     -- Example: stop timers, stop animation, stop audio, etc.
-
-    audio.stop (SplashScreenSoundChannel)
-
     if ( phase == "will" ) then  
 
     -----------------------------------------------------------------------------------------
@@ -170,7 +171,8 @@ function scene:hide( event )
     -- Called immediately after scene goes off screen.
     elseif ( phase == "did" ) then
         
-
+        -- stop the jungle sounds channel for this screen
+        audio.stop(backgroundSoundChannel)
     end
 
 end --function scene:hide( event )
