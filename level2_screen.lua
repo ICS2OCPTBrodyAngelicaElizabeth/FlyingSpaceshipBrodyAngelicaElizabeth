@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Angelica
+-- Created by: ...
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
@@ -35,8 +35,8 @@ display.setStatusBar(display.HiddenStatusBar)
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
 
--- Makes global variable "lives"
-livesLevel2 = 2
+-- Makes global variable "livesLevel2FS"
+livesLevel2FS = 2
 
 -- Global variable to hold the amount of correctly answered Questions
 questionCorrect = 0
@@ -184,21 +184,21 @@ end
 local function UpdateLives()
 
     -- How many hearts are visable when lives == 2
-    if (lives == 2) then
+    if (livesLevel2FS == 2) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = true
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
 
     -- How many hearts are visable when lives == 1.5
-    elseif ( lives == 1.5) then
+    elseif ( livesLevel2FS == 1.5) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
         halfHeart1.isVisible = false
         halfHeart2.isVisible = true
 
     -- How many hearts are visable when lives == 1
-    elseif ( lives == 1 ) then
+    elseif ( livesLevel2FS == 1 ) then
         fullHeart1.isVisible = true
         fullHeart2.isVisible = false
         halfHeart1.isVisible = false
@@ -207,7 +207,7 @@ local function UpdateLives()
 
    
     -- How many hearts are visable when lives == 0
-    else --( lives == 0 ) then
+    else --( livesLevel2FS == 0 ) then
         fullHeart1.isVisible = false
         fullHeart2.isVisible = false
         halfHeart1.isVisible = false
@@ -237,7 +237,7 @@ local function CharacterListener(touch)
             -- Prints "character collided with cometLoss" on the console for testing purposes
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
-            lives = lives - 0.5
+            livesLevel2FS = livesLevel2FS - 0.5
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
@@ -479,7 +479,7 @@ function scene:show( event )
         level1SoundChannel = audio.play(level1Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        lives = 3
+        livesLevel2FS = 3
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"

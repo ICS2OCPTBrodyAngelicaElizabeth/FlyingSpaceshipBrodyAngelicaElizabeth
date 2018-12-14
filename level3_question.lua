@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Allison
+-- Created by: Elizabeth Acheng
 -- Date: May 16, 2017
 -- Description: This is the level 1 screen of the game. the charater can be dragged to move
 --If character goes off a certain araea they go back to the start. When a user interactes
@@ -138,7 +138,7 @@ local function DisplayQuestion()
     secondNumber = math.random (0,15)
 
     -- calculate answer
-    answer = firstNumber + secondNumber
+    answer = firstNumber * secondNumber
 
     -- calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
@@ -147,7 +147,7 @@ local function DisplayQuestion()
 
 
     --creating the question depending on the selcetion number
-    questionText.text = firstNumber .. " + " .. secondNumber .. " ="
+    questionText.text = firstNumber .. " * " .. secondNumber .. " = "
 
     --creating answer text from list it corispondes with the animals list
     answerText.text = answer

@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Angelica
+-- Created by: ...
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------

@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- credits_screen.lua
--- Created by: Your Name
--- Special thanks to Wal Wal for helping in the design of this framework.
--- Date: Month Day, Year
+-- Created by: Brody Lawson
+-- Date: ecember 11, 2018
 -- Description: This is the credits page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 
@@ -36,7 +35,10 @@ local RestartLevelButton
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
---
+local function Level1ScreenTransition( )
+    composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 900})
+end    
+
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -64,28 +66,30 @@ function scene:create( event )
 
     -- Send the background image to the back layer so all other objects can be on top
     bkg_image:toBack()
-    
-    -- Creating Restart Level Button
+
+    -----------------------------------------------------------------------------------------
+    -- BUTTON WIDGETS
+    -----------------------------------------------------------------------------------------
+
+        -- Creating Restart Level Button
     RestartLevelButton = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight/2,
-            width = display.contentWidth*2/4,
-            height = display.contentHeight*4/7,
+            y = display.contentHeight*8/10,
+            width = display.contentWidth*2/10,
+            height = display.contentHeight*2/10,
 
             -- Insert the images here
             defaultFile = "Images/RestartLevelButtonUnpressed.png",
             overFile = "Images/RestartLevelButtonPressed.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = main_menu          
+            onRelease = Level1ScreenTransition          
         } )
-    -----------------------------------------------------------------------------------------
-    -- BUTTON WIDGETS
-    -----------------------------------------------------------------------------------------
+    ---------------
 
-    --
+    sceneGroup:insert( RestartLevelButton )
 
     -----------------------------------------------------------------------------------------
 

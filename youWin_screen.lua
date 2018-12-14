@@ -1,9 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- credits_screen.lua
--- Created by: Your Name
--- Special thanks to Wal Wal for helping in the design of this framework.
--- Date: Month Day, Year
+-- Created by: Brody Lawson
+-- Date: December 11, 2018
 -- Description: This is the credits page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 
@@ -53,7 +52,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image and set it to the center of the screen
-    bkg_image = display.newImageRect("Images/YouwinScreen.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/YouWinScreen.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
