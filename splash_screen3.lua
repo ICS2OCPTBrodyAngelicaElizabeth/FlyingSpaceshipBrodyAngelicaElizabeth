@@ -3,13 +3,18 @@
 -- Made by: Brody Lawson
 -- Course: ICS2O
 
--- hide status bar
-display.setStatusBar(display.HiddenStatusBar)
-
 local banana
 local Jojo
 local scrollSpeed = 6
 local stop = 0
+
+-- Name the Scene
+sceneName = "splash_screen3"
+
+-----------------------------------------------------------------------------------------
+
+-- Create Scene Object
+local scene = composer.newScene( sceneName )
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
