@@ -138,7 +138,7 @@ local function DisplayQuestion()
     secondNumber = math.random (0,15)
 
     -- calculate answer
-    answer = firstNumber * secondNumber
+    answer = firstNumber *  secondNumber
 
     -- calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
