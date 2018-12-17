@@ -303,7 +303,7 @@ end
 -- GLOBAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function ResumeLevel1FS()
+function ResumeLevel3FS()
     -- body
     UpdateLives()
     character.isVisible = true

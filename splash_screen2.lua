@@ -57,7 +57,7 @@ end
 -- The function that will go to the main menu 
 local function gotoMainMenu()
     composer.gotoScene( "main_menu" )
-end
+endsx
 
 local function HideTitle()
     gameTitle.isVisible = false
