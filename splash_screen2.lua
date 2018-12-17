@@ -82,6 +82,11 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
+
+
+
+
+
     -- set the background to be black
     backgroundImage = display.newImageRect("Images/background.png", 2048, 1536)
 
