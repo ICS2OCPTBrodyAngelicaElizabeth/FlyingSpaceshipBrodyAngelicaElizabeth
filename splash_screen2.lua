@@ -56,7 +56,7 @@ end
 
 -- The function that will go to the main menu 
 local function gotoMainMenu()
-    composer.gotoScene( "main_menu" )
+    composer.gotoScene( "splash_screen3" )
 end
 
 local function HideTitle()
@@ -81,6 +81,11 @@ function scene:create( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
+
+
+
+
+
 
     -- set the background to be black
     backgroundImage = display.newImageRect("Images/background.png", 2048, 1536)
