@@ -35,7 +35,7 @@ local bkg_image
 -----------------------------------------------------------------------------------------
 
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 900})
+    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
 end    
 
 
@@ -96,7 +96,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        timer.performwithDelay(2000,Level1ScreenTransition)
+        timer.performWithDelay(2000,Level1ScreenTransition)
     end
 
 end -- function scene:show( event )
