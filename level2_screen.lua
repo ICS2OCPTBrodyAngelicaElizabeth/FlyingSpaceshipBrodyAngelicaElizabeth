@@ -39,7 +39,7 @@ display.setStatusBar(display.HiddenStatusBar)
 livesLevel2FS = 2
 
 -- Global variable to hold the amount of correctly answered Questions
-questionCorrect = 0
+questionCorrect2FS = 0
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
@@ -333,7 +333,7 @@ function ResumeLevel2FS()
     character.y = display.contentHeight*50/100
 
     -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionCorrect == 3) then
+    if (questionCorrect2FS == 3) then
         YouWinTransition()
     end
 

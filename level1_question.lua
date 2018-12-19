@@ -72,9 +72,18 @@ local userAnswer
 -- Variable that contains if the text has been touched or not
 local textTouched = false
 
+local countDownTimer
+local secondsLeft = 15
+local totalSeconds = 15
+local clockText
+
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+-----------------
+-- RESUME LEVEL
+-----------------
 
 -- Transition to go back to the "level1_screen"
 local function BackToLevel1() 
@@ -82,9 +91,40 @@ local function BackToLevel1()
     composer.hideOverlay("crossFade", 400 )
     -- Calls function "ResumeLevel1FS"
     ResumeLevel1FS()
-end 
------------------------------------------------------------------------------------------
---checking to see if the user pressed the right answer and bring them back to level 1
+end
+
+----------
+-- TIMER
+----------
+
+--
+local function UpdateTime()
+    -- Decrement the number of seconds
+    secondsLeft = secondsLeft - 1
+
+    --Display the number of seconds left in the clock object
+    clockText.text = "Time: " .. secondsLeft
+
+    if (secondsLeft == 0 ) then
+        -- Reset the number of seconds left
+        secondsLeft = totalSeconds
+        livesLevel1FS = livesLevel1FS - 1
+        BackToLevel1()
+
+    end
+end
+
+--
+local function StartTimer()
+    -- Create a countdown timer that loops infinitely
+    countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0)
+end
+
+--------------------------
+-- QUESTIONS AND ANSWERS
+--------------------------
+
+-- Checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
     userAnswer = answerText.text
     
@@ -102,9 +142,7 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
         
         livesLevel1FS = livesLevel1FS - 1
-        BackToLevel1( )
-        
-        
+        BackToLevel1( )        
     end 
 end
 
@@ -130,7 +168,7 @@ local function TouchListenerWrongAnswer3(touch)
     end 
 end
 
---adding the event listeners 
+-- Adding the event listeners 
 local function AddTextListeners ( )
     answerText:addEventListener( "touch", TouchListenerAnswer )
     wrongText1:addEventListener( "touch", TouchListenerWrongAnswer)
@@ -138,7 +176,7 @@ local function AddTextListeners ( )
     wrongText3:addEventListener( "touch", TouchListenerWrongAnswer3)
 end
 
---removing the event listeners
+-- Removing the event listeners
 local function RemoveTextListeners()
     answerText:removeEventListener( "touch", TouchListenerAnswer )
     wrongText1:removeEventListener( "touch", TouchListenerWrongAnswer)
@@ -147,26 +185,26 @@ local function RemoveTextListeners()
 end
 
 local function DisplayQuestion()
-    --creating random numbers
-    firstNumber = math.random (0,15)
-    secondNumber = math.random (0,15)
+    -- Creating random numbers
+    firstNumber = math.random (1,16)
+    secondNumber = math.random (3,13)
 
     -- calculate answer
     answer = firstNumber + secondNumber
 
-    -- calculate wrong answers
+    -- Calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
-    wrongAnswer3 = math.random(30,45) - answer
+    wrongAnswer3 = math.random (30, 37) - answer
 
 
-    --creating the question depending on the selcetion number
+    -- Creating the question depending on the selcetion number
     questionText.text = firstNumber .. " + " .. secondNumber .. " ="
 
-    --creating answer text from list it corispondes with the animals list
+    -- Creating answer text from list it corispondes with the animals list
     answerText.text = answer
     
-    --creating wrong answers
+    -- Creating wrong answers
     wrongText1.text = wrongAnswer1
     wrongText2.text = wrongAnswer2
     wrongText3.text = wrongAnswer3
@@ -174,7 +212,7 @@ end
 
 local function PositionAnswers()
 
-    --creating random start position in a cretain area
+    -- Creating random start position in a cretain area
     answerPosition = math.random(1,4)
 
     if (answerPosition == 1) then
@@ -273,6 +311,10 @@ function scene:create( event )
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
     -----------------------------------------------------------------------------------------
+    clockText = display.newText("", display.contentWidth *10/12, display.contentHeight *11/12, nil, 50)
+    clockText:setTextColor(1)
+
+    -----------------------------------------------------------------------------------------
 
     -- insert all objects for this scene into the scene group
     sceneGroup:insert(bkg)
@@ -282,6 +324,7 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(clockText)
 
 
 end --function scene:create( event )
@@ -308,6 +351,8 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         DisplayQuestion()
         PositionAnswers()
+        StartTimer()
+        UpdateTime()
         AddTextListeners()
     end
 
@@ -329,6 +374,8 @@ function scene:hide( event )
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
         --parent:resumeGame()
+
+        timer.cancel(countDownTimer)
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
