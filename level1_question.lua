@@ -311,7 +311,7 @@ function scene:create( event )
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
     -----------------------------------------------------------------------------------------
-    clockText = display.newText("", display.contentWidth *10/12, display.contentHeight *11/12, nil, 50)
+    clockText = display.newText("", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
     clockText:setTextColor(1)
 
     -----------------------------------------------------------------------------------------

@@ -311,7 +311,7 @@ function ResumeLevel3FS()
     character.y = display.contentHeight*50/100
 
     -- If 15 questions are answered, transitions to the "YouWin_screen"
-    if (questionCorrect == 5) then
+    if (questionCorrect3FS == 5) then
         YouWinTransition()
     end
 
