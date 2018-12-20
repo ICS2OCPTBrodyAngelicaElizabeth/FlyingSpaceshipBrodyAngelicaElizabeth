@@ -130,7 +130,7 @@ local function TouchListenerAnswer(touch)
     
     if (touch.phase == "ended") then
 
-        questionCorrect = questionCorrect + 1
+        questionCorrect1FS = questionCorrect1FS + 1
         BackToLevel1( )
     end 
 end
