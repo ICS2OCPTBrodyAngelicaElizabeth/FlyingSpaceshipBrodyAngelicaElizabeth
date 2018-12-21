@@ -18,8 +18,11 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
+ 
+-- BACKGROUND MUSIC
 local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
 local level1SoundChannel
+-- COLLIDE SOUND
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
 
@@ -73,6 +76,11 @@ local halfHeart3
 
 -- Character
 local character
+
+-- Motion speed
+scrollSpeed1 = 7
+scrollSpeed2 = 5
+stop = 0
 
 -- Boolean variable
 local alreadyTouchedCharacter = false
@@ -187,6 +195,11 @@ end
 --------------------------------------------------------------------------------------------
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
+
+local function MoveComets()
+    -- 
+    cometLoss.x = math.random(display.contentWidth*1/10, display.contentWidth*9/10)
+end
 
 -- This function makes all of the fullHearts visible
 local function MakeHeartsVisible()
