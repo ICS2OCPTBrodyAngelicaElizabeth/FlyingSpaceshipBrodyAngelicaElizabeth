@@ -19,6 +19,8 @@ local widget = require( "widget" )
 --SOUNDS
 local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
 local level1SoundChannel
+local collideSound = audio.loadSound("Sounds/comet.mp3")
+local collideSoundChannel
 
 -- Naming Scene
 sceneName = "level3_screen"
@@ -216,6 +218,7 @@ local function CharacterListener(touch)
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
             livesLevel3FS = livesLevel3FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100

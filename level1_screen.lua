@@ -390,7 +390,7 @@ function ResumeLevel1FS()
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 3 questions are answered, transitions to the "YouWin_screen"
+    -- If 5 questions are answered, transitions to the "YouWin_screen"
     if (questionCorrect1FS == 5) then
         YouWinTransition()
     end
