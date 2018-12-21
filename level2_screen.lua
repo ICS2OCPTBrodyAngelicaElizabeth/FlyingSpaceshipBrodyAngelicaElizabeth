@@ -19,6 +19,8 @@ local widget = require( "widget" )
 --SOUNDS
 local level2Sound = audio.loadSound("Sounds/level1Sound.mp3") 
 local level2SoundChannel
+local collideSound = audio.loadSound("Sounds/comet.mp3")
+local collideSoundChannel
 
 -- Naming Scene
 sceneName = "level2_screen"
@@ -204,7 +206,12 @@ local function UpdateLives()
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
 
-
+    -- How many hearts are visable when lives == 1
+    elseif ( livesLevel2FS == 0.5 ) then
+        fullHeart1.isVisible = false
+        fullHeart2.isVisible = false
+        halfHeart1.isVisible = true
+        halfHeart2.isVisible = false
    
     -- How many hearts are visable when lives == 0
     else --( livesLevel2FS == 0 ) then
@@ -238,6 +245,8 @@ local function CharacterListener(touch)
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
             livesLevel2FS = livesLevel2FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
+
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
@@ -479,7 +488,7 @@ function scene:show( event )
         level1SoundChannel = audio.play(level1Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        livesLevel2FS = 3
+        livesLevel2FS = 2
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
