@@ -78,7 +78,7 @@ local halfHeart3
 local character
 
 -- Motion speed
-scrollSpeed1 = 7
+scrollSpeed1 = 20
 scrollSpeed2 = 5
 stop = 0
 
@@ -196,9 +196,19 @@ end
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+local function Hide()
+    -- body
+    cometLoss.isVisible = false
+    cometQuestion.isVisible = false
+end
+
 local function MoveComets()
     -- 
+    cometLoss.isVisible = true
     cometLoss.x = math.random(display.contentWidth*1/10, display.contentWidth*9/10)
+    cometLoss.y = display.contentHeight*-1/10
+    cometLoss.y = cometLoss.y + scrollSpeed1
+    timer.performWithDelay(2000, Hide)
 end
 
 -- This function makes all of the fullHearts visible
@@ -587,6 +597,7 @@ function scene:show( event )
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()
+        --MoveComets()
         
     end
 
