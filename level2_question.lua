@@ -134,8 +134,8 @@ end
 
 local function DisplayQuestion()
     --creating random numbers
-    firstNumber = math.random (3,20)
-    secondNumber = math.random (2,13)
+    firstNumber = math.random (10,20)
+    secondNumber = math.random (2,10)
 
     -- calculate answer
     answer = firstNumber - secondNumber
