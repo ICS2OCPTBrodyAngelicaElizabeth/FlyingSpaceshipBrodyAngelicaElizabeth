@@ -261,7 +261,7 @@ local function CharacterListener(touch)
             -- Makes the character invisible
             character.isVisible = false
             -- Goes to the question screen/overlay
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
         end
         
     end
@@ -304,7 +304,7 @@ local function onCollision( self, event)
 
         if (event.target.myName == "cometQuestion") then
             character.isVisible = false
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
         end
 
     end
