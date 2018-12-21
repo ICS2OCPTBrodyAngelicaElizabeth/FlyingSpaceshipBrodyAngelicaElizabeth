@@ -17,8 +17,8 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
-local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
-local level1SoundChannel
+local level3Sound = audio.loadSound("Sounds/bkgSound.mp3") 
+local level3SoundChannel
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
 
@@ -432,7 +432,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         --play level1 background sound
-        level1SoundChannel = audio.play(level1Sound)
+        level3SoundChannel = audio.play(level3Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
         livesLevel3FS = 1

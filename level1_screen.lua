@@ -20,7 +20,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
  
 -- BACKGROUND MUSIC
-local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+local level1Sound = audio.loadSound("Sounds/bkgSound.mp3") 
 local level1SoundChannel
 -- COLLIDE SOUND
 local collideSound = audio.loadSound("Sounds/comet.mp3")
