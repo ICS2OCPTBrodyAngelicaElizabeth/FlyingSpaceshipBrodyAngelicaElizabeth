@@ -17,4 +17,11 @@ local composer = require( "composer" )
 -----------------------------------------------------------------------------------------
 
 -- Go to the intro screen
-composer.gotoScene( "level1_screen" )
+composer.gotoScene( "splash_screen" )
+
+		if (randomNumber1 < randomNumber2) then
+	 		temp = randomNumber1
+	 		randomNumber1 = randomNumber2
+	 		randomNumber2 = temp
+	 		correctAnswer = randomNumber1 - randomNumber2
+	 	end
