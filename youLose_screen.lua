@@ -29,14 +29,13 @@ scene = composer.newScene( sceneName ) -- This function doesn't accept a string,
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 local bkg_image
-local RestartLevelButton
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
 local function Level1ScreenTransition( )
-    composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 900})
+    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
 end    
 
 
@@ -71,28 +70,6 @@ function scene:create( event )
     -- BUTTON WIDGETS
     -----------------------------------------------------------------------------------------
 
-        -- Creating Restart Level Button
-    RestartLevelButton = widget.newButton( 
-        {   
-            -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
-            y = display.contentHeight*8/10,
-            width = display.contentWidth*2/10,
-            height = display.contentHeight*2/10,
-
-            -- Insert the images here
-            defaultFile = "Images/RestartLevelButtonUnpressed.png",
-            overFile = "Images/RestartLevelButtonPressed.png",
-
-            -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition          
-        } )
-    ---------------
-
-    sceneGroup:insert( RestartLevelButton )
-
-    -----------------------------------------------------------------------------------------
-
 end --function scene:create( event )
 
 -----------------------------------------------------------------------------------------
@@ -119,6 +96,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        timer.performWithDelay(2000,Level1ScreenTransition)
     end
 
 end -- function scene:show( event )

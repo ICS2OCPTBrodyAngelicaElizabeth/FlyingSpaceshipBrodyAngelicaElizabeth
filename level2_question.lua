@@ -76,7 +76,7 @@ local function TouchListenerAnswer(touch)
     
     if (touch.phase == "ended") then
 
-        questionCorrect = questionCorrect + 1
+        questionCorrect2FS = questionCorrect2FS + 1
         BackToLevel2( )
     end 
 end
@@ -87,7 +87,7 @@ local function TouchListenerWrongAnswer(touch)
     
     if (touch.phase == "ended") then
         
-        lives = lives - 1
+        livesLevel2FS = livesLevel2FS - 1
         BackToLevel2( )
         
         
@@ -99,7 +99,7 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
+        livesLevel2FS = livesLevel2FS - 1
         BackToLevel2( )
         
     end 
@@ -110,7 +110,7 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
+        livesLevel2FS = livesLevel2FS - 1
         BackToLevel2( )
         
     end 
@@ -134,15 +134,15 @@ end
 
 local function DisplayQuestion()
     --creating random numbers
-    firstNumber = math.random (0,15)
-    secondNumber = math.random (0,15)
+    firstNumber = math.random (10,20)
+    secondNumber = math.random (2,10)
 
     -- calculate answer
     answer = firstNumber - secondNumber
 
     -- calculate wrong answers
     wrongAnswer1 = answer * math.random(1, 3)
-    wrongAnswer2 = answer - math.random(4, 6)
+    wrongAnswer2 = answer - math.random(4, 10)
     wrongAnswer3 = answer + math.random(7, 9)
 
 

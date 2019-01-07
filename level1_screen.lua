@@ -18,8 +18,13 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
-local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+ 
+-- BACKGROUND MUSIC
+local level1Sound = audio.loadSound("Sounds/bkgSound.mp3") 
 local level1SoundChannel
+-- COLLIDE SOUND
+local collideSound = audio.loadSound("Sounds/comet.mp3")
+local collideSoundChannel
 
 -----------------------------------------------------------------------------------------
 -- SCENE NAME
@@ -43,8 +48,8 @@ display.setStatusBar(display.HiddenStatusBar)
 -- Makes variable "livesLevel1FS"
 livesLevel1FS = 3 
 
--- Global variable to hold the amount of correctly answered Questions
-questionCorrect = 0
+-- Global variable to hold the amount of correctly answered Questions in level 1
+questionCorrect1FS = 0
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
@@ -71,6 +76,11 @@ local halfHeart3
 
 -- Character
 local character
+
+-- Motion speed
+scrollSpeed1 = 20
+scrollSpeed2 = 5
+stop = 0
 
 -- Boolean variable
 local alreadyTouchedCharacter = false
@@ -186,6 +196,21 @@ end
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+local function Hide()
+    -- body
+    cometLoss.isVisible = false
+    cometQuestion.isVisible = false
+end
+
+local function MoveComets()
+    -- 
+    cometLoss.isVisible = true
+    cometLoss.x = math.random(display.contentWidth*1/10, display.contentWidth*9/10)
+    cometLoss.y = display.contentHeight*-1/10
+    cometLoss.y = cometLoss.y + scrollSpeed1
+    timer.performWithDelay(2000, Hide)
+end
+
 -- This function makes all of the fullHearts visible
 local function MakeHeartsVisible()
 
@@ -287,6 +312,7 @@ local function CharacterListener(touch)
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
             livesLevel1FS = livesLevel1FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
@@ -387,8 +413,8 @@ function ResumeLevel1FS()
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 3 questions are answered, transitions to the "YouWin_screen"
-    if (questionCorrect == 3) then
+    -- If 5 questions are answered, transitions to the "YouWin_screen"
+    if (questionCorrect1FS == 5) then
         YouWinTransition()
     end
 
@@ -571,6 +597,7 @@ function scene:show( event )
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()
+        --MoveComets()
         
     end
 

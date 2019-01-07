@@ -17,8 +17,10 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
-local level1Sound = audio.loadSound("Sounds/level1Sound.mp3") 
-local level1SoundChannel
+local level3Sound = audio.loadSound("Sounds/bkgSound.mp3") 
+local level3SoundChannel
+local collideSound = audio.loadSound("Sounds/comet.mp3")
+local collideSoundChannel
 
 -- Naming Scene
 sceneName = "level3_screen"
@@ -35,10 +37,10 @@ display.setStatusBar(display.HiddenStatusBar)
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
 -- Makes global variable "lives"
-lives = 1
+livesLevel3FS = 1
 
 -- Global variable to hold the amount of correctly answered Questions
-questionCorrect = 0
+questionCorrect3FS = 0
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
@@ -149,7 +151,7 @@ local function YouLoseTransition()
     character.isVisible = false
 
     -- Goes to "YouLose_screen"
-     composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
+     composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 -- Transition to "YouWin_screen"
@@ -158,7 +160,7 @@ local function YouWinTransition()
     character.isVisible = false
 
     -- Goes to "YouWin_screen"
-     composer.gotoScene( "YouWin_screen", {effect = "zoomInOutFade", time = 900})
+     composer.gotoScene( "youWin_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 
@@ -177,12 +179,12 @@ end
 local function UpdateLives()
 
     -- How many hearts are visable when lives == 1
-    if ( lives == 1 ) then
+    if ( livesLevel3FS == 1 ) then
         fullHeart1.isVisible = true
         halfHeart1.isVisible = false
 
     -- How many hearts are visable when lives == 0.5
-    elseif ( lives == 0.5 ) then
+    elseif ( livesLevel3FS == 0.5 ) then
         fullHeart1.isVisible = false
         halfHeart1.isVisible = true
 
@@ -215,7 +217,8 @@ local function CharacterListener(touch)
             -- Prints "character collided with cometLoss" on the console for testing purposes
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
-            lives = lives - 0.5
+            livesLevel3FS = livesLevel3FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
@@ -303,15 +306,15 @@ end
 -- GLOBAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
-function ResumeLevel1FS()
+function ResumeLevel3FS()
     -- body
     UpdateLives()
     character.isVisible = true
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionCorrect == 3) then
+    -- If 15 questions are answered, transitions to the "YouWin_screen"
+    if (questionCorrect3FS == 5) then
         YouWinTransition()
     end
 
@@ -429,10 +432,10 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         --play level1 background sound
-        level1SoundChannel = audio.play(level1Sound)
+        level3SoundChannel = audio.play(level3Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        lives = 1
+        livesLevel3FS = 1
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"

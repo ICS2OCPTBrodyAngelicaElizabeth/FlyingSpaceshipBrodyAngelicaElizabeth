@@ -3,7 +3,7 @@
 -- splash_screen.lua
 -- Created by: Angelica Lutkiewicz
 -- Date: December 11, 2018
--- Description: This is the splash screen of the game.
+-- Description: This is one of the possible splash screens for the game.
 -----------------------------------------------------------------------------------------
 
 -- Use Composer Library
@@ -12,6 +12,9 @@ local composer = require( "composer" )
 -- Name the Scene
 sceneName = "splash_screen"
 
+----------
+-- SOUND
+----------
 local SplashScreenSound = audio.loadSound("Sounds/DoorBellSound.mp3") 
 local SplashScreenSoundChannel
 
@@ -23,13 +26,19 @@ local scene = composer.newScene( sceneName )
 ----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
- display.setStatusBar(display.HiddenStatusBar)
+
+-- Hides the status bar
+display.setStatusBar(display.HiddenStatusBar)
 
 -- The local variables for this scene
+-- BANANA
 local banana
+-- TEXT IMAGE
 local Jojo
+-- SCROLL SPEEDS
 local scrollSpeed = 6
 local stop = 0
+-- BACKGROUND IMAGE
 local bkg 
 
 --------------------------------------------------------------------------------------------
@@ -38,33 +47,37 @@ local bkg
 
 -- The function that moves the beetleship across the screen
 local function StopBanana()
-    -- Styops the banana from moving
+    -- Stops the banana from moving by setting the scroll speed to "stop"(0)
     scrollSpeed = stop
 end
 
 -- This function moves the banana displayed
 local function MoveBanana( event )
 
-    -- Add the scroll speed to the banana so it moves vertically
+    -- Add the scroll speed to the banana so it moves up vertically
     banana.y = banana.y - scrollSpeed
-    -- Calls function StopBanana
+    -- Calls function StopBanana after 1400 miliseconds
     timer.performWithDelay ( 1400, StopBanana )
 end
 
 -- This function fades the company logo from being trasparent to being opaque
 local function FadeInName()
 
-    -- Changes the alpha
+    -- Changes the alpha (transparency)
     Jojo.alpha = Jojo.alpha + 00.02
 end
 
--- The function that will go to the main menu 
+-- The function that will transition to the main menu screen (temporarily to splash_screen2) 
 local function gotoMainMenu()
+    -- Transitions to the main_menu screen (splash_screen2)
     composer.gotoScene( "splash_screen2" )
 end
 
+-- This function dictates when the audio sound effect plays
 local function playAudio()
+    -- Creates the audio sound channel for "SplashScreenSound"
     SplashScreenSoundChannel = audio.play(SplashScreenSound) 
+    -- Calls function "gotpoMainMenu" after 800 miliseconds
     timer.performWithDelay(800,gotoMainMenu)
 end
 
@@ -78,38 +91,47 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -- set the background to be black
+    ---------------
+    -- BACKGROUND
+    ---------------
+    -- Assigns an image to "bkg_image"
     bkg_image = display.newImage("Images/CompanyBackground.AngelicaCopy.png")
+    -- Sets the x and y coordinates for "bkg_image"
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
+    -- Sets the width and height for "bkg_image"
     bkg_image.width = display.contentWidth
     bkg_image.height = display.contentHeight
-
-    -- Send the background image to the back layer so all other objects can be on top
+    -- Sends the background image to the back layer so all other objects can be on top
     bkg_image:toBack()
+    -- Inserts object into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( bkg_image )
 
-
-    -- Insert the banana image
+    -----------
+    -- BANANA
+    -----------
+    -- Assigns an image/png to "banana"
     banana = display.newImageRect("Images/CompanyLogoAngelica.png",  display.contentWidth/5, display.contentHeight/5 + display.contentHeight/14)
-    -- Inserts the image of the App name
-    Jojo = display.newImageRect("Images/CompanyLogoTextAngelicaCopy@2x.png",display.contentWidth*11/13,display.contentHeight/4+display.contentHeight/20)
-
-    -- set the initial x and y position of the banana
+    -- Sets x and y coordinates for "banana"
     banana.x = display.contentWidth *2/4
     banana.y = display.contentHeight *3/4
+    -- Inserts object into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( banana )
 
-    -- Sets the heighht and width of the company name
+    ---------------
+    -- TEXT IMAGE
+    ---------------
+    -- Assigns image/png to "Jojo"
+    Jojo = display.newImageRect("Images/CompanyLogoTextAngelicaCopy@2x.png",display.contentWidth*11/13,display.contentHeight/4+display.contentHeight/20)
+    -- Sets the height and width of "Jojo"
     local JojoWidth = Jojo.width
     local JojoHeight = Jojo.height
-    -- x and y values of the Company name
+    -- Sets x and y coordinates for "Jojo"
     Jojo.x = display.contentWidth/2
     Jojo.y = display.contentHeight*3/4
-    -- sets the transparency
+    -- Makes the image transparent
     Jojo.alpha = 0
-
-    -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( bkg_image )
-    sceneGroup:insert( banana )
+    -- Inserts object into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( Jojo )
 
 end -- function scene:create( event )
@@ -160,7 +182,8 @@ function scene:hide( event )
     -- Called when the scene is on screen (but is about to go off screen).
     -- Insert code here to "pause" the scene.
     -- Example: stop timers, stop animation, stop audio, etc.
-
+    
+    -- Stops sound effect
     audio.stop (SplashScreenSoundChannel)
 
     if ( phase == "will" ) then  

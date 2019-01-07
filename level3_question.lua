@@ -48,6 +48,8 @@ local wrongAnswerText1
 local wrongAnswerText2
 local wrongAnswerText3
 
+local questionCorrect = 0
+
 local answerPosition = 1
 local bkg
 local cover
@@ -65,9 +67,9 @@ local textTouched = false
 -----------------------------------------------------------------------------------------
 
 --making transition to next scene
-local function BackToLevel1() 
+local function BackToLevel3() 
     composer.hideOverlay("crossFade", 400 )
-    ResumeLevel1FS()
+    ResumeLevel3FS()
 end 
 -----------------------------------------------------------------------------------------
 --checking to see if the user pressed the right answer and bring them back to level 1
@@ -76,8 +78,8 @@ local function TouchListenerAnswer(touch)
     
     if (touch.phase == "ended") then
 
-        questionCorrect = questionCorrect + 1
-        BackToLevel1( )
+        questionCorrect3FS = questionCorrect3FS + 1
+        BackToLevel3( )
     end 
 end
 
@@ -87,8 +89,8 @@ local function TouchListenerWrongAnswer(touch)
     
     if (touch.phase == "ended") then
         
-        lives = lives - 1
-        BackToLevel1( )
+        livesLevel3FS = livesLevel3FS - 1
+        BackToLevel3( )
         
         
     end 
@@ -99,8 +101,8 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
-        BackToLevel1( )
+        livesLevel3FS = livesLevel3FS - 1
+        BackToLevel3( )
         
     end 
 end
@@ -110,8 +112,8 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
-        lives = lives - 1
-        BackToLevel1( )
+        livesLevel3FS = livesLevel3FS - 1
+        BackToLevel3( )
         
     end 
 end
@@ -134,8 +136,8 @@ end
 
 local function DisplayQuestion()
     --creating random numbers
-    firstNumber = math.random (0,15)
-    secondNumber = math.random (0,15)
+    firstNumber = math.random (0,5)
+    secondNumber = math.random (1,5)
 
     -- calculate answer
     answer = firstNumber *  secondNumber
@@ -143,7 +145,7 @@ local function DisplayQuestion()
     -- calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
-    wrongAnswer3 = math.random(30,45) - answer
+    wrongAnswer3 = math.random(5,10)
 
 
     --creating the question depending on the selcetion number

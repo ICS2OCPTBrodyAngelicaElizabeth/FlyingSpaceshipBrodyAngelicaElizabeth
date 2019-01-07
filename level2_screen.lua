@@ -17,8 +17,10 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
-local level2Sound = audio.loadSound("Sounds/level1Sound.mp3") 
+local level2Sound = audio.loadSound("Sounds/bkgSound.mp3") 
 local level2SoundChannel
+local collideSound = audio.loadSound("Sounds/comet.mp3")
+local collideSoundChannel
 
 -- Naming Scene
 sceneName = "level2_screen"
@@ -39,7 +41,7 @@ display.setStatusBar(display.HiddenStatusBar)
 livesLevel2FS = 2
 
 -- Global variable to hold the amount of correctly answered Questions
-questionCorrect = 0
+questionCorrect2FS = 0
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
@@ -204,7 +206,12 @@ local function UpdateLives()
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
 
-
+    -- How many hearts are visable when lives == 1
+    elseif ( livesLevel2FS == 0.5 ) then
+        fullHeart1.isVisible = false
+        fullHeart2.isVisible = false
+        halfHeart1.isVisible = true
+        halfHeart2.isVisible = false
    
     -- How many hearts are visable when lives == 0
     else --( livesLevel2FS == 0 ) then
@@ -238,6 +245,8 @@ local function CharacterListener(touch)
             print ("character collided with cometLoss")
             -- loses 0.5 or half of a life/heart
             livesLevel2FS = livesLevel2FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
+
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
@@ -252,7 +261,7 @@ local function CharacterListener(touch)
             -- Makes the character invisible
             character.isVisible = false
             -- Goes to the question screen/overlay
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
         end
         
     end
@@ -295,7 +304,7 @@ local function onCollision( self, event)
 
         if (event.target.myName == "cometQuestion") then
             character.isVisible = false
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+            composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
         end
 
     end
@@ -333,7 +342,7 @@ function ResumeLevel2FS()
     character.y = display.contentHeight*50/100
 
     -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionCorrect == 3) then
+    if (questionCorrect2FS == 3) then
         YouWinTransition()
     end
 
@@ -476,10 +485,10 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         --play level1 background sound
-        level1SoundChannel = audio.play(level1Sound)
+        level2SoundChannel = audio.play(level2Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
-        livesLevel2FS = 3
+        livesLevel2FS = 2
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
         -- Calls function "ReplaceCharacter"
