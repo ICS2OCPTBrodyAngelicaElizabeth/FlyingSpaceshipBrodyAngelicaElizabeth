@@ -3,10 +3,8 @@
 -- Made by: Brody Lawson
 -- Course: ICS2O
 
-local banana
-local Jojo
-local scrollSpeed = 6
-local stop = 0
+-- Use Composer Library
+local composer = require( "composer" )
 
 -- Name the Scene
 sceneName = "splash_screen3"
@@ -15,6 +13,14 @@ sceneName = "splash_screen3"
 
 -- Create Scene Object
 local scene = composer.newScene( sceneName )
+
+--------------------------------------------------------------------------------------------
+
+local banana
+local Jojo
+local scrollSpeed = 6
+local stop = 0
+
 
 --------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS

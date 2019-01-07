@@ -70,7 +70,7 @@ end
 -- The function that will transition to the main menu screen (temporarily to splash_screen2) 
 local function gotoMainMenu()
     -- Transitions to the main_menu screen (splash_screen2)
-    composer.gotoScene( "splash_screen2" )
+    composer.gotoScene( "main_menu" )
 end
 
 -- This function dictates when the audio sound effect plays

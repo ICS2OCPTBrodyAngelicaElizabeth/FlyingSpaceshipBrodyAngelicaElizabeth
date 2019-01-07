@@ -485,7 +485,7 @@ function scene:show( event )
         -- Example: start timers, begin animation, play audio, etc.
         
         --play level1 background sound
-        level2SoundChannel = audio.play(level2Sound)
+        --level2SoundChannel = audio.play(level2Sound)
         -- Adds collision Listeners
         AddCollisionListeners()
         livesLevel2FS = 2
