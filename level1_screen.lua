@@ -202,13 +202,12 @@ local function Hide()
     cometQuestion.isVisible = false
 end
 
-local function MoveComets()
+local function MoveComets(event)
     -- 
     cometLoss.isVisible = true
     cometLoss.x = math.random(display.contentWidth*1/10, display.contentWidth*9/10)
     cometLoss.y = display.contentHeight*-1/10
-    cometLoss.y = cometLoss.y + scrollSpeed1
-    timer.performWithDelay(2000, Hide)
+    cometLoss.y = cometLoss.y - scrollSpeed1
 end
 
 -- This function makes all of the fullHearts visible
@@ -340,7 +339,7 @@ end
 local function ReplaceCharacter()
     
     -- associates the character with an image/png
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
+    character = display.newImageRect("Images/Pilot1.png", display.contentWidth*14/100, display.contentHeight*38/100)
 
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
@@ -595,6 +594,8 @@ function scene:show( event )
         livesLevel1FS = 3
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
+
+        MoveComets()
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()
         --MoveComets()
