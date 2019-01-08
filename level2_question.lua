@@ -142,12 +142,12 @@ local function DisplayQuestion()
 
     -- calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
-    wrongAnswer2 = answer - math.random(4, 6)
+    wrongAnswer2 = answer + math.random(4, 6)
     wrongAnswer3 = answer + math.random(7, 9)
 
 
     --creating the question depending on the selcetion number
-    questionText.text = firstNumber .. " - " .. secondNumber .. " ="
+    questionText.text = firstNumber .. " - " .. secondNumber .. " = "
 
     --creating answer text from list it corispondes with the animals list
     answerText.text = answer
