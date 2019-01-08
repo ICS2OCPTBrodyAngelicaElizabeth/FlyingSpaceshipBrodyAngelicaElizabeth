@@ -140,7 +140,7 @@ local function hasCollided(obj1, obj2)
 end
 
 
--- Function to sense collisions with the spaceship and comets
+-- Function to sense collisions with the Ship and comets
 local function hasCollidedRect( obj1, obj2 )
     local X_PADDING = 75
     local Y_PADDING = 55
@@ -205,8 +205,8 @@ end
 local function MoveComets(event)
     -- 
     cometLoss.isVisible = true
-    cometLoss.x = math.random(display.contentWidth*1/10, display.contentWidth*9/10)
-    cometLoss.y = display.contentHeight*-1/10
+    cometLoss.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
+    cometLoss.y = display.contentHeight*6/10
     cometLoss.y = cometLoss.y - scrollSpeed1
 end
 
@@ -348,7 +348,7 @@ local function ReplaceCharacter()
     -- Rotates the character by -90 degrees
     character:rotate(-90)
     -- Names the character
-    character.myName = "Spaceship"
+    character.myName = "Ship"
     -- Addsa the EventListener
     character:addEventListener("touch", CharacterListener)
 end
