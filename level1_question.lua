@@ -77,6 +77,9 @@ local secondsLeft = 15
 local totalSeconds = 15
 local clockText
 
+local CorrectText
+local IncorrectText
+
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -110,7 +113,6 @@ local function UpdateTime()
         secondsLeft = totalSeconds
         livesLevel1FS = livesLevel1FS - 1
         BackToLevel1()
-
     end
 end
 
@@ -131,7 +133,8 @@ local function TouchListenerAnswer(touch)
     if (touch.phase == "ended") then
 
         questionCorrect1FS = questionCorrect1FS + 1
-        BackToLevel1( )
+        CorrectText.isVisible = true
+        timer.performWithDelay(1000,BackToLevel1)
     end 
 end
 
@@ -142,7 +145,8 @@ local function TouchListenerWrongAnswer(touch)
     if (touch.phase == "ended") then
         
         livesLevel1FS = livesLevel1FS - 1
-        BackToLevel1( )        
+        IncorrectText.isVisible = true
+        timer.performWithDelay(1000,BackToLevel1)
     end 
 end
 
@@ -152,8 +156,8 @@ local function TouchListenerWrongAnswer2(touch)
     
     if (touch.phase == "ended") then
         livesLevel1FS = livesLevel1FS - 1
-        BackToLevel1( )
-        
+        IncorrectText.isVisible = true
+        timer.performWithDelay(1000,BackToLevel1)
     end 
 end
 
@@ -163,8 +167,8 @@ local function TouchListenerWrongAnswer3(touch)
     
     if (touch.phase == "ended") then
         livesLevel1FS = livesLevel1FS - 1
-        BackToLevel1( )
-        
+        IncorrectText.isVisible = true
+        timer.performWithDelay(1000,BackToLevel1)
     end 
 end
 
@@ -310,6 +314,15 @@ function scene:create( event )
     wrongText2.anchorX = 0
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
+
+        -- create the text object that will say Out of Time, set the colour and then hide it
+    CorrectText = display.newText("Correct!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    CorrectText:setTextColor(0, 1, 0)
+    CorrectText.isVisible = false
+        -- create the text object that will say Out of Time, set the colour and then hide it
+    IncorrectText = display.newText("Incorrect!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    IncorrectText:setTextColor(1, 0, 0)
+    IncorrectText.isVisible = false
     -----------------------------------------------------------------------------------------
     clockText = display.newText("", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
     clockText:setTextColor(1)
@@ -325,6 +338,8 @@ function scene:create( event )
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
     sceneGroup:insert(clockText)
+    sceneGroup:insert(CorrectText)
+    sceneGroup:insert(IncorrectText)
 
 
 end --function scene:create( event )
