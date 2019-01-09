@@ -47,10 +47,10 @@ function scene:create( event )
     level1Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
+            x = display.contentWidth*1/3,
             y = display.contentHeight/2,
-            width = display.contentWidth*2/4,
-            height = display.contentHeight*4/7,
+            width = display.contentWidth/5,
+            height = display.contentHeight/4,
 
             -- Insert the images here
             defaultFile = "Images/Level1ButtonPressed@2x.png",
@@ -66,8 +66,8 @@ function scene:create( event )
     level2Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*15/17,
-            y = display.contentHeight*11/13,
+            x = display.contentWidth/2,
+            y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
 
@@ -88,8 +88,8 @@ function scene:create( event )
     level3Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*2/17,
-            y = display.contentHeight*11/13,
+            x = display.contentWidth*6/8,
+            y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
 
