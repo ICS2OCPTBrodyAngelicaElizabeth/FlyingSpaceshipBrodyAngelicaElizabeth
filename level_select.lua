@@ -2,12 +2,15 @@
 --
 -- level select
 -- Created by: Brody
--- Date: Month Day, Year
+-- Date: January 9, 2019
 -- Description: Chosis the level you want
 -----------------------------------------------------------------------------------------
 
 -- Use composer library
 local composer = require( "composer" )
+
+-- Use Widget Library
+local widget = require( "widget" )
 
 -- Name the Scene
 sceneName = "level_select"
@@ -41,17 +44,17 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------   
 
     -- Creating Play Button
-    Level1Button = widget.newButton( 
+    level1Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth/2,
+            x = display.contentWidth*1/3,
             y = display.contentHeight/2,
-            width = display.contentWidth*2/4,
-            height = display.contentHeight*4/7,
+            width = display.contentWidth/5,
+            height = display.contentHeight/4,
 
             -- Insert the images here
-            defaultFile = "Images/Level1ButtonPressed2x.png",
-            overFile = "Images/@2x.png",
+            defaultFile = "Images/Level1ButtonPressed@2x.png",
+            overFile = "Images/Level1ButtonUnpressed@2x.png",
 
             -- When the button is released, call the Level1 screen transition function
             onRelease = Level1ScreenTransition          
@@ -60,21 +63,21 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Creating Credits Button
-    Level2Button = widget.newButton( 
+    level2Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*15/17,
-            y = display.contentHeight*11/13,
+            x = display.contentWidth/2,
+            y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
 
 
             -- Insert the images here
-            defaultFile = "Images/Level2ButtonPressed2x.png",
-            overFile = "Images/.png",
+            defaultFile = "Images/Level2ButtonPressed@2x.png",
+            overFile = "Images/Level2ButtonUnpressed@2x.png",
 
             -- When the button is released, call the Credits transition function
-            onRelease = 
+            onRelease = Level2ScreenTransition 
         } ) 
     
     -- ADD INSTRUCTIONS BUTTON WIDGET
@@ -82,21 +85,21 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
  -- Creating Credits Button
-    Level3Button = widget.newButton( 
+    level3Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*2/17,
-            y = display.contentHeight*11/13,
+            x = display.contentWidth*6/8,
+            y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
 
 
             -- Insert the images here
-            defaultFile = "Images/Level3ButtonPressed2x.png",
-            overFile = "Images/.png",
+            defaultFile = "Images/Level3ButtonPressed@2x.png",
+            overFile = "Images/Level3ButtonUnpressed@2x.png",
 
             -- When the button is released, call the Credits transition function
-            onRelease = 
+            onRelease = Level3ScreenTransition
         } ) 
     
 
@@ -115,6 +118,11 @@ function scene:create( event )
     bkg_image:toBack()
     -- Inserts object into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )
+
+    -- Associating button widgets with this scene
+    sceneGroup:insert( Level1Button )
+    sceneGroup:insert( Level2Button )
+    sceneGroup:insert( Level3Button )
 
 
 end -- function scene:create( event )

@@ -64,11 +64,26 @@ end
 
 -----------------------------------------------------------------------------------------
 
+-- Creating Transition to Level2 Screen
+local function Level3ScreenTransition( )
+    composer.gotoScene( "level3_screen", {effect = "zoomOutInFade", time = 900})
+end    
+
+-----------------------------------------------------------------------------------------
+
 -- Creating Transitioning Function back to main menu
 local function HowTransition( )
     composer.gotoScene( "instructions_screen", {effect = "slideUp", time = 1000})
 end
 
+-----------------------------------------------------------------------------------------
+
+-- Creating Transitioning Function back to main menu
+local function LevelSelectTransition( )
+    composer.gotoScene( "level_select", {effect = "slideRight", time = 1000})
+end
+
+-----------------------------------------------------------------------------------------
 
 -- INSERT LOCAL FUNCTION DEFINITION THAT GOES TO INSTRUCTIONS SCREEN 
 

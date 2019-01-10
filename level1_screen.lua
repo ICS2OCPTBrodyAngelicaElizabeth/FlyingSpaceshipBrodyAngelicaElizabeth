@@ -15,6 +15,9 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 
+-- load physics
+local physics = require("physics")
+
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -78,7 +81,7 @@ local halfHeart3
 local character
 
 -- Motion speed
-scrollSpeed1 = 20
+scrollSpeed1 = 7
 scrollSpeed2 = 5
 stop = 0
 
@@ -182,13 +185,13 @@ local function YouLoseTransition()
 end
 
 -- Transition to "YouWin_screen"
-local function YouWinTransition()
+local function Level2Transition()
 
     -- Makes the character transparent
     character.isVisible = false
 
-    -- Goes to "YouWin_screen"
-     composer.gotoScene( "youWin_screen", {effect = "zoomInOutFade", time = 900})
+    -- Goes to "level2_screen"
+    composer.gotoScene( "level2_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 
@@ -196,18 +199,24 @@ end
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+-- creates a function that makes the comets invisible
 local function Hide()
-    -- body
+    -- Hides CometLoss 
     cometLoss.isVisible = false
+    -- Hides CometQuestion
     cometQuestion.isVisible = false
 end
 
+-- makes a function that sets the comets in a downwards motion
 local function MoveComets(event)
-    -- 
-    cometLoss.isVisible = true
-    cometLoss.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
-    cometLoss.y = display.contentHeight*6/10
-    cometLoss.y = cometLoss.y - scrollSpeed1
+    if (cometLoss.y > display.contentHeight) then
+        -- Assigns a random x coordinate for cometLoss
+        cometLoss.x = math.random(0, display.contentWidth)
+        cometLoss.y = 0
+    else
+        -- Lowers the y point of cometLoss steadily
+        cometLoss.y = cometLoss.y + scrollSpeed1
+    end
 end
 
 -- This function makes all of the fullHearts visible
@@ -315,8 +324,10 @@ local function CharacterListener(touch)
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
-            -- Calls function to update the hearts/livesLevel1FS
+            -- Calls function to update the hearts/livesLevel1FS            
             UpdateLives()
+            cometLoss.x = math.random(0, display.contentWidth)
+            cometLoss.y = 0            
         end
 
         -- Verifies if the character has collided with cometQuestion
@@ -332,9 +343,43 @@ local function CharacterListener(touch)
     end
 
     if (touch.phase == "ended") then
-    --
+            
     end
 end
+
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local function onCollision( self, event)
+    -- for testing purposes
+    print( event.target.myName )        --the first object in the collision
+    print( event.other )         --the second object in the collision
+    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
+    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
+    --print( event.target.myName .. ": collision began with " .. event.other.myName )
+
+    print ("onCollision called")
+
+    if ( event.phase == "began" ) then
+
+        if (event.target.myName == "cometLoss") then
+            print ("***Hit cometLoss")
+            display.remove(character)
+        end
+
+        if (event.target.myName == "cometQuestion") then
+            character.isVisible = false
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+        end
+
+        if (event.target.myName == "Ship") then
+            print ("***Hit character")
+            character.isVisible = false
+            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
+        end
+
+    end
+end
+
 
 local function ReplaceCharacter()
     
@@ -351,39 +396,24 @@ local function ReplaceCharacter()
     character.myName = "Ship"
     -- Addsa the EventListener
     character:addEventListener("touch", CharacterListener)
+
+    character.collision = onCollision
+    character:addEventListener("collision")
+    
+
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local function onCollision( self, event)
-    -- for testing purposes
-    print( event.target.myName )        --the first object in the collision
-    print( event.other )         --the second object in the collision
-    --print( event.selfElement )   --the element (number) of the first object which was hit in the collision
-    --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
-    --print( event.target.myName .. ": collision began with " .. event.other.myName )
 
-
-    if ( event.phase == "began" ) then
-
-        if (event.target.myName == "cometLoss") then
-            print ("***Hit cometLoss")
-            display.remove(character)
-        end
-
-        if (event.target.myName == "cometQuestion") then
-            character.isVisible = false
-            composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
-        end
-
-    end
-end
 
 -- This function adds EventListeners
 local function AddCollisionListeners()
 
+    print ("****Called AddCollisionListeners")
+
     -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
+
 
     -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
@@ -397,6 +427,9 @@ local function RemoveCollisionListeners()
     cometLoss:removeEventListener("collision")
     cometQuestion:removeEventListener("collision")
 end
+
+
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --------------------------------------------------------------------------------------------
@@ -414,7 +447,7 @@ function ResumeLevel1FS()
 
     -- If 5 questions are answered, transitions to the "YouWin_screen"
     if (questionCorrect1FS == 5) then
-        YouWinTransition()
+        Level2Transition()
     end
 
 end
@@ -528,7 +561,7 @@ function scene:create( event )
     -- Assignes "cometLoss" to an image/png
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometLoss" x and y coordinates
-    cometLoss.x = display.contentWidth*85/100
+    cometLoss.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
     cometLoss.y = display.contentHeight*80/100
     print ("***cometLoss.contentBounds.xMin = " .. cometLoss.contentBounds.xMin)
     print ("***cometLoss.contentBounds.xMax = " .. cometLoss.contentBounds.xMax)
@@ -550,7 +583,7 @@ function scene:create( event )
     -- Assignes "cometQuestion" to an image/png
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometQuestion" x and y coordinates
-    cometQuestion.x = display.contentWidth*15/100
+    cometQuestion.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
     cometQuestion.y = display.contentHeight*20/100
     -- Makes "cometQuestion" visible
     cometQuestion.isVisible = true
@@ -588,17 +621,19 @@ function scene:show( event )
         
         --plays level1 background sound
         level1SoundChannel = audio.play(level1Sound)
-        -- Adds collision Listeners
-        AddCollisionListeners()
+        
         -- Sets variable "livesLevel1FS" to 3
         livesLevel1FS = 3
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
 
-        MoveComets()
+        Runtime:addEventListener("enterFrame", MoveComets)
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()
-        --MoveComets()
+
+        -- Adds collision Listeners
+        AddCollisionListeners()
+
         
     end
 
@@ -628,6 +663,7 @@ function scene:hide( event )
         -- Called immediately after scene goes off screen.
 
         character:removeEventListener("touch", CharacterListener)
+        Runtime:removeEventListener("enterFrame", MoveComets)
     end
 
 end --function scene:hide( event )
