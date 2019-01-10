@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Allison
--- Date: May 16, 2017
+-- Created by: Elizabeth
+-- Date: December 20
 -- Description: This is the level 1 screen of the game. the charater can be dragged to move
 --If character goes off a certain araea they go back to the start. When a user interactes
 --with piant a trivia question will come up. they will have a limided time to click on the answer
@@ -32,87 +32,159 @@ local scene = composer.newScene( sceneName )
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
 
+-- CREATES THE LOCAL VARIABLES FOR THIS SCENE
+
 -- The local variables for this scene
 local questionText
 
+-- Creates variables for the random numbers that add up to "answer"
 local firstNumber
 local secondNumber
 
+-- Creates the variables for the wrong and tight answeres to be stored
 local answer
 local wrongAnswer1
 local wrongAnswer2
 local wrongAnswer3
 
+-- Text for the wrong abd right answers
 local answerText 
 local wrongAnswerText1
 local wrongAnswerText2
 local wrongAnswerText3
 
+
+-- Creates a variable to hold the random x and y position for the answer
 local answerPosition = 1
+
+-- Background
 local bkg
+
+-- A rectangle cover to have the background fully bolcked where the question is
 local cover
 
+-- Right and wrong answer positions
 local X1 = display.contentWidth*2/7
 local X2 = display.contentWidth*4/7
 local Y1 = display.contentHeight*1/2
 local Y2 = display.contentHeight*5.5/7
 
+-- Variable to hold the user's answer
 local userAnswer
+
+-- Variable that contains if the text has been touched or not
 local textTouched = false
+
+local countDownTimer
+local secondsLeft = 15
+local totalSeconds = 15
+local clockText
+
+local CorrectText
+local IncorrectText
 
 -----------------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
+-----------------
+-- RESUME LEVEL
+-----------------
 
 --making transition to next scene
 local function BackToLevel2() 
     composer.hideOverlay("crossFade", 400 )
     ResumeLevel2FS()
 end 
------------------------------------------------------------------------------------------
---checking to see if the user pressed the right answer and bring them back to level 1
+
+----------
+-- TIMER
+----------
+
+-- Function that updates the timer
+local function UpdateTime()
+    -- Decrement the number of seconds
+    secondsLeft = secondsLeft - 1
+    --Display the number of seconds left in the clock object
+    clockText.text = "Time: " .. secondsLeft
+
+    if (secondsLeft == 0 ) then
+        -- Reset the number of seconds left
+        secondsLeft = totalSeconds
+        -- Subtracts a life
+        livesLevel2FS = livesLevel2FS - 1
+        -- Calls function BackToLevel2
+        BackToLevel2()
+    end
+end
+
+-- Function that starts the timer
+local function StartTimer()
+    -- Create a countdown timer that loops infinitely
+    countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0)
+end
+
+--------------------------
+-- QUESTIONS AND ANSWERS
+--------------------------
+
+-- Checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerAnswer(touch)
     userAnswer = answerText.text
     
     if (touch.phase == "ended") then
 
+        -- Adds 1 to questionCorrect for level 2
         questionCorrect2FS = questionCorrect2FS + 1
-        BackToLevel2( )
+        -- Makes CorrectText visible
+        CorrectText.isVisible = true
+        -- Adds a delay before going to Level 2
+        timer.performWithDelay(1000,BackToLevel2)
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 2
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     
     if (touch.phase == "ended") then
-        
+
+        -- Subtracts a life from Level 2
         livesLevel2FS = livesLevel2FS - 1
-        BackToLevel2( )
-        
-        
+        -- Makes IncorrectText visible
+        IncorrectText.isVisible = true
+        -- Adds delay before going to level
+        timer.performWithDelay(1000,BackToLevel2)        
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+--checking to see if the user pressed the right answer and bring them back to level 2
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
-        livesLevel2FS = livesLevel2FS - 1
-        BackToLevel2( )
         
+        -- Subtracts a life from Level 2
+        livesLevel2FS = livesLevel2FS - 1
+        -- Makes IncorrectText visible
+        IncorrectText.isVisible = true
+        -- Adds delay before going to level
+        timer.performWithDelay(1000,BackToLevel2)        
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+--checking to see if the user pressed the right answer and bring them back to level 2
 local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
-        livesLevel2FS = livesLevel2FS - 1
-        BackToLevel2( )
         
+        -- Subtracts a life from Level 2
+        livesLevel2FS = livesLevel2FS - 1
+        -- Makes IncorrectText visible
+        IncorrectText.isVisible = true
+        -- Adds delay before going to level
+        timer.performWithDelay(1000,BackToLevel2)        
     end 
 end
 
@@ -144,7 +216,6 @@ local function DisplayQuestion()
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
     wrongAnswer3 = answer + math.random(7, 9)
-
 
     --creating the question depending on the selcetion number
     questionText.text = firstNumber .. " - " .. secondNumber .. " = "
@@ -258,6 +329,26 @@ function scene:create( event )
     wrongText2.anchorX = 0
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
+
+    -- Create the text object that will say "Correct!", set the colour and then hide it
+    CorrectText = display.newText("Correct!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    -- Sets the text colour to be green
+    CorrectText:setTextColor(0, 1, 0)
+    -- Makes CorrectText transparent
+    CorrectText.isVisible = false
+
+    -- Create the text object that will say "Incorrect!", set the colour and then hide it
+    IncorrectText = display.newText("Incorrect!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    -- Sets the text colour to be red
+    IncorrectText:setTextColor(1, 0, 0)
+    -- Makes IncorrectText transparent
+    IncorrectText.isVisible = false
+
+    -----------------------------------------------------------------------------------------
+   
+    clockText = display.newText("", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
+    clockText:setTextColor(1)
+
     -----------------------------------------------------------------------------------------
 
     -- insert all objects for this scene into the scene group
@@ -268,6 +359,9 @@ function scene:create( event )
     sceneGroup:insert(wrongText1)
     sceneGroup:insert(wrongText2)
     sceneGroup:insert(wrongText3)
+    sceneGroup:insert(clockText)
+    sceneGroup:insert(CorrectText)
+    sceneGroup:insert(IncorrectText)
 
 
 end --function scene:create( event )
@@ -292,8 +386,16 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        
+        -- Calls function DisplayQuestion
         DisplayQuestion()
+        -- Calls function PositionAnswers
         PositionAnswers()
+        -- Calls function StartTimer
+        StartTimer()
+        -- Calls function UpdateTimer
+        UpdateTime()
+        -- Calls function AddTextListeners
         AddTextListeners()
     end
 
@@ -315,9 +417,13 @@ function scene:hide( event )
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
         --parent:resumeGame()
+
+        -- stops the timer
+        timer.cancel(countDownTimer)
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+
         -- Called immediately after scene goes off screen.
         RemoveTextListeners()
     end
@@ -349,8 +455,6 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
-
 
 -----------------------------------------------------------------------------------------
 

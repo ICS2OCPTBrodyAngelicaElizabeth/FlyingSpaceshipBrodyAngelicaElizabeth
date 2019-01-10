@@ -35,7 +35,8 @@ local backButton
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
---
+local youWinSound = audio.loadSound("Sounds/WinningSound.mp3") 
+local youWinChannel
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
