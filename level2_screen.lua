@@ -274,7 +274,7 @@ end
 local function ReplaceCharacter()
     
     -- associates the character with an image/png
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
+    character = display.newImageRect("Images/Pilot2.png", display.contentWidth*14/100, display.contentHeight*38/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
@@ -361,7 +361,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Inserts the background image
-    bkg_image = display.newImageRect("Images/Level1Screen (2).png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/Level2Screen.png", display.contentWidth, display.contentHeight)
     -- Assignes the background x and y coordinates
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
