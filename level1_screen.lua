@@ -390,8 +390,6 @@ local function ReplaceCharacter()
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
 
-    -- Rotates the character by -90 degrees
-    character:rotate(-90)
     -- Names the character
     character.myName = "Ship"
     -- Addsa the EventListener

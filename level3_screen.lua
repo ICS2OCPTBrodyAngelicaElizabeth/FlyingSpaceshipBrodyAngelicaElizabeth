@@ -246,12 +246,10 @@ end
 local function ReplaceCharacter()
     
     -- associates the character with an image/png
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
+    character = display.newImageRect("Images/Pilot3.png", display.contentWidth*14/100, display.contentHeight*38/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
-    -- Rotates the character by -90 degrees
-    character:rotate(-90)
     -- Names the character
     character.myName = "Spaceship"
     -- Addsa the EventListener
