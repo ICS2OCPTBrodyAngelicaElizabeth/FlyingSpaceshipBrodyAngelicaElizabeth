@@ -29,6 +29,27 @@ local level3Button
 local bkg
 
 -----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level1 Screen
+local function Level1ScreenTransition( )
+    composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 900})
+end    
+
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level2 Screen
+local function Level2ScreenTransition( )
+    composer.gotoScene( "level2_screen", {effect = "zoomOutInFade", time = 900})
+end    
+
+-----------------------------------------------------------------------------------------
+
+-- Creating Transition to Level2 Screen
+local function Level3ScreenTransition( )
+    composer.gotoScene( "level3_screen", {effect = "zoomOutInFade", time = 900})
+end    
+
+-----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 
@@ -40,14 +61,14 @@ function scene:create( event )
 	
 
 	-----------------------------------------------------------------------------------------
-    -- BUTTON WIDGETS
+    -- BUTTONS WIDGETS
     -----------------------------------------------------------------------------------------   
 
     -- Creating Play Button
     level1Button = widget.newButton( 
         {   
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*1/3,
+            x = display.contentWidth/4,
             y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
@@ -88,7 +109,7 @@ function scene:create( event )
     level3Button = widget.newButton( 
         {
             -- Set its position on the screen relative to the screen size
-            x = display.contentWidth*6/8,
+            x = display.contentWidth*3/4,
             y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
@@ -120,9 +141,9 @@ function scene:create( event )
     sceneGroup:insert( bkg_image )
 
     -- Associating button widgets with this scene
-    sceneGroup:insert( Level1Button )
-    sceneGroup:insert( Level2Button )
-    sceneGroup:insert( Level3Button )
+    sceneGroup:insert( level1Button )
+    sceneGroup:insert( level2Button )
+    sceneGroup:insert( level3Button )
 
 
 end -- function scene:create( event )
