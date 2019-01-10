@@ -312,7 +312,7 @@ function ResumeLevel3FS()
     character.y = display.contentHeight*50/100
 
     -- If 15 questions are answered, transitions to the "YouWin_screen"
-    if (questionCorrect3FS == 5) then
+    if (questionCorrect3FS == 15) then
         YouWinTransition()
     end
 
@@ -459,7 +459,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-       audio.stop( level1SoundChannel )
+       audio.stop( level3SoundChannel )
 
     -----------------------------------------------------------------------------------------
 

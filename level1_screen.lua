@@ -89,59 +89,8 @@ stop = 0
 local alreadyTouchedCharacter = false
 
 --------------------------------------------------------------------------------------------
--- COLLISION FUNCTIONS
+-- COLLISION FUNCTION
 --------------------------------------------------------------------------------------------
-
--- Collision Function for circular objects ( currently not used in the code)
-local function hasCollidedCircle( obj1, obj2 )
- 
-    -- Makes sure the first object exists
-    if ( obj1 == nil ) then
-        return false
-    end
-
-    -- Makes sure the second object exists
-    if ( obj2 == nil ) then
-        return false
-    end
- 
-    local dx = obj1.x - obj2.x
-    local dy = obj1.y - obj2.y
- 
-    local distance = math.sqrt( dx*dx + dy*dy )
-    local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
- 
-    if ( distance < objectSize ) then
-        return true
-    end
-    return false
-end
-
-
--- This function detects if the boundries intersect/characters collide
-local function hasCollided(obj1, obj2)
-
-        -- Prints obj1's x and y coordinates
-    print ("***obj1.x = " .. obj1.x)
-    print ("***obj1.y = " .. obj1.y)
-        -- Prints obj2's x and y coordinates
-    print ("***obj2.x = " .. obj2.x)
-    print ("***obj2.y = " .. obj2.y)
-            
-
-    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
-        return false 
-    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
-        return false 
-    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
-        return false 
-    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
-        return false 
-    else 
-        return true 
-    end
-end
-
 
 -- Function to sense collisions with the Ship and comets
 local function hasCollidedRect( obj1, obj2 )
@@ -443,7 +392,7 @@ function ResumeLevel1FS()
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 5 questions are answered, transitions to the "YouWin_screen"
+    -- If 5 questions are answered, transitions to "level2_screen"
     if (questionCorrect1FS == 5) then
         Level2Transition()
     end

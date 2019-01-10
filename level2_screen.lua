@@ -46,9 +46,8 @@ questionCorrect2FS = 0
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
--- The local variables for this scene
 
-
+-- CREATES THE LOCAL VARIABLES FOR THIS SCENE
 
 -- Background image
 local bkg_image
@@ -75,59 +74,10 @@ local alreadyTouchedCharacter = false
 -- COLLISION FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- This function detects if the boundries intersect/characters collide
-local function hasCollided(obj1, obj2)
-
-        -- Prints obj1's x and y coordinates
-    print ("***obj1.x = " .. obj1.x)
-    print ("***obj1.y = " .. obj1.y)
-        -- Prints obj2's x and y coordinates
-    print ("***obj2.x = " .. obj2.x)
-    print ("***obj2.y = " .. obj2.y)
-            
-
-    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
-        return false 
-    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
-        return false 
-    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
-        return false 
-    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
-        return false 
-    else 
-        return true 
-    end
-end
-
--- Collision Function for circular objects ( currently not used in the code)
-local function hasCollidedCircle( obj1, obj2 )
- 
-    -- Makes sure the first object exists
-    if ( obj1 == nil ) then
-        return false
-    end
-
-    -- Makes sure the second object exists
-    if ( obj2 == nil ) then
-        return false
-    end
- 
-    local dx = obj1.x - obj2.x
-    local dy = obj1.y - obj2.y
- 
-    local distance = math.sqrt( dx*dx + dy*dy )
-    local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
- 
-    if ( distance < objectSize ) then
-        return true
-    end
-    return false
-end
-
--- Function to sense colklisions with the spaceship and comets
+-- Function to sense collisions with the spaceship and comets
 local function hasCollidedRect( obj1, obj2 )
- 
-      -- Makes sure the first object exists
+
+    -- Makes sure the first object exists
     if ( obj1 == nil ) then
         return false
     end
@@ -137,7 +87,7 @@ local function hasCollidedRect( obj1, obj2 )
         return false
     end
 
- -- sets bpoundries for the objects and detects if they collide
+    -- sets boundries for the objects and detects if they collide
     local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
     local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
     local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
@@ -153,19 +103,21 @@ end
 -- Transition to "YouLose_screen"
 local function YouLoseTransition()
 
+    -- Makes the character transparent
     character.isVisible = false
 
     -- Goes to "YouLose_screen"
-     composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
+    composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 -- Transition to "YouWin_screen"
-local function YouWinTransition()
+local function Level3Transition()
 
+    -- Makes the character transparent
     character.isVisible = false
 
-    -- Goes to "YouWin_screen"
-     composer.gotoScene( "YouWin_screen", {effect = "zoomInOutFade", time = 900})
+    -- Goes to "level3_screen"
+    composer.gotoScene( "level3_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 
@@ -334,15 +286,16 @@ end
 --------------------------------------------------------------------------------------------
 
 function ResumeLevel2FS()
-    -- body
+    -- Calls function "UpdateLives"
     UpdateLives()
+    -- Makes the character visable
     character.isVisible = true
+    -- Sets the characters x and y coordinates
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
-
-    -- If 3 questions are answered, transitions to thwe "YouWin_screen"
-    if (questionCorrect2FS == 3) then
-        YouWinTransition()
+    -- If 10 questions are answered correctly, transitions to "level3_screen"
+    if (questionCorrect2FS == 10) then
+        Level3Transition()
     end
 
 end
@@ -513,7 +466,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-       audio.stop( level1SoundChannel )
+       audio.stop( level2SoundChannel )
 
     -----------------------------------------------------------------------------------------
 
