@@ -100,23 +100,24 @@ end
 -- TIMER
 ----------
 
---
+-- Function that updates the timer
 local function UpdateTime()
     -- Decrement the number of seconds
     secondsLeft = secondsLeft - 1
-
     --Display the number of seconds left in the clock object
     clockText.text = "Time: " .. secondsLeft
 
     if (secondsLeft == 0 ) then
         -- Reset the number of seconds left
         secondsLeft = totalSeconds
+        -- Subtracts a life
         livesLevel1FS = livesLevel1FS - 1
+        -- Calls function BackToLevel1
         BackToLevel1()
     end
 end
 
---
+-- Function that starts the timer
 local function StartTimer()
     -- Create a countdown timer that loops infinitely
     countDownTimer = timer.performWithDelay( 1000, UpdateTime, 0)
@@ -132,20 +133,26 @@ local function TouchListenerAnswer(touch)
     
     if (touch.phase == "ended") then
 
+        -- Adds 1 to questionCorrect for level 1
         questionCorrect1FS = questionCorrect1FS + 1
+        -- Makes CorrectText visible
         CorrectText.isVisible = true
+        -- Adds a delay before going to Level 1
         timer.performWithDelay(1000,BackToLevel1)
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     
     if (touch.phase == "ended") then
         
+        -- Subtracts a life from Level 1
         livesLevel1FS = livesLevel1FS - 1
+        -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        -- Adds delay before going to level 1
         timer.performWithDelay(1000,BackToLevel1)
     end 
 end
@@ -155,8 +162,12 @@ local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
     if (touch.phase == "ended") then
+
+        -- Subtracts a life from Level 1
         livesLevel1FS = livesLevel1FS - 1
+        -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        -- Adds delay before going to level 1
         timer.performWithDelay(1000,BackToLevel1)
     end 
 end
@@ -166,8 +177,12 @@ local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     
     if (touch.phase == "ended") then
+        
+        -- Subtracts a life from Level 1
         livesLevel1FS = livesLevel1FS - 1
+        -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        -- Adds delay before going to level 1
         timer.performWithDelay(1000,BackToLevel1)
     end 
 end
@@ -315,15 +330,22 @@ function scene:create( event )
     wrongText3 = display.newText("", X2, Y1, Arial, 75)
     wrongText3.anchorX = 0
 
-        -- create the text object that will say Out of Time, set the colour and then hide it
+    -- Create the text object that will say "Correct!", set the colour and then hide it
     CorrectText = display.newText("Correct!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    -- Sets the text colour to be green
     CorrectText:setTextColor(0, 1, 0)
+    -- Makes CorrectText transparent
     CorrectText.isVisible = false
-        -- create the text object that will say Out of Time, set the colour and then hide it
+
+    -- Create the text object that will say "Incorrect!", set the colour and then hide it
     IncorrectText = display.newText("Incorrect!", display.contentWidth*2/5, display.contentHeight*1/3, nil, 50)
+    -- Sets the text colour to be red
     IncorrectText:setTextColor(1, 0, 0)
+    -- Makes IncorrectText transparent
     IncorrectText.isVisible = false
+
     -----------------------------------------------------------------------------------------
+   
     clockText = display.newText("", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
     clockText:setTextColor(1)
 
@@ -364,10 +386,16 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+
+        -- Calls function DisplayQuestion
         DisplayQuestion()
+        -- Calls function PositionAnswers
         PositionAnswers()
+        -- Calls function StartTimer
         StartTimer()
+        -- Calls function UpdateTimer
         UpdateTime()
+        -- Calls function AddTextListeners
         AddTextListeners()
     end
 
@@ -390,10 +418,12 @@ function scene:hide( event )
         -- Example: stop timers, stop animation, stop audio, etc.
         --parent:resumeGame()
 
+        -- stops the timer
         timer.cancel(countDownTimer)
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+
         -- Called immediately after scene goes off screen.
         RemoveTextListeners()
     end
@@ -425,8 +455,6 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
-
 
 -----------------------------------------------------------------------------------------
 
