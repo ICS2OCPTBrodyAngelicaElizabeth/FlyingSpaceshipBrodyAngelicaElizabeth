@@ -14,6 +14,9 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 
+-- load physics
+local physics = require("physics")
+
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
@@ -62,6 +65,11 @@ local halfHeart1
 
 -- Character
 local character
+
+-- Motion speed
+scrollSpeed1 = 7
+scrollSpeed2 = 5
+stop = 0
 
 -- Boolean variable
 local alreadyTouchedCharacter = false
