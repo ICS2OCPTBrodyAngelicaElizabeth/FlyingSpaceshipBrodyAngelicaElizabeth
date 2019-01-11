@@ -21,6 +21,8 @@ sceneName = "level_select"
 local scene = composer.newScene( sceneName )
 
 -----------------------------------------------------------------------------------------
+--LOCAL VARIABLES
+-----------------------------------------------------------------------------------------
 
 local level1Button
 local level2Button
@@ -28,6 +30,8 @@ local level3Button
 
 local bkg
 
+-----------------------------------------------------------------------------------------
+--LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
 -- Creating Transition to Level1 Screen
@@ -74,7 +78,7 @@ function scene:create( event )
     -- Creating Play Button
     level1Button = widget.newButton( 
         {   
-            -- Set its position on the screen relative to the screen size
+            -- Set its position and size
             x = display.contentWidth/4,
             y = display.contentHeight/2,
             width = display.contentWidth/5,
@@ -93,7 +97,7 @@ function scene:create( event )
     -- Creating Credits Button
     level2Button = widget.newButton( 
         {
-            -- Set its position on the screen relative to the screen size
+            -- Set its position and size
             x = display.contentWidth/2,
             y = display.contentHeight/2,
             width = display.contentWidth/5,
@@ -115,7 +119,7 @@ function scene:create( event )
  -- Creating Credits Button
     level3Button = widget.newButton( 
         {
-            -- Set its position on the screen relative to the screen size
+            -- Set its position and size
             x = display.contentWidth*3/4,
             y = display.contentHeight/2,
             width = display.contentWidth/5,
@@ -133,15 +137,13 @@ function scene:create( event )
     -- Creating Back Button
     backButton = widget.newButton( 
     {
-        -- Setting Position
+        -- Setting Position and size
         x = display.contentWidth*7/8,
         y = display.contentHeight*14.8/16,
         width = 150,
         height = 100,
 
-        -- Setting Dimensions
-        -- width = 1000,
-        -- height = 106,
+
 
         -- Setting Visual Properties
         defaultFile = "Images/BackButtonUnpressedBrody@2x.png",
@@ -218,8 +220,7 @@ function scene:hide( event )
     -- Insert code here to "pause" the scene.
     -- Example: stop timers, stop animation, stop audio, etc.
     
-    -- Stops sound effect
-    audio.stop (SplashScreenSoundChannel)
+
 
     if ( phase == "will" ) then  
 
