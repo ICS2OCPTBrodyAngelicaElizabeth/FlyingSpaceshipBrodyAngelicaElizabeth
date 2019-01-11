@@ -158,7 +158,7 @@ local function YouLoseTransition()
 
     character.isVisible = false
 
-    -- Goes to "YouLose_screen"
+    -- Goes to "youLose_screen"
      composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 

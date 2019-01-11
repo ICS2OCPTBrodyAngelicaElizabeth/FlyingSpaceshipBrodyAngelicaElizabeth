@@ -106,8 +106,8 @@ local function YouLoseTransition()
     -- Makes the character transparent
     character.isVisible = false
 
-    -- Goes to "YouLose_screen"
-    composer.gotoScene( "YouLose_screen", {effect = "zoomInOutFade", time = 900})
+    -- Goes to "youLose_screen"
+    composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 -- Transition to "YouWin_screen"
