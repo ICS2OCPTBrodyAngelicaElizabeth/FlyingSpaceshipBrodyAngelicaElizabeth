@@ -50,6 +50,13 @@ local function Level3ScreenTransition( )
 end    
 
 -----------------------------------------------------------------------------------------
+
+-- Creating Transitioning Function back to main menu
+local function BackTransition( )
+    composer.gotoScene( "main_menu", {effect = "slideLeft", time = 1000})
+end
+
+-----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 
@@ -123,6 +130,28 @@ function scene:create( event )
             onRelease = Level3ScreenTransition
         } ) 
     
+    -- Creating Back Button
+    backButton = widget.newButton( 
+    {
+        -- Setting Position
+        x = display.contentWidth*7/8,
+        y = display.contentHeight*14.8/16,
+        width = 150,
+        height = 100,
+
+        -- Setting Dimensions
+        -- width = 1000,
+        -- height = 106,
+
+        -- Setting Visual Properties
+        defaultFile = "Images/BackButtonUnpressedBrody@2x.png",
+        overFile = "Images/BackButtonPressedBrody@2x.png",
+
+        -- Setting Functional Properties
+        onRelease = BackTransition
+
+    } )
+
 
     ---------------
     -- BACKGROUND
@@ -144,7 +173,7 @@ function scene:create( event )
     sceneGroup:insert( level1Button )
     sceneGroup:insert( level2Button )
     sceneGroup:insert( level3Button )
-
+    sceneGroup:insert( backButton )
 
 end -- function scene:create( event )
 

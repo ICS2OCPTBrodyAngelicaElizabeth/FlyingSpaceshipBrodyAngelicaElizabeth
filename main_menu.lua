@@ -172,16 +172,16 @@ function scene:create( event )
         {   
             -- Set its position on the screen relative to the screen size
             x = display.contentWidth/2,
-            y = display.contentHeight*11/13,
-            width = display.contentWidth/5,
-            height = display.contentHeight/4,
+            y = display.contentHeight*12/13,
+            width = display.contentWidth/4,
+            height = display.contentHeight/5,
 
             -- Insert the images here
             defaultFile = "Images/LevelSelectButtonUnpressed@2x.png",
             overFile = "Images/LevelSelectButtonPressed@2x.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition          
+            onRelease = LevelSelectTransition          
         } )
 
 
@@ -191,7 +191,7 @@ function scene:create( event )
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
     sceneGroup:insert( helpButton )
-    
+    sceneGroup:insert( levelSelectButton )
     -- INSERT INSTRUCTIONS BUTTON INTO SCENE GROUP
 
 end -- function scene:create( event )   
