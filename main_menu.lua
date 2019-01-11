@@ -166,6 +166,26 @@ function scene:create( event )
         } ) 
 
     -----------------------------------------------------------------------------------------
+    
+ -- Creating Play Button
+    levelSelectButton = widget.newButton( 
+        {   
+            -- Set its position on the screen relative to the screen size
+            x = display.contentWidth/2,
+            y = display.contentHeight*11/13,
+            width = display.contentWidth/5,
+            height = display.contentHeight/4,
+
+            -- Insert the images here
+            defaultFile = "Images/LevelSelectButtonUnpressed@2x.png",
+            overFile = "Images/LevelSelectButtonPressed@2x.png",
+
+            -- When the button is released, call the Level1 screen transition function
+            onRelease = Level1ScreenTransition          
+        } )
+
+
+    -----------------------------------------------------------------------------------------
 
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
