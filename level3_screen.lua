@@ -14,6 +14,9 @@
 local composer = require( "composer" )
 local widget = require( "widget" )
 
+-- load physics
+local physics = require("physics")
+
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
@@ -62,6 +65,11 @@ local halfHeart1
 
 -- Character
 local character
+
+-- Motion speed
+scrollSpeed1 = 7
+scrollSpeed2 = 5
+stop = 0
 
 -- Boolean variable
 local alreadyTouchedCharacter = false
@@ -246,12 +254,10 @@ end
 local function ReplaceCharacter()
     
     -- associates the character with an image/png
-    character = display.newImageRect("Images/FullCharacter.png", display.contentWidth*14/100, display.contentHeight*38/100)
+    character = display.newImageRect("Images/Pilot3.png", display.contentWidth*14/100, display.contentHeight*38/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
-    -- Rotates the character by -90 degrees
-    character:rotate(-90)
     -- Names the character
     character.myName = "Spaceship"
     -- Addsa the EventListener
@@ -314,7 +320,7 @@ function ResumeLevel3FS()
     character.y = display.contentHeight*50/100
 
     -- If 15 questions are answered, transitions to the "YouWin_screen"
-    if (questionCorrect3FS == 5) then
+    if (questionCorrect3FS == 15) then
         YouWinTransition()
     end
 
@@ -333,7 +339,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Inserts the background image
-    bkg_image = display.newImageRect("Images/Level1Screen (2).png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/Level3Screen.png", display.contentWidth, display.contentHeight)
     -- Assignes the background x and y coordinates
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
@@ -461,7 +467,7 @@ function scene:hide( event )
         -- Called when the scene is on screen (but is about to go off screen).
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
-       audio.stop( level1SoundChannel )
+       audio.stop( level3SoundChannel )
 
     -----------------------------------------------------------------------------------------
 
