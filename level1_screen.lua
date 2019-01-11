@@ -247,6 +247,7 @@ local function UpdateLives()
         halfHeart1.isVisible = false
         halfHeart2.isVisible = false
         halfHeart3.isVisible = false
+        questionCorrect1FS = 0
         -- Performs the function after a delay of 1/10ths of a second/100 miliseconds
         timer.performWithDelay(100, YouLoseTransition)
     end
@@ -395,9 +396,25 @@ function ResumeLevel1FS()
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
+    if (questionCorrect1FS == 0) then
+        correctText.text = ("0/5")
+    
+    elseif (questionCorrect1FS == 1) then
+        correctText.text = ("1/5")
+
+    elseif (questionCorrect1FS == 2) then
+        correctText.text = ("2/5")
+
+    elseif (questionCorrect1FS == 3) then
+        correctText.text = ("3/5")
+
+    elseif (questionCorrect1FS == 4) then
+        correctText.text = ("4/5")
 
     -- If 5 questions are answered, transitions to "level2_screen"
-    if (questionCorrect1FS == 5) then
+    elseif (questionCorrect1FS == 5) then
+        correctText.text = ("5/5")
+        questionCorrect1FS = 0
         Level2Transition()
     end
 
@@ -544,6 +561,12 @@ function scene:create( event )
     cometQuestion:rotate(-30)
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometQuestion)
+
+    ---------
+    -- TEXT
+    ---------
+
+    correctText = display.newText("0/5", display.contentWidth*9/10, display.contentHeight*9/10, nil, 50 )
 
 end --function scene:create( event )
 
