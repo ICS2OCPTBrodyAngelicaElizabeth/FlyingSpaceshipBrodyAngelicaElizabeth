@@ -19,8 +19,7 @@ local widget = require( "widget" )
 
 --SOUNDS
 --create the credits sound
-local instructionsSound = audio.loadSound("Sounds/instructionsSound.mp3") 
-local instructionsSoundChannel
+local instructionsSound = audio.loadStream("Sounds/instructionsSound.mp3") 
 
 --instructionsSoundChannel = audio.play(instructionsSound)
 

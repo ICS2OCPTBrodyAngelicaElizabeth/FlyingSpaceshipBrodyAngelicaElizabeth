@@ -35,7 +35,7 @@ local backButton
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local youWinSound = audio.loadSound("Sounds/WinningSound.mp3") 
+local youWinSound = audio.loadStream("Sounds/WinningSound.mp3") 
 local youWinChannel
 
 -----------------------------------------------------------------------------------------

@@ -21,8 +21,7 @@ local scene = composer.newScene( sceneName )
 ----------------------------------------------------------------------------------------
 -- Sounds
 -----------------------------------------------------------------------------------------
-local backgroundSound = audio.loadSound("Sounds/clearday.mp3")
-local backgroundSoundChannel
+local backgroundSound = audio.loadStream("Sounds/clearday.mp3")
 
 ----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
