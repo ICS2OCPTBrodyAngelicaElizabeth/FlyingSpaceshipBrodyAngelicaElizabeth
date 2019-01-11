@@ -23,9 +23,8 @@ sceneName = "credits_screen"
 scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
 
 --SOUNDS
-local creditsSound = audio.loadSound("Sounds/creditsSound.mp3") 
-local creditsSoundChannel
---creditsSoundChannel = audio.play(creditsSound)
+local creditsSound = audio.loadStream("Sounds/creditsSound.mp3") 
+
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES

@@ -17,8 +17,7 @@ local widget = require( "widget" )
 -----------------------------------------------------------------------------------------
 
 --SOUNDS
-local level2Sound = audio.loadSound("Sounds/bkgSound.mp3") 
-local level2SoundChannel
+local level2Sound = audio.loadStream("Sounds/bkgSound.mp3") 
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
 

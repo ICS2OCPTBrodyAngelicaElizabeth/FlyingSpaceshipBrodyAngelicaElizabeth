@@ -23,8 +23,7 @@ local physics = require("physics")
 -----------------------------------------------------------------------------------------
  
 -- BACKGROUND MUSIC
-local level1Sound = audio.loadSound("Sounds/bkgSound.mp3") 
-local level1SoundChannel
+local level1Sound = audio.loadStream("Sounds/bkgSound.mp3") 
 -- COLLIDE SOUND
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
