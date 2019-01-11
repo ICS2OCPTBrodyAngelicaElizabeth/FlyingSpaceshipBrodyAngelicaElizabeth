@@ -84,6 +84,9 @@ scrollSpeed1 = 7
 scrollSpeed2 = 5
 stop = 0
 
+-- Variable for Cprrectquestions text object
+local correctText
+
 -- Boolean variable
 local alreadyTouchedCharacter = false
 
@@ -390,6 +393,7 @@ function ResumeLevel1FS()
     -- Sets the characters x and y coordinates
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
+
 
     -- If 5 questions are answered, transitions to "level2_screen"
     if (questionCorrect1FS == 5) then

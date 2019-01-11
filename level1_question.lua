@@ -72,11 +72,14 @@ local userAnswer
 -- Variable that contains if the text has been touched or not
 local textTouched = false
 
+-- Variables for the timer
 local countDownTimer
-local secondsLeft = 15
-local totalSeconds = 15
 local clockText
-
+-- Variable for how many seconds are left
+local secondsLeft = 15
+-- Variable for total seconds
+local totalSeconds = 15
+-- Variables for "Incorrect!" and "Correct!" text objects
 local CorrectText
 local IncorrectText
 
