@@ -84,7 +84,7 @@ scrollSpeed1 = 7
 scrollSpeed2 = 5
 stop = 0
 
--- Variable for Cprrectquestions text object
+-- Variable for Correctquestions text object
 local correctText
 
 -- Boolean variable
@@ -172,6 +172,9 @@ end
 
 -- This function makes all of the fullHearts visible
 local function MakeHeartsVisible()
+
+    -- Makes text "0/5" visible
+    correctText.text = ("0/5")
 
     -- Makes all of the fullHearts visible
     fullHeart1.isVisible = true
@@ -316,6 +319,8 @@ local function onCollision( self, event)
         if (event.target.myName == "cometLoss") then
             print ("***Hit cometLoss")
             display.remove(character)
+            livesLevel1FS = livesLevel1FS - 0.5
+            UpdateLives()
         end
 
         if (event.target.myName == "cometQuestion") then
@@ -335,25 +340,21 @@ end
 
 local function ReplaceCharacter()
     
-    -- associates the character with an image/png
-    character = display.newImageRect("Images/Pilot1.png", display.contentWidth*14/100, display.contentHeight*38/100)
-
+    -- Associates the character with an image/png
+    character = display.newImageRect("Images/Pilot1.png", display.contentWidth*12/100, display.contentHeight*36/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
-
     -- Names the character
     character.myName = "Ship"
-    -- Addsa the EventListener
+    -- Adds an EventListener
     character:addEventListener("touch", CharacterListener)
-
     character.collision = onCollision
     character:addEventListener("collision")
-    
+    -- add physics body
+    physics.addBody( character, "static", { density=0, friction=0, bounce=0, rotation=0 } )
 
 end
-
-
 
 -- This function adds EventListeners
 local function AddCollisionListeners()
@@ -363,7 +364,6 @@ local function AddCollisionListeners()
     -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
-
 
     -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
@@ -378,7 +378,16 @@ local function RemoveCollisionListeners()
     cometQuestion:removeEventListener("collision")
 end
 
+local function AddPhysicsBodies()
 
+    physics.addBody( cometLoss, "static", { density=0, friction=0, bounce=0 } )
+    physics.addBody( cometQuestion, "static", { density=0, friction=0, bounce=0 } )
+end
+
+local function RemovePhysicsBodies()
+    physics.removeBody(cometLoss)
+    physics.removeBody(cometQuestion)
+end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -566,6 +575,7 @@ function scene:create( event )
     ---------
 
     correctText = display.newText("0/5", display.contentWidth*9/10, display.contentHeight*9/10, nil, 50 )
+    sceneGroup:insert(correctText)
 
 end --function scene:create( event )
 
@@ -581,10 +591,10 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-        physics.start()
-
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
+    -- Starts physics
+    physics.start()
 
     elseif ( phase == "did" ) then
 
@@ -600,14 +610,14 @@ function scene:show( event )
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
 
-        Runtime:addEventListener("enterFrame", MoveComets)
-        -- Calls function "ReplaceCharacter"
-        ReplaceCharacter()
+        AddPhysicsBodies()
 
         -- Adds collision Listeners
         AddCollisionListeners()
 
-        
+        Runtime:addEventListener("enterFrame", MoveComets)
+        -- Calls function "ReplaceCharacter"
+        ReplaceCharacter()        
     end
 
 end --function scene:show( event )
@@ -629,14 +639,20 @@ function scene:hide( event )
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
        audio.stop( level1SoundChannel )
-
+       physics.start()
+       
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
 
+        RemoveCollisionListeners()
+        RemovePhysicsBodies()
+
+        physics.stop()
         character:removeEventListener("touch", CharacterListener)
         Runtime:removeEventListener("enterFrame", MoveComets)
+        display.remove(character)
     end
 
 end --function scene:hide( event )
