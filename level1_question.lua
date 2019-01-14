@@ -211,7 +211,7 @@ local function DisplayQuestion()
     firstNumber = math.random (1,16)
     secondNumber = math.random (3,13)
 
-    -- calculate answer
+    -- Calculate answer
     answer = firstNumber + secondNumber
 
     -- Calculate wrong answers
@@ -247,7 +247,6 @@ local function PositionAnswers()
         wrongText3.x = X2
         wrongText3.y = Y2
 
-        
     elseif (answerPosition == 2) then
         -- AnswerText
         answerText.x = X1
@@ -261,7 +260,6 @@ local function PositionAnswers()
         -- WrongText3
         wrongText3.x = X2
         wrongText3.y = Y2
-
 
     elseif (answerPosition == 3) then
         -- AnswerText
@@ -306,18 +304,18 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
     -- Covering the other scene with a rectangle so it looks faded and stops touch from going through
     bkg = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
-    --setting to a semi black colour
+    -- Setting to a semi black colour
     bkg:setFillColor(0,0,0,0.5)
 
     -----------------------------------------------------------------------------------------
     -- Making a cover rectangle to have the background fully bolcked where the question is
     cover = display.newRoundedRect(display.contentCenterX, display.contentCenterY, display.contentWidth*0.8, display.contentHeight*0.95, 50 )
-    --setting its colour
+    -- Setting its colour
     cover:setFillColor(96/255, 96/255, 96/255)
-    -- create the question text object
+    -- Create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 75)
 
-    -- create the answer text object & wrong answer text objects
+    -- Create the answer text object & wrong answer text objects
     answerText = display.newText("", X1, Y2, Arial, 75)
     answerText.anchorX = 0
     wrongText1 = display.newText("", X2, Y2, Arial, 75)
@@ -348,7 +346,7 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
 
-    -- insert all objects for this scene into the scene group
+    -- Insert all objects for this scene into the scene group
     sceneGroup:insert(bkg)
     sceneGroup:insert(cover)
     sceneGroup:insert(questionText)
@@ -359,8 +357,6 @@ function scene:create( event )
     sceneGroup:insert(clockText)
     sceneGroup:insert(CorrectText)
     sceneGroup:insert(IncorrectText)
-
-
 end --function scene:create( event )
 
 -----------------------------------------------------------------------------------------
@@ -419,11 +415,10 @@ function scene:hide( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-
         -- Called immediately after scene goes off screen.
+
         RemoveTextListeners()
     end
-
 end --function scene:hide( event )
 
 -----------------------------------------------------------------------------------------

@@ -31,6 +31,7 @@ local collideSoundChannel
 -- SCENE NAME
 ---------------
 
+-- Names the scene "level2_screen"
 sceneName = "level2_screen"
 
 -----------------------------------------------------------------------------------------
@@ -478,14 +479,7 @@ function scene:create( event )
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometLoss" x and y coordinates
     cometLoss.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
-    cometLoss.y = display.contentHeight*80/100
-    print ("***cometLoss.contentBounds.xMin = " .. cometLoss.contentBounds.xMin)
-    print ("***cometLoss.contentBounds.xMax = " .. cometLoss.contentBounds.xMax)
-    print ("***cometLoss.contentBounds.yMin = " .. cometLoss.contentBounds.yMin)
-    print ("***cometLoss.contentBounds.yMax = " .. cometLoss.contentBounds.yMax)
-    print ("***cometLoss.x = " .. cometLoss.x)
-    print ("***cometLoss.y = " .. cometLoss.y)
-    
+    cometLoss.y = display.contentHeight*80/100    
     -- Makes "cometLoss" visible
     cometLoss.isVisible = true
     -- Names the object

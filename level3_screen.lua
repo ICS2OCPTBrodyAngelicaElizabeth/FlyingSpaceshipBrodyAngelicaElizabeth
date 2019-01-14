@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- level2_screen.lua
+-- level3_screen.lua
 -- Created by: ...
 -- Date: Month Day, Year
--- Description: This is the level 1 screen of the game.
+-- Description: This is the level 3 screen of the game.
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -18,13 +18,20 @@ local widget = require( "widget" )
 local physics = require("physics")
 
 -----------------------------------------------------------------------------------------
-
---SOUNDS
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+ 
+-- BACKGROUND MUSIC
 local level3Sound = audio.loadStream("Sounds/bkgSound.mp3") 
+-- COLLIDE SOUND
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
 
--- Naming Scene
+---------------
+-- SCENE NAME
+---------------
+
+-- Names the scene "leve3_screen"
 sceneName = "level3_screen"
 
 -----------------------------------------------------------------------------------------
@@ -38,7 +45,7 @@ display.setStatusBar(display.HiddenStatusBar)
 --------------------------------------------------------------------------------------------
 -- GLOBAL VARIABLES
 --------------------------------------------------------------------------------------------
--- Makes global variable "lives"
+-- Makes variable "livesLevel3FS"
 livesLevel3FS = 1
 
 -- Global variable to hold the amount of correctly answered Questions
@@ -47,7 +54,8 @@ questionCorrect3FS = 0
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
--- The local variables for this scene
+
+-- CREATES THE LOCAL VARIABLES FOR THIS SCENE
 
 -- Background image
 local bkg_image
@@ -70,6 +78,9 @@ scrollSpeed1 = 7
 scrollSpeed2 = 5
 stop = 0
 
+-- Variable for Correctquestions text object
+local correctText
+
 -- Boolean variable
 local alreadyTouchedCharacter = false
 
@@ -77,58 +88,11 @@ local alreadyTouchedCharacter = false
 -- COLLISION FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- This function detects if the boundries intersect/characters collide
-local function hasCollided(obj1, obj2)
-
-        -- Prints obj1's x and y coordinates
-    print ("***obj1.x = " .. obj1.x)
-    print ("***obj1.y = " .. obj1.y)
-        -- Prints obj2's x and y coordinates
-    print ("***obj2.x = " .. obj2.x)
-    print ("***obj2.y = " .. obj2.y)
-            
-
-    if (obj1.x - obj1.width/2) > (obj2.x + obj2.width/2) then         
-        return false 
-    elseif (obj1.x + obj1.width/2) < (obj2.x - obj2.width/2) then 
-        return false 
-    elseif (obj1.y - obj1.height/2) > (obj2.y + obj2.height/2) then 
-        return false 
-    elseif (obj1.y + obj1.height/2) < (obj2.y - obj2.height/2) then 
-        return false 
-    else 
-        return true 
-    end
-end
-
--- Collision Function for circular objects ( currently not used in the code)
-local function hasCollidedCircle( obj1, obj2 )
- 
-    -- Makes sure the first object exists
-    if ( obj1 == nil ) then
-        return false
-    end
-
-    -- Makes sure the second object exists
-    if ( obj2 == nil ) then
-        return false
-    end
- 
-    local dx = obj1.x - obj2.x
-    local dy = obj1.y - obj2.y
- 
-    local distance = math.sqrt( dx*dx + dy*dy )
-    local objectSize = (obj2.contentWidth/2) + (obj1.contentWidth/2)
- 
-    if ( distance < objectSize ) then
-        return true
-    end
-    return false
-end
-
--- Function to sense colklisions with the spaceship and comets
+-- Function to sense collisions with the Ship and comets
 local function hasCollidedRect( obj1, obj2 )
- 
+    local X_PADDING = 75
+    local Y_PADDING = 55
+
       -- Makes sure the first object exists
     if ( obj1 == nil ) then
         return false
@@ -139,11 +103,12 @@ local function hasCollidedRect( obj1, obj2 )
         return false
     end
 
- -- sets bpoundries for the objects and detects if they collide
-    local left = obj1.contentBounds.xMin <= obj2.contentBounds.xMin and obj1.contentBounds.xMax >= obj2.contentBounds.xMin
-    local right = obj1.contentBounds.xMin >= obj2.contentBounds.xMin and obj1.contentBounds.xMin <= obj2.contentBounds.xMax
-    local up = obj1.contentBounds.yMin <= obj2.contentBounds.yMin and obj1.contentBounds.yMax >= obj2.contentBounds.yMin
-    local down = obj1.contentBounds.yMin >= obj2.contentBounds.yMin and obj1.contentBounds.yMin <= obj2.contentBounds.yMax
+ -- Sets boundries for the objects and detects if they collide
+
+    local left = (obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMin) and (obj1.contentBounds.xMax - X_PADDING >= obj2.contentBounds.xMin)
+    local right = obj1.contentBounds.xMin + X_PADDING >= obj2.contentBounds.xMin and obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMax
+    local up = obj1.contentBounds.yMin + Y_PADDING <= obj2.contentBounds.yMin and obj1.contentBounds.yMax - Y_PADDING >= obj2.contentBounds.yMin
+    local down = obj1.contentBounds.yMin + Y_PADDING >= obj2.contentBounds.yMin and obj1.contentBounds.yMin + Y_PADDING <= obj2.contentBounds.yMax
  
     return ( left or right ) and ( up or down )
 end
@@ -158,26 +123,47 @@ local function YouLoseTransition()
     character.isVisible = false
 
     -- Goes to "youLose_screen"
-     composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
+    composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
 -- Transition to "YouWin_screen"
 local function YouWinTransition()
 
+    -- Makes the character transparent
     character.isVisible = false
-
-    -- Goes to "YouWin_screen"
-     composer.gotoScene( "youWin_screen", {effect = "zoomInOutFade", time = 900})
+    -- Goes to "youWin_screen"
+    composer.gotoScene( "youWin_screen", {effect = "zoomInOutFade", time = 900})
 end
-
 
 --------------------------------------------------------------------------------------------
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
+-- Creates a function that makes the comets invisible
+local function Hide()
+    -- Hides CometLoss 
+    cometLoss.isVisible = false
+    -- Hides CometQuestion
+    cometQuestion.isVisible = false
+end
+
+-- Makes a function that sets the comets in a downwards motion
+local function MoveComets(event)
+    if (cometLoss.y > display.contentHeight) then
+        -- Assigns a random x coordinate for cometLoss
+        cometLoss.x = math.random(0, display.contentWidth)
+        cometLoss.y = 0
+    else
+        -- Lowers the y point of cometLoss steadily
+        cometLoss.y = cometLoss.y + scrollSpeed1
+    end
+end
+
 -- This function makes all of the fullHearts visible
 local function MakeHeartsVisible()
 
+    -- Makes text "0/15" visible
+    correctText.text = ("0/15")
     -- Makes all of the fullHearts visible
     fullHeart1.isVisible = true
     halfHeart1.isVisible = false
@@ -199,7 +185,6 @@ local function UpdateLives()
     else --( lives == 0 ) then
         fullHeart1.isVisible = false
         halfHeart1.isVisible = false
-
         -- Performs the function after a delay of 1/10ths of a second/100 miliseconds
         timer.performWithDelay(100, YouLoseTransition)
     end
@@ -207,7 +192,6 @@ end
 
 -- Character touch listener
 local function CharacterListener(touch)
-
 
     if (touch.phase == "began") then
         --
@@ -229,8 +213,10 @@ local function CharacterListener(touch)
             -- resets the character x and y position
             character.x = display.contentWidth*50/100
             character.y = display.contentHeight*50/100
-            -- Calls function to update the hearts/lives
+            -- Calls function to update the hearts/livesLevel3FS            
             UpdateLives()
+            cometLoss.x = math.random(0, display.contentWidth)
+            cometLoss.y = 0            
         end
 
         -- Verifies if the character has collided with cometQuestion
@@ -242,25 +228,11 @@ local function CharacterListener(touch)
             -- Goes to the question screen/overlay
             composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
         end
-        
     end
 
     if (touch.phase == "ended") then
-
+        --
     end
-end
-
-local function ReplaceCharacter()
-    
-    -- associates the character with an image/png
-    character = display.newImageRect("Images/Pilot3.png", display.contentWidth*14/100, display.contentHeight*38/100)
-    -- Assignes the character's x and y position
-    character.x = display.contentWidth*50/100
-    character.y = display.contentHeight*50/100  
-    -- Names the character
-    character.myName = "Spaceship"
-    -- Addsa the EventListener
-    character:addEventListener("touch", CharacterListener)
 end
 
 local function onCollision( self, event)
@@ -271,12 +243,15 @@ local function onCollision( self, event)
     --print( event.otherElement )  --the element (number) of the second object which was hit in the collision
     --print( event.target.myName .. ": collision began with " .. event.other.myName )
 
+    print ("onCollision called")
 
     if ( event.phase == "began" ) then
 
         if (event.target.myName == "cometLoss") then
             print ("***Hit cometLoss")
             display.remove(character)
+            livesLevel3FS = livesLevel3FS - 0.5
+            UpdateLives()
         end
 
         if (event.target.myName == "cometQuestion") then
@@ -284,7 +259,31 @@ local function onCollision( self, event)
             composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
         end
 
+        if (event.target.myName == "Ship") then
+            print ("***Hit character")
+            character.isVisible = false
+            composer.showOverlay( "level3_question", { isModal = true, effect = "fade", time = 100})
+        end
+
     end
+end
+
+
+local function ReplaceCharacter()
+    
+    -- Associates the character with an image/png
+    character = display.newImageRect("Images/Pilot1.png", display.contentWidth*12/100, display.contentHeight*36/100)
+    -- Assignes the character's x and y position
+    character.x = display.contentWidth*50/100
+    character.y = display.contentHeight*50/100  
+    -- Names the character
+    character.myName = "Ship"
+    -- Adds an EventListener
+    character:addEventListener("touch", CharacterListener)
+    character.collision = onCollision
+    character:addEventListener("collision")
+    -- add physics body
+    physics.addBody( character, "static", { density=0, friction=0, bounce=0, rotation=0 } )
 end
 
 -- This function adds EventListeners
@@ -293,13 +292,12 @@ local function AddCollisionListeners()
     -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
-
     -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
     cometQuestion:addEventListener("collision")
 end
 
--- this function removes EventListeners
+-- This function removes EventListeners
 local function RemoveCollisionListeners()
 
     -- Removes EventListeners
@@ -307,24 +305,84 @@ local function RemoveCollisionListeners()
     cometQuestion:removeEventListener("collision")
 end
 
+local function AddPhysicsBodies()
+
+    physics.addBody( cometLoss, "static", { density=0, friction=0, bounce=0 } )
+    physics.addBody( cometQuestion, "static", { density=0, friction=0, bounce=0 } )
+end
+
+local function RemovePhysicsBodies()
+
+    physics.removeBody(cometLoss)
+    physics.removeBody(cometQuestion)
+end
+
 --------------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
 function ResumeLevel3FS()
-    -- body
+
+    -- Calls function "UpdateLives"
     UpdateLives()
+    -- Makes the character visable
     character.isVisible = true
+    -- Sets the characters x and y coordinates
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100
 
-    -- If 15 questions are answered, transitions to the "YouWin_screen"
-    if (questionCorrect3FS == 15) then
+    if (questionCorrect3FS == 0) then
+        correctText.text = ("0/15")
+    
+    elseif (questionCorrect3FS == 1) then
+        correctText.text = ("1/15")
+
+    elseif (questionCorrect3FS == 2) then
+        correctText.text = ("2/15")
+
+    elseif (questionCorrect3FS == 3) then
+        correctText.text = ("3/15")
+
+    elseif (questionCorrect3FS == 4) then
+        correctText.text = ("4/15")
+
+    elseif (questionCorrect3FS == 5) then
+        correctText.text = ("5/15")
+
+    elseif (questionCorrect3FS == 6) then
+        correctText.text = ("6/15")
+
+    elseif (questionCorrect3FS == 7) then
+        correctText.text = ("7/15")
+
+    elseif (questionCorrect3FS == 8) then
+        correctText.text = ("8/10")
+
+    elseif (questionCorrect3FS == 9) then
+        correctText.text = ("9/15")
+
+    elseif (questionCorrect3FS == 10) then
+        correctText.text = ("10/15")
+
+    elseif (questionCorrect3FS == 11) then
+        correctText.text = ("11/15")
+
+    elseif (questionCorrect3FS == 12) then
+        correctText.text = ("12/15")
+
+    elseif (questionCorrect3FS == 13) then
+        correctText.text = ("13/15")
+
+    elseif (questionCorrect3FS == 14) then
+        correctText.text = ("14/15")
+
+    -- If 5 questions are answered, transitions to "level3_screen"
+    elseif (questionCorrect3FS == 15) then
+        correctText.text = ("15/15")
+        questionCorrect3FS = 0
         YouWinTransition()
     end
-
 end
-
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -337,6 +395,10 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
 
+    ---------------
+    -- BACKGROUND
+    ---------------
+
     -- Inserts the background image
     bkg_image = display.newImageRect("Images/Level3Screen.png", display.contentWidth, display.contentHeight)
     -- Assignes the background x and y coordinates
@@ -347,11 +409,12 @@ function scene:create( event )
     bkg_image.height = display.contentHeight
     -- Inserts background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )  
-    ---------
-    -- Full hearts
-    ---------
+    
+    ----------------
+    -- FULL HEARTS
+    ----------------
 
-    -- Heart1 
+    -- FULLHEART1 
     -- Assignes "fullHeart1" to an image/png
     fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     -- Assignes "fullHeart1" x and y coordinates
@@ -362,11 +425,11 @@ function scene:create( event )
     -- Inserts the "fullHeart1" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(fullHeart1)
 
-    ---------
-    -- Half hearts
-    ---------
+    ----------------
+    -- HALF HEARTS
+    ----------------
 
-    -- Halfheart 1
+    -- HALFHEART1
     -- Assignes "halfHeart1" to an image/png
     halfHeart1 = display.newImageRect("Images/HalfHeart.png", display.contentWidth*4/100, display.contentHeight*8/100)
     -- Assignes "halfHeart1" x and y coordinates
@@ -377,16 +440,16 @@ function scene:create( event )
     -- Inserts the "fullHeart3" image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(halfHeart1)
 
-    ---------
-    -- Comets
-    ---------
+    -----------
+    -- COMETS
+    -----------
 
-    -- Loss comet
+    -- LOSS COMET
     -- Assignes "cometLoss" to an image/png
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometLoss" x and y coordinates
-    cometLoss.x = display.contentWidth*85/100
-    cometLoss.y = display.contentHeight*80/100
+    cometLoss.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
+    cometLoss.y = display.contentHeight*80/100    
     -- Makes "cometLoss" visible
     cometLoss.isVisible = true
     -- Names the object
@@ -396,11 +459,11 @@ function scene:create( event )
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometLoss)
 
-    -- Question comet
+    -- QUESTION COMET
     -- Assignes "cometQuestion" to an image/png
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometQuestion" x and y coordinates
-    cometQuestion.x = display.contentWidth*15/100
+    cometQuestion.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
     cometQuestion.y = display.contentHeight*20/100
     -- Makes "cometQuestion" visible
     cometQuestion.isVisible = true
@@ -410,6 +473,13 @@ function scene:create( event )
     cometQuestion:rotate(-30)
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometQuestion)
+
+    ---------
+    -- TEXT
+    ---------
+
+    correctText = display.newText("0/15", display.contentWidth*9/10, display.contentHeight*9/10, nil, 50 )
+    sceneGroup:insert(correctText)
 
 end --function scene:create( event )
 
@@ -425,10 +495,10 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     if ( phase == "will" ) then
-        physics.start()
-
         -- Called when the scene is still off screen (but is about to come on screen).
     -----------------------------------------------------------------------------------------
+    -- Starts physics
+    physics.start()
 
     elseif ( phase == "did" ) then
 
@@ -436,25 +506,27 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
         
-        --play level1 background sound
+        --play level3 background sound
         level3SoundChannel = audio.play(level3Sound)
-        -- Adds collision Listeners
-        AddCollisionListeners()
+        -- Sets variable "livesLevel3FS" to 3
         livesLevel3FS = 1
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
+        -- Calls function AddPhysicsBodies
+        AddPhysicsBodies()
+        -- Adds collision Listeners
+        AddCollisionListeners()
+        -- Adds Runtime eventListener
+        Runtime:addEventListener("enterFrame", MoveComets)
         -- Calls function "ReplaceCharacter"
-        ReplaceCharacter()
-        
+        ReplaceCharacter()        
     end
-
 end --function scene:show( event )
-
 -----------------------------------------------------------------------------------------
 
 -- The function called when the scene is issued to leave the screen
 function scene:hide( event )
-    audio.stop (level1SoundChannel)
+    audio.stop (level3SoundChannel)
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
@@ -473,7 +545,13 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
 
+        RemoveCollisionListeners()
+        RemovePhysicsBodies()
+
+        physics.stop()
         character:removeEventListener("touch", CharacterListener)
+        Runtime:removeEventListener("enterFrame", MoveComets)
+        display.remove(character)
     end
 
 end --function scene:hide( event )
