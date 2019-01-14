@@ -84,7 +84,7 @@ local character
 -- Motion speed
 scrollSpeed1 = 7
 scrollSpeed2 = 5
-scrollSpeed3 = 9
+scrollSpeed3 = 4
 scrollSpeed4 = 6
 stop = 0
 
