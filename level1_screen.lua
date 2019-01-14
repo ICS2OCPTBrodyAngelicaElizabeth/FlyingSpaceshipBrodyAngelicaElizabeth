@@ -173,7 +173,7 @@ local function MoveCometQ1(event)
         cometQuestion.y = 0
     else
         -- Lowers the y point of cometQuestion steadily
-        cometQuestion.y = cometQuestion.y + scrollSpeed1
+        cometQuestion.y = cometQuestion.y + scrollSpeed2
     end
 end
 
