@@ -116,7 +116,7 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
 
- -- Creating Credits Button
+    -- Creating Credits Button
     level3Button = widget.newButton( 
         {
             -- Set its position and size
@@ -124,7 +124,6 @@ function scene:create( event )
             y = display.contentHeight/2,
             width = display.contentWidth/5,
             height = display.contentHeight/4,
-
 
             -- Insert the images here
             defaultFile = "Images/Level3ButtonPressed@2x.png",
@@ -142,8 +141,6 @@ function scene:create( event )
         y = display.contentHeight*14.8/16,
         width = 150,
         height = 100,
-
-
 
         -- Setting Visual Properties
         defaultFile = "Images/BackButtonUnpressedBrody@2x.png",

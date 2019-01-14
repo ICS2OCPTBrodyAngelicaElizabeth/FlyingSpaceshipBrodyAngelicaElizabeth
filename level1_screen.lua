@@ -146,15 +146,15 @@ end
 --------------------------------------------------------------------------------------------
 
 -- creates a function that makes the comets invisible
-local function Hide()
-    -- Hides CometLoss 
-    cometLoss.isVisible = false
-    -- Hides CometQuestion
-    cometQuestion.isVisible = false
+local function Show()
+    -- shows CometLoss 
+    cometLoss.isVisible = true
+    -- shows CometQuestion
+    cometQuestion.isVisible = true
 end
 
 -- makes a function that sets the comets in a downwards motion
-local function MoveComets(event)
+local function MoveCometL1(event)
     if (cometLoss.y > display.contentHeight) then
         -- Assigns a random x coordinate for cometLoss
         cometLoss.x = math.random(0, display.contentWidth)
@@ -162,6 +162,18 @@ local function MoveComets(event)
     else
         -- Lowers the y point of cometLoss steadily
         cometLoss.y = cometLoss.y + scrollSpeed1
+    end
+end
+
+local function MoveCometQ1(event)
+
+    if (cometQuestion.y > display.contentHeight) then
+        -- Assigns a random x coordinate for cometQuestion
+        cometQuestion.x = math.random(0, display.contentWidth)
+        cometQuestion.y = 0
+    else
+        -- Lowers the y point of cometQuestion steadily
+        cometQuestion.y = cometQuestion.y + scrollSpeed1
     end
 end
 
@@ -547,7 +559,7 @@ function scene:create( event )
     cometQuestion = display.newImageRect("Images/QuestionComet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometQuestion" x and y coordinates
     cometQuestion.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
-    cometQuestion.y = display.contentHeight*20/100
+    cometQuestion.y = display.contentHeight*80/100
     -- Makes "cometQuestion" visible
     cometQuestion.isVisible = true
     -- Names the object
@@ -600,7 +612,8 @@ function scene:show( event )
         -- Adds collision Listeners
         AddCollisionListeners()
         -- Adds Runtime eventListener
-        Runtime:addEventListener("enterFrame", MoveComets)
+        Runtime:addEventListener("enterFrame", MoveCometL1)
+        Runtime:addEventListener("enterFrame", MoveCometQ1)
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()        
     end
@@ -635,7 +648,8 @@ function scene:hide( event )
 
         physics.stop()
         character:removeEventListener("touch", CharacterListener)
-        Runtime:removeEventListener("enterFrame", MoveComets)
+        Runtime:removeEventListener("enterFrame", MoveCometL1)
+        Runtime:removeEventListener("enterFrame", MoveCometQ1)
         display.remove(character)
     end
 end --function scene:hide( event )

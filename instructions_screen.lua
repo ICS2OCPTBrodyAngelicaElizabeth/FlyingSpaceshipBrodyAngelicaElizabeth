@@ -21,8 +21,6 @@ local widget = require( "widget" )
 --create the credits sound
 local instructionsSound = audio.loadStream("Sounds/instructionsSound.mp3") 
 
---instructionsSoundChannel = audio.play(instructionsSound)
-
 -- Naming Scene
 sceneName = "instructions_screen"
 
@@ -43,7 +41,6 @@ local backButton
 local function BackTransition( )
     composer.gotoScene( "main_menu", {effect = "slideDown", time = 1000})
 end
-
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS

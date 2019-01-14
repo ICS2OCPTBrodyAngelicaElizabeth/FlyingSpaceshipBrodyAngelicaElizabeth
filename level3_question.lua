@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- level1_screen.lua
+-- level3_question.lua
 -- Created by: Elizabeth Acheng
 -- Date: May 16, 2017
 -- Description: This is the level 1 screen of the game. the charater can be dragged to move
@@ -114,9 +114,9 @@ local function UpdateTime()
         -- Reset the number of seconds left
         secondsLeft = totalSeconds
         -- Subtracts a life
-        livesLevel1FS = livesLevel1FS - 1
-        -- Calls function BackToLevel1
-        BackToLevel1()
+        livesLevel3FS = livesLevel3FS - 1
+        -- Calls function BackToLevel3
+        BackToLevel3()
     end
 end
 
@@ -130,7 +130,7 @@ end
 -- QUESTIONS AND ANSWERS
 --------------------------
 
--- Checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 3
 local function TouchListenerAnswer(touch)
     userAnswer = answerText.text
     
@@ -144,7 +144,7 @@ local function TouchListenerAnswer(touch)
     end 
 end
 
--- Checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 3
 local function TouchListenerWrongAnswer(touch)
     userAnswer = wrongText1.text
     
@@ -154,12 +154,12 @@ local function TouchListenerWrongAnswer(touch)
         livesLevel3FS = livesLevel3FS - 1
         -- Makes IncorrectText visible
         IncorrectText.isVisible = true
-        -- Adds delay before going to level 1
+        -- Adds delay before going to level 3
         timer.performWithDelay(1000,BackToLevel3)        
     end 
 end
 
--- Checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 3
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
@@ -174,7 +174,7 @@ local function TouchListenerWrongAnswer2(touch)
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+--checking to see if the user pressed the right answer and bring them back to level 3
 local function TouchListenerWrongAnswer3(touch)
     userAnswer = wrongText3.text
     

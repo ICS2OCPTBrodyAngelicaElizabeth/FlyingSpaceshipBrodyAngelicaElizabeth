@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- credits_screen.lua
+-- youWin_screen.lua
 -- Created by: Brody Lawson
 -- Date: December 11, 2018
 -- Description: Page that shows when the player wins
@@ -39,7 +39,6 @@ local backButton
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
 end    
-
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -106,7 +105,6 @@ function scene:show( event )
         timer.performWithDelay(2000,MainMenuTransition)
         
     end
-
 end -- function scene:show( event )
 
 -----------------------------------------------------------------------------------------
@@ -146,7 +144,6 @@ function scene:destroy( event )
 
     -----------------------------------------------------------------------------------------
 
-
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
@@ -166,5 +163,3 @@ scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
-
-

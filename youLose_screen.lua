@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- credits_screen.lua
+-- youLose_screen.lua
 -- Created by: Brody Lawson
--- Date: ecember 11, 2018
--- Description: This is the credits page, displaying a back button to the main menu.
+-- Date: December 11, 2018
+-- Description: This is the youLose screen, displaying "Game Over".
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -37,7 +37,6 @@ local bkg_image
 local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
 end    
-
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS

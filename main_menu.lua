@@ -38,7 +38,6 @@ local helpButton
 
 display.setStatusBar(display.HiddenStatusBar)
 
-
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -53,20 +52,6 @@ end
 -- Creating Transition to Level1 Screen
 local function Level1ScreenTransition( )
     composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 900})
-end    
-
------------------------------------------------------------------------------------------
-
--- Creating Transition to Level2 Screen
-local function Level2ScreenTransition( )
-    composer.gotoScene( "level2_screen", {effect = "zoomOutInFade", time = 900})
-end    
-
------------------------------------------------------------------------------------------
-
--- Creating Transition to Level2 Screen
-local function Level3ScreenTransition( )
-    composer.gotoScene( "level3_screen", {effect = "zoomOutInFade", time = 900})
 end    
 
 -----------------------------------------------------------------------------------------

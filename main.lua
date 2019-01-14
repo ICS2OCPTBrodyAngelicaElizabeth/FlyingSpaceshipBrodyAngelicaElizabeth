@@ -16,5 +16,5 @@ local composer = require( "composer" )
 
 -----------------------------------------------------------------------------------------
 
--- Go to the intro screen
+-- Go to the intro screen (splash_screen2)
 composer.gotoScene( "level_select" )
