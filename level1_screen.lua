@@ -64,6 +64,8 @@ local bkg_image
 
 -- Comets/obstacles
 local cometLoss
+local cometLoss2
+local cometLoss3
 local cometQuestion
 
 -- Full hearts/lives
@@ -82,6 +84,8 @@ local character
 -- Motion speed
 scrollSpeed1 = 7
 scrollSpeed2 = 5
+scrollSpeed3 = 9
+scrollSpeed4 = 6
 stop = 0
 
 -- Variable for Correctquestions text object
@@ -165,6 +169,30 @@ local function MoveCometL1(event)
     end
 end
 
+-- makes a function that sets the comets in a downwards motion
+local function MoveCometL2(event)
+    if (cometLoss2.y > display.contentHeight) then
+        -- Assigns a random x coordinate for cometLoss2
+        cometLoss2.x = math.random(0, display.contentWidth)
+        cometLoss2.y = 0
+    else
+        -- Lowers the y point of cometLoss2 steadily
+        cometLoss2.y = cometLoss2.y + scrollSpeed3
+    end
+end
+
+-- makes a function that sets the comets in a downwards motion
+local function MoveCometL3(event)
+    if (cometLoss3.y > display.contentHeight) then
+        -- Assigns a random x coordinate for cometLoss3
+        cometLoss3.x = math.random(0, display.contentWidth)
+        cometLoss3.y = 0
+    else
+        -- Lowers the y point of cometLoss3 steadily
+        cometLoss3.y = cometLoss3.y + scrollSpeed2
+    end
+end
+
 local function MoveCometQ1(event)
 
     if (cometQuestion.y > display.contentHeight) then
@@ -173,7 +201,7 @@ local function MoveCometQ1(event)
         cometQuestion.y = 0
     else
         -- Lowers the y point of cometQuestion steadily
-        cometQuestion.y = cometQuestion.y + scrollSpeed2
+        cometQuestion.y = cometQuestion.y + scrollSpeed4
     end
 end
 
@@ -290,6 +318,39 @@ local function CharacterListener(touch)
             cometLoss.y = 0            
         end
 
+        -- Verifies if the character has collided with cometLoss2
+        if (hasCollidedRect(character, cometLoss2) == true) then
+            -- Prints "character collided with cometLoss2" on the console for testing purposes
+            print ("character collided with cometLoss2")
+            -- loses 0.5 or half of a life/heart
+            livesLevel1FS = livesLevel1FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
+            -- resets the character x and y position
+            character.x = display.contentWidth*50/100
+            character.y = display.contentHeight*50/100
+            -- Calls function to update the hearts/livesLevel1FS            
+            UpdateLives()
+            cometLoss2.x = math.random(0, display.contentWidth)
+            cometLoss2.y = 0            
+        end
+
+        -- Verifies if the character has collided with cometLoss3
+        if (hasCollidedRect(character, cometLoss3) == true) then
+            -- Prints "character collided with cometLoss3" on the console for testing purposes
+            print ("character collided with cometLoss3")
+            -- loses 0.5 or half of a life/heart
+            livesLevel1FS = livesLevel1FS - 0.5
+            collideSoundChannel = audio.play(collideSound)
+            -- resets the character x and y position
+            character.x = display.contentWidth*50/100
+            character.y = display.contentHeight*50/100
+            -- Calls function to update the hearts/livesLevel1FS            
+            UpdateLives()
+            cometLoss3.x = math.random(0, display.contentWidth)
+            cometLoss3.y = 0            
+        end
+
+
         -- Verifies if the character has collided with cometQuestion
         if (hasCollidedRect(character, cometQuestion) == true) then
             -- Prints "character collided with cometQuestion" n the console for testing purposes
@@ -320,6 +381,20 @@ local function onCollision( self, event)
 
         if (event.target.myName == "cometLoss") then
             print ("***Hit cometLoss")
+            display.remove(character)
+            livesLevel1FS = livesLevel1FS - 0.5
+            UpdateLives()
+        end
+
+        if (event.target.myName == "cometLoss2") then
+            print ("***Hit cometLoss2")
+            display.remove(character)
+            livesLevel1FS = livesLevel1FS - 0.5
+            UpdateLives()
+        end
+
+        if (event.target.myName == "cometLoss3") then
+            print ("***Hit cometLoss3")
             display.remove(character)
             livesLevel1FS = livesLevel1FS - 0.5
             UpdateLives()
@@ -366,6 +441,12 @@ local function AddCollisionListeners()
     -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
+    -- Adds the Eventlistener for cometLoss2
+    cometLoss2.collision = onCollision
+    cometLoss2:addEventListener("collision")
+    -- Adds the Eventlistener for cometLoss3
+    cometLoss3.collision = onCollision
+    cometLoss3:addEventListener("collision")
     -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
     cometQuestion:addEventListener("collision")
@@ -376,17 +457,23 @@ local function RemoveCollisionListeners()
 
     -- Removes EventListeners
     cometLoss:removeEventListener("collision")
+    cometLoss2:removeEventListener("collision")
+    cometLoss3:removeEventListener("collision")
     cometQuestion:removeEventListener("collision")
 end
 
 local function AddPhysicsBodies()
 
     physics.addBody( cometLoss, "static", { density=0, friction=0, bounce=0 } )
+    physics.addBody( cometLoss2, "static", { density=0, friction=0, bounce=0 } )
+    physics.addBody( cometLoss3, "static", { density=0, friction=0, bounce=0 } )
     physics.addBody( cometQuestion, "static", { density=0, friction=0, bounce=0 } )
 end
 
 local function RemovePhysicsBodies()
     physics.removeBody(cometLoss)
+    physics.removeBody(cometLoss2)
+    physics.removeBody(cometLoss3)
     physics.removeBody(cometQuestion)
 end
 
@@ -532,7 +619,7 @@ function scene:create( event )
     -- COMETS
     -----------
 
-    -- LOSS COMET
+    -- LOSS COMET1
     -- Assignes "cometLoss" to an image/png
     cometLoss = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
     -- Assignes "cometLoss" x and y coordinates
@@ -553,6 +640,36 @@ function scene:create( event )
     cometLoss:rotate(-30)
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometLoss)
+
+    -- LOSSCOMET2
+    -- Assignes "cometLoss2" to an image/png
+    cometLoss2 = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
+    -- Assignes "cometLoss" x and y coordinates
+    cometLoss2.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
+    cometLoss2.y = display.contentHeight*80/100
+    -- Makes "cometLoss2" visible
+    cometLoss2.isVisible = true
+    -- Names the object
+    cometLoss2.myName = "cometLoss2"
+    -- Rotates image
+    cometLoss2:rotate(-30)
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert(cometLoss2)
+
+    -- LOSSCOMET3
+    -- Assignes "cometLoss3" to an image/png
+    cometLoss3 = display.newImageRect("Images/Comet.png", display.contentWidth*12/100, display.contentHeight*22/100)
+    -- Assignes "cometLoss" x and y coordinates
+    cometLoss3.x = math.random(display.contentWidth*1/5, display.contentWidth*4/5)
+    cometLoss3.y = display.contentHeight*80/100
+    -- Makes "cometLoss3" visible
+    cometLoss3.isVisible = true
+    -- Names the object
+    cometLoss3.myName = "cometLoss3"
+    -- Rotates image
+    cometLoss3:rotate(-30)
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert(cometLoss3)
 
     -- QUESTION COMET
     -- Assignes "cometQuestion" to an image/png
@@ -613,6 +730,8 @@ function scene:show( event )
         AddCollisionListeners()
         -- Adds Runtime eventListener
         Runtime:addEventListener("enterFrame", MoveCometL1)
+        Runtime:addEventListener("enterFrame", MoveCometL2)
+        Runtime:addEventListener("enterFrame", MoveCometL3)
         Runtime:addEventListener("enterFrame", MoveCometQ1)
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()        
