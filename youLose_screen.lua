@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- credits_screen.lua
+-- youLose_screen.lua
 -- Created by: Brody Lawson
--- Date: ecember 11, 2018
--- Description: This is the credits page, displaying a back button to the main menu.
+-- Date: December 11, 2018
+-- Description: This is the youLose screen, displaying "Game Over".
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -34,10 +34,9 @@ local bkg_image
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local function Level1ScreenTransition( )
+local function MainMenuTransition( )
     composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
 end    
-
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -96,7 +95,9 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-        timer.performWithDelay(2000,Level1ScreenTransition)
+        
+        timer.performWithDelay(2000,MainMenuTransition)
+    
     end
 
 end -- function scene:show( event )

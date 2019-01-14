@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- credits_screen.lua
+-- youWin_screen.lua
 -- Created by: Brody Lawson
 -- Date: December 11, 2018
--- Description: This is the credits page, displaying a back button to the main menu.
+-- Description: Page that shows when the player wins
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -23,7 +23,8 @@ sceneName = "youWin_screen"
 scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
 
 --SOUNDS
---
+local youWinSound = audio.loadStream("Sounds/WinningSound.mp3") 
+local youWinChannel
 
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
@@ -35,8 +36,9 @@ local backButton
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
-local youWinSound = audio.loadSound("Sounds/WinningSound.mp3") 
-local youWinChannel
+local function MainMenuTransition( )
+    composer.gotoScene( "main_menu", {effect = "zoomInOutFade", time = 900})
+end    
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -99,8 +101,10 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
-    end
 
+        timer.performWithDelay(2000,MainMenuTransition)
+        
+    end
 end -- function scene:show( event )
 
 -----------------------------------------------------------------------------------------
@@ -140,7 +144,6 @@ function scene:destroy( event )
 
     -----------------------------------------------------------------------------------------
 
-
     -- Called prior to the removal of scene's view ("sceneGroup").
     -- Insert code here to clean up the scene.
     -- Example: remove display objects, save state, etc.
@@ -160,5 +163,3 @@ scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
-
-
