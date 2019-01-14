@@ -15,10 +15,10 @@ local composer = require( "composer" )
 local widget = require( "widget" )
 local physics = require( "physics")
 
+---------------
+-- SCENE NAME
+---------------
 
------------------------------------------------------------------------------------------
-
--- Naming Scene
 sceneName = "level1_question"
 
 -----------------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ local function TouchListenerWrongAnswer(touch)
     end 
 end
 
---checking to see if the user pressed the right answer and bring them back to level 1
+-- Checking to see if the user pressed the right answer and bring them back to level 1
 local function TouchListenerWrongAnswer2(touch)
     userAnswer = wrongText2.text
     
@@ -218,14 +218,10 @@ local function DisplayQuestion()
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
     wrongAnswer3 = math.random (30, 37) - answer
-
-
     -- Creating the question depending on the selcetion number
     questionText.text = firstNumber .. " + " .. secondNumber .. " ="
-
     -- Creating answer text from list it corispondes with the animals list
     answerText.text = answer
-    
     -- Creating wrong answers
     wrongText1.text = wrongAnswer1
     wrongText2.text = wrongAnswer2
@@ -238,63 +234,62 @@ local function PositionAnswers()
     answerPosition = math.random(1,4)
 
     if (answerPosition == 1) then
-
+        -- AnswerText
         answerText.x = X1
         answerText.y = Y1
-        
+        -- WrongText1
         wrongText1.x = X2
         wrongText1.y = Y1
-        
+        -- WrongText2
         wrongText2.x = X1
         wrongText2.y = Y2
-
+        -- WrongText3
         wrongText3.x = X2
         wrongText3.y = Y2
 
         
     elseif (answerPosition == 2) then
-
+        -- AnswerText
         answerText.x = X1
         answerText.y = Y2
-            
+        -- WrongText1
         wrongText1.x = X1
         wrongText1.y = Y1
-            
+        -- WrongText2
         wrongText2.x = X2
         wrongText2.y = Y1
-
+        -- WrongText3
         wrongText3.x = X2
         wrongText3.y = Y2
 
 
     elseif (answerPosition == 3) then
-
+        -- AnswerText
         answerText.x = X2
         answerText.y = Y1
-            
+        -- WrongText1
         wrongText1.x = X1
         wrongText1.y = Y2
-            
+        -- WrongText2
         wrongText2.x = X1
         wrongText2.y = Y1
-
+        -- WrongText3
         wrongText3.x = X2
         wrongText3.y = Y2
 
     elseif (answerPosition == 4) then
-
+        -- AnswerText
         answerText.x = X2
         answerText.y = Y2
-            
+        -- WrongText1
         wrongText1.x = X2
         wrongText1.y = Y1
-            
+        -- WrongText2  
         wrongText2.x = X1
         wrongText2.y = Y1
-
+        -- WrongText3
         wrongText3.x = X1
         wrongText3.y = Y2
-            
     end
 end
 
@@ -309,17 +304,16 @@ function scene:create( event )
     local sceneGroup = self.view  
 
     -----------------------------------------------------------------------------------------
-    --covering the other scene with a rectangle so it looks faded and stops touch from going through
+    -- Covering the other scene with a rectangle so it looks faded and stops touch from going through
     bkg = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight)
     --setting to a semi black colour
     bkg:setFillColor(0,0,0,0.5)
 
     -----------------------------------------------------------------------------------------
-    --making a cover rectangle to have the background fully bolcked where the question is
+    -- Making a cover rectangle to have the background fully bolcked where the question is
     cover = display.newRoundedRect(display.contentCenterX, display.contentCenterY, display.contentWidth*0.8, display.contentHeight*0.95, 50 )
     --setting its colour
     cover:setFillColor(96/255, 96/255, 96/255)
-
     -- create the question text object
     questionText = display.newText("", display.contentCenterX, display.contentCenterY*3/8, Arial, 75)
 
@@ -401,7 +395,6 @@ function scene:show( event )
         -- Calls function AddTextListeners
         AddTextListeners()
     end
-
 end --function scene:show( event )
 
 -----------------------------------------------------------------------------------------

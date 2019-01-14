@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------
 --
--- level1_screen.lua
+-- level2_screen.lua
 -- Created by: ...
 -- Date: Month Day, Year
 -- Description: This is the level 1 screen of the game.

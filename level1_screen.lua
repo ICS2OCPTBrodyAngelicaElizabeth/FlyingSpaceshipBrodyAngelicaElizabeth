@@ -28,9 +28,9 @@ local level1Sound = audio.loadStream("Sounds/bkgSound.mp3")
 local collideSound = audio.loadSound("Sounds/comet.mp3")
 local collideSoundChannel
 
------------------------------------------------------------------------------------------
+---------------
 -- SCENE NAME
------------------------------------------------------------------------------------------
+---------------
 
 -- Names the scene "level1_screen"
 sceneName = "level1_screen"
@@ -62,7 +62,7 @@ questionCorrect1FS = 0
 -- Background image
 local bkg_image
 
--- Comet/obstacles
+-- Comets/obstacles
 local cometLoss
 local cometQuestion
 
@@ -109,9 +109,7 @@ local function hasCollidedRect( obj1, obj2 )
         return false
     end
 
-
-
- -- sets bpoundries for the objects and detects if they collide
+ -- sets boundries for the objects and detects if they collide
 
     local left = (obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMin) and (obj1.contentBounds.xMax - X_PADDING >= obj2.contentBounds.xMin)
     local right = obj1.contentBounds.xMin + X_PADDING >= obj2.contentBounds.xMin and obj1.contentBounds.xMin + X_PADDING <= obj2.contentBounds.xMax
@@ -130,21 +128,18 @@ local function YouLoseTransition()
 
     -- Makes the character transparent
     character.isVisible = false
-
-    -- Goes to "YouLose_screen"
-     composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
+    -- Goes to "youLose_screen"
+    composer.gotoScene( "youLose_screen", {effect = "zoomInOutFade", time = 900})
 end
 
--- Transition to "YouWin_screen"
+-- Transition to the second level
 local function Level2Transition()
 
     -- Makes the character transparent
     character.isVisible = false
-
     -- Goes to "level2_screen"
     composer.gotoScene( "level2_screen", {effect = "zoomInOutFade", time = 900})
 end
-
 
 --------------------------------------------------------------------------------------------
 -- LOCAL SCENE FUNCTIONS
@@ -175,7 +170,6 @@ local function MakeHeartsVisible()
 
     -- Makes text "0/5" visible
     correctText.text = ("0/5")
-
     -- Makes all of the fullHearts visible
     fullHeart1.isVisible = true
     fullHeart2.isVisible = true
@@ -258,7 +252,6 @@ end
 -- Character touch listener
 local function CharacterListener(touch)
 
-
     if (touch.phase == "began") then
         --
     end
@@ -294,16 +287,13 @@ local function CharacterListener(touch)
             -- Goes to the question screen/overlay
             composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
         end
-        
     end
 
     if (touch.phase == "ended") then
-            
+        --
     end
 end
 
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function onCollision( self, event)
     -- for testing purposes
     print( event.target.myName )        --the first object in the collision
@@ -364,7 +354,6 @@ local function AddCollisionListeners()
     -- Adds the Eventlistener for cometLoss
     cometLoss.collision = onCollision
     cometLoss:addEventListener("collision")
-
     -- Adds the EventListener for cometQuestion
     cometQuestion.collision = onCollision
     cometQuestion:addEventListener("collision")
@@ -389,13 +378,12 @@ local function RemovePhysicsBodies()
     physics.removeBody(cometQuestion)
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 --------------------------------------------------------------------------------------------
 -- GLOBAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
 function ResumeLevel1FS()
+
     -- Calls function "UpdateLives"
     UpdateLives()
     -- Makes the character visable
@@ -425,7 +413,6 @@ function ResumeLevel1FS()
         questionCorrect1FS = 0
         Level2Transition()
     end
-
 end
 
 -----------------------------------------------------------------------------------------
@@ -459,7 +446,7 @@ function scene:create( event )
     -- FULL HEARTS
     ----------------
 
-    -- FULLHEART3 
+    -- FULLHEART1 
     -- Assignes "fullHeart1" to an image/png
     fullHeart1 = display.newImageRect("Images/FullHeart.png", display.contentWidth*8/100, display.contentHeight*9/100)
     -- Assignes "fullHeart1" x and y coordinates
@@ -604,22 +591,19 @@ function scene:show( event )
         
         --plays level1 background sound
         level1SoundChannel = audio.play(level1Sound)
-        
         -- Sets variable "livesLevel1FS" to 3
         livesLevel1FS = 3
         -- Calls function "MakeHeartsVisible"
         MakeHeartsVisible()
-
+        -- Calls function AddPhysicsBodies
         AddPhysicsBodies()
-
         -- Adds collision Listeners
         AddCollisionListeners()
-
+        -- Adds Runtime eventListener
         Runtime:addEventListener("enterFrame", MoveComets)
         -- Calls function "ReplaceCharacter"
         ReplaceCharacter()        
     end
-
 end --function scene:show( event )
 
 -----------------------------------------------------------------------------------------
@@ -640,7 +624,7 @@ function scene:hide( event )
         -- Example: stop timers, stop animation, stop audio, etc.
        audio.stop( level1SoundChannel )
        physics.start()
-       
+
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
@@ -654,7 +638,6 @@ function scene:hide( event )
         Runtime:removeEventListener("enterFrame", MoveComets)
         display.remove(character)
     end
-
 end --function scene:hide( event )
 
 -----------------------------------------------------------------------------------------
