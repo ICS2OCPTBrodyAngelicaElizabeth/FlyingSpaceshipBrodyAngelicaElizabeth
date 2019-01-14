@@ -295,7 +295,7 @@ end
 local function ReplaceCharacter()
     
     -- Associates the character with an image/png
-    character = display.newImageRect("Images/Pilot1.png", display.contentWidth*12/100, display.contentHeight*36/100)
+    character = display.newImageRect("Images/Pilot2.png", display.contentWidth*12/100, display.contentHeight*36/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
