@@ -71,7 +71,7 @@ end
 
 -- Creating Transitioning Function back to main menu
 local function WhatToHitTransition( )
-    composer.gotoScene( "whatToHit_screen", {effect = "slideleft", time = 1000})
+    composer.gotoScene( "whatToHit_screen", {effect = "zoomInOutFade", time = 1000})
 end
 
 -----------------------------------------------------------------------------------------

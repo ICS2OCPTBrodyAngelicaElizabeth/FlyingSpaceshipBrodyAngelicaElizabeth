@@ -567,7 +567,7 @@ function scene:create( event )
     -- Names the object
     cometLoss2.myName = "cometLoss2"
     -- Rotates image
-    cometLoss:rotate(-30)
+    cometLoss2:rotate(-30)
     -- Insert objects into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert(cometLoss2)
 
