@@ -64,8 +64,8 @@ end
 -----------------------------------------------------------------------------------------
 
 -- Creating Transitioning Function back to main menu
-local function LevelSelectTransition( )
-    composer.gotoScene( "level_select", {effect = "slideRight", time = 1000})
+local function WhatToHitTransition( )
+    composer.gotoScene( "whatToHit_screen", {effect = "slideleft", time = 1000})
 end
 
 -----------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ function scene:create( event )
             overFile = "Images/PlayButtonPressed@2x.png",
 
             -- When the button is released, call the Level1 screen transition function
-            onRelease = Level1ScreenTransition          
+            onRelease = WhatToHitTransition
         } )
 
     -----------------------------------------------------------------------------------------
