@@ -63,6 +63,12 @@ end
 
 -----------------------------------------------------------------------------------------
 
+local function LevelSelectTransition( )
+    composer.gotoScene( "level_select", {effect = "slideRight", time = 1000})
+end
+
+-----------------------------------------------------------------------------------------
+
 -- Creating Transitioning Function back to main menu
 local function WhatToHitTransition( )
     composer.gotoScene( "whatToHit_screen", {effect = "slideleft", time = 1000})
