@@ -272,7 +272,7 @@ end
 local function ReplaceCharacter()
     
     -- Associates the character with an image/png
-    character = display.newImageRect("Images/Pilot3.png", display.contentWidth*12/100, display.contentHeight*36/100)
+    character = display.newImageRect("Images/Pilot3.png", display.contentWidth*9/100, display.contentHeight*26/100)
     -- Assignes the character's x and y position
     character.x = display.contentWidth*50/100
     character.y = display.contentHeight*50/100  
@@ -376,7 +376,7 @@ function ResumeLevel3FS()
     elseif (questionCorrect3FS == 14) then
         correctText.text = ("14/15")
 
-    -- If 5 questions are answered, transitions to "level3_screen"
+    -- If 15 questions are answered, transitions to "level3_screen"
     elseif (questionCorrect3FS == 15) then
         correctText.text = ("15/15")
         questionCorrect3FS = 0

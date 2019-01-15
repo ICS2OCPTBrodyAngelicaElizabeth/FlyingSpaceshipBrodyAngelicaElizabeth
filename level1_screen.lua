@@ -157,7 +157,7 @@ local function Show()
     cometQuestion.isVisible = true
 end
 
--- makes a function that sets the comets in a downwards motion
+-- Makes a function that sets the comets in a downwards motion
 local function MoveCometL1(event)
     if (cometLoss.y > display.contentHeight) then
         -- Assigns a random x coordinate for cometLoss
@@ -169,7 +169,7 @@ local function MoveCometL1(event)
     end
 end
 
--- makes a function that sets the comets in a downwards motion
+-- Makes a function that sets the comets in a downwards motion
 local function MoveCometL2(event)
     if (cometLoss2.y > display.contentHeight) then
         -- Assigns a random x coordinate for cometLoss2
@@ -410,10 +410,8 @@ local function onCollision( self, event)
             character.isVisible = false
             composer.showOverlay( "level1_question", { isModal = true, effect = "fade", time = 100})
         end
-
     end
 end
-
 
 local function ReplaceCharacter()
     
@@ -691,6 +689,7 @@ function scene:create( event )
     ---------
 
     correctText = display.newText("0/5", display.contentWidth*9/10, display.contentHeight*9/10, nil, 50 )
+    correctText:setTextColor(1)
     sceneGroup:insert(correctText)
 
 end --function scene:create( event )
@@ -755,8 +754,6 @@ function scene:hide( event )
         -- Insert code here to "pause" the scene.
         -- Example: stop timers, stop animation, stop audio, etc.
        audio.stop( level1SoundChannel )
-       physics.start()
-
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
@@ -768,6 +765,8 @@ function scene:hide( event )
         physics.stop()
         character:removeEventListener("touch", CharacterListener)
         Runtime:removeEventListener("enterFrame", MoveCometL1)
+        Runtime:removeEventListener("enterFrame", MoveCometL2)
+        Runtime:removeEventListener("enterFrame", MoveCometL3)
         Runtime:removeEventListener("enterFrame", MoveCometQ1)
         display.remove(character)
     end

@@ -210,13 +210,13 @@ end
 
 local function DisplayQuestion()
     -- Creating random numbers
-    firstNumber = math.random (10,20)
+    firstNumber = math.random (13,20)
     secondNumber = math.random (2,10)
 
     -- calculate answer
     answer = firstNumber - secondNumber
     -- calculate wrong answers
-    wrongAnswer1 = answer + math.random(1, 3)
+    wrongAnswer1 = answer - math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
     wrongAnswer3 = answer + math.random(7, 9)
     -- Creating the question depending on the selcetion number
