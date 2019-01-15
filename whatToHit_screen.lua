@@ -10,6 +10,14 @@
 local composer = require( "composer" )
 
 -----------------------------------------------------------------------------------------
+-- Name the Scene
+sceneName = "whatToHit_screen"
+
+-----------------------------------------------------------------------------------------
+
+-- Create Scene Object
+local scene = composer.newScene( sceneName )
+
 
 local function Level1Transition( )
     composer.gotoScene( "level1_screen", {effect = "slideRight", time = 1000})
