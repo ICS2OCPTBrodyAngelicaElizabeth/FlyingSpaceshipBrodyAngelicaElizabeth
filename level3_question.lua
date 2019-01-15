@@ -216,7 +216,7 @@ local function DisplayQuestion()
     -- Calculate wrong answers
     wrongAnswer1 = answer + math.random(1, 3)
     wrongAnswer2 = answer + math.random(4, 6)
-    wrongAnswer3 = math.random(5,10)
+    wrongAnswer3 = math.random(0,25)
 
     -- Creating the question depending on the selcetion number
     questionText.text = firstNumber .. " * " .. secondNumber .. " = "

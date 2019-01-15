@@ -149,7 +149,7 @@ end
 -- LOCAL SCENE FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- creates a function that makes the comets invisible
+-- creates a function that makes the comets visible
 local function Show()
     -- shows CometLoss 
     cometLoss.isVisible = true
@@ -428,7 +428,6 @@ local function ReplaceCharacter()
     character:addEventListener("collision")
     -- add physics body
     physics.addBody( character, "static", { density=0, friction=0, bounce=0, rotation=0 } )
-
 end
 
 -- This function adds EventListeners
