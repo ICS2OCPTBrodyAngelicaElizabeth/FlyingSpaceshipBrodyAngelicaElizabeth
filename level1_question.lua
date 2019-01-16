@@ -341,7 +341,7 @@ function scene:create( event )
 
     -----------------------------------------------------------------------------------------
    
-    clockText = display.newText("", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
+    clockText = display.newText("Time: 15", display.contentWidth *3/12, display.contentHeight *1/12, nil, 50)
     clockText:setTextColor(1)
 
     -----------------------------------------------------------------------------------------
@@ -386,8 +386,6 @@ function scene:show( event )
         PositionAnswers()
         -- Calls function StartTimer
         StartTimer()
-        -- Calls function UpdateTimer
-        UpdateTime()
         -- Calls function AddTextListeners
         AddTextListeners()
     end
