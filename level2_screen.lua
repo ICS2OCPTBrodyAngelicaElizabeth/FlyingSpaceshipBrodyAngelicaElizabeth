@@ -320,6 +320,7 @@ local function CharacterListener(touch)
             print ("character collided with cometQuestion")
             -- Makes the character invisible
             character.isVisible = false
+            collideSoundChannel = audio.play(collideSound)
             -- Goes to the question screen/overlay
             composer.showOverlay( "level2_question", { isModal = true, effect = "fade", time = 100})
         end

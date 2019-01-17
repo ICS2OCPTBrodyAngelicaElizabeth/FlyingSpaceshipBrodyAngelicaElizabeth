@@ -21,7 +21,7 @@ local physics = require("physics")
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
- 
+
 -- BACKGROUND MUSIC
 local level1Sound = audio.loadStream("Sounds/bkgSound.mp3") 
 -- COLLIDE SOUND
@@ -353,6 +353,7 @@ local function CharacterListener(touch)
 
         -- Verifies if the character has collided with cometQuestion
         if (hasCollidedRect(character, cometQuestion) == true) then
+            collideSoundChannel = audio.play(collideSound)
             -- Prints "character collided with cometQuestion" n the console for testing purposes
             print ("character collided with cometQuestion")
             -- Makes the character invisible

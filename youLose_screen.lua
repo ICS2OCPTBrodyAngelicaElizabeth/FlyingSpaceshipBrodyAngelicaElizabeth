@@ -22,9 +22,9 @@ sceneName = "youLose_screen"
 -- Creating Scene Object
 scene = composer.newScene( sceneName ) -- This function doesn't accept a string, only a variable containing a string
 
---SOUNDS
---
-
+-- SOUNDS
+local gameOverSound = audio.loadStream("Sounds/gameOverSound.mp3")
+local gameOverSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL VARIABLES
 -----------------------------------------------------------------------------------------
@@ -91,6 +91,7 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
+        gameOverSoundChannel = audio.play(gameOverSound)
 
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.

@@ -23,6 +23,14 @@ local physics = require( "physics")
 
 sceneName = "level3_question"
 
+--SOUNDS
+--Correct sound
+local correctSound = audio.loadSound("Sounds/correctSound.mp3")
+local correctSoundChannel
+
+--Incorrect sound
+local incorrectSound = audio.loadSound("Sounds/incorrectSound.mp3")
+local incorrectSoundChannel
 -----------------------------------------------------------------------------------------
 
 -- Creating Scene Object
@@ -139,6 +147,7 @@ local function TouchListenerAnswer(touch)
         questionCorrect3FS = questionCorrect3FS + 1
         -- Makes CorrectText visible
         CorrectText.isVisible = true
+        correctSoundChannel = audio.play(correctSound)
         -- Adds a delay before going to Level 3
         timer.performWithDelay(1000,BackToLevel3)
     end 
@@ -154,6 +163,7 @@ local function TouchListenerWrongAnswer(touch)
         livesLevel3FS = livesLevel3FS - 1
         -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        incorrectSoundChannel = audio.play(incorrectSound)
         -- Adds delay before going to level 3
         timer.performWithDelay(1000,BackToLevel3)        
     end 
@@ -169,6 +179,7 @@ local function TouchListenerWrongAnswer2(touch)
         livesLevel3FS = livesLevel3FS - 1
         -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        incorrectSoundChannel = audio.play(incorrectSound)
         -- Adds delay before going to level 3
         timer.performWithDelay(1000,BackToLevel3)
     end 
@@ -184,6 +195,7 @@ local function TouchListenerWrongAnswer3(touch)
         livesLevel3FS = livesLevel3FS - 1
         -- Makes IncorrectText visible
         IncorrectText.isVisible = true
+        incorrectSoundChannel = audio.play(incorrectSound)
         -- Adds delay before going to level 3
         timer.performWithDelay(1000,BackToLevel3)
     end 
