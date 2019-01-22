@@ -2,7 +2,6 @@
 --
 -- Instructions Screen.lua
 -- Created by: Elizabeth
--- Special thanks to Wal Wal for helping in the design of this framework.
 -- Date: November 12th, 2018
 -- Description: This is the credits page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------

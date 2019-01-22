@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------------
 --
 -- whatToHit_screen.lua
--- Created by: Brody Lawson
+-- Created by: Angelica Lutkiewicz
 -- Date: January 15, 2019
 -- Description: Shows before level1_screen to indicate which comets to avoid 
 -----------------------------------------------------------------------------------------
